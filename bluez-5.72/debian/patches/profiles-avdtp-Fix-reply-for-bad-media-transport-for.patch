@@ -1,0 +1,110 @@
+From f2120e3ded0656c8eda3d8058ee35654aba3fd09 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20Danis?= <frederic.danis@collabora.com>
+Date: Wed, 26 Mar 2025 10:07:11 +0100
+Subject: [PATCH] profiles/avdtp: Fix reply for bad media transport format
+
+Currently the avdtp_setconf_cmd() fails to check the capability length
+of the Media Transport Service Category, which should be 0, because
+caps_to_list() doesn't add it to the list of services as it should
+be bigger than packet boundary.
+
+This commit adds an &err parameter to caps_to_list() and set the error
+to AVDTP_BAD_MEDIA_TRANSPORT_FORMAT if Media Transport capability as
+invalid length.
+
+This is required for passing AVDTP/SNK/ACP/TRA/BTR/BI-01-C PTS test
+case:
+To verify that the IUT (ACP) is able to issue a set configuration
+reject response to the INT if the format of the media transport is
+incorrect.
+
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/2122382
+---
+ profiles/audio/avdtp.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
+
+diff --git a/profiles/audio/avdtp.c b/profiles/audio/avdtp.c
+index 80fbe847e..dd8458f20 100644
+--- a/profiles/audio/avdtp.c
++++ b/profiles/audio/avdtp.c
+@@ -1312,7 +1312,8 @@ struct avdtp_remote_sep *avdtp_find_remote_sep(struct avdtp *session,
+ 
+ static GSList *caps_to_list(uint8_t *data, size_t size,
+ 				struct avdtp_service_capability **codec,
+-				gboolean *delay_reporting)
++				gboolean *delay_reporting,
++				uint8_t *err)
+ {
+ 	struct avdtp_service_capability *cap;
+ 	GSList *caps;
+@@ -1328,6 +1329,17 @@ static GSList *caps_to_list(uint8_t *data, size_t size,
+ 
+ 		cap = (struct avdtp_service_capability *)data;
+ 
++		/* Verify that the Media Transport capability's length = 0.
++		 * Reject otherwise
++		 */
++		if (cap->category == AVDTP_MEDIA_TRANSPORT &&
++					cap->length != 0) {
++			error("Invalid media transport in getcap resp");
++			if (err)
++				*err = AVDTP_BAD_MEDIA_TRANSPORT_FORMAT;
++			break;
++		}
++
+ 		if (sizeof(*cap) + cap->length > size) {
+ 			error("Invalid capability data in getcap resp");
+ 			break;
+@@ -1494,9 +1506,8 @@ static gboolean avdtp_setconf_cmd(struct avdtp *session, uint8_t transaction,
+ 	struct conf_rej rej;
+ 	struct avdtp_local_sep *sep;
+ 	struct avdtp_stream *stream;
+-	uint8_t err, category = 0x00;
++	uint8_t err = 0, category = 0x00;
+ 	struct btd_service *service;
+-	GSList *l;
+ 
+ 	if (size < sizeof(struct setconf_req)) {
+ 		error("Too short getcap request");
+@@ -1552,7 +1563,10 @@ static gboolean avdtp_setconf_cmd(struct avdtp *session, uint8_t transaction,
+ 	stream->caps = caps_to_list(req->caps,
+ 					size - sizeof(struct setconf_req),
+ 					&stream->codec,
+-					&stream->delay_reporting);
++					&stream->delay_reporting,
++					&err);
++	if (err)
++		goto failed_stream;
+ 
+ 	if (!stream->caps || !stream->codec) {
+ 		err = AVDTP_UNSUPPORTED_CONFIGURATION;
+@@ -1560,16 +1574,6 @@ static gboolean avdtp_setconf_cmd(struct avdtp *session, uint8_t transaction,
+ 		goto failed_stream;
+ 	}
+ 
+-	/* Verify that the Media Transport capability's length = 0. Reject otherwise */
+-	for (l = stream->caps; l != NULL; l = g_slist_next(l)) {
+-		struct avdtp_service_capability *cap = l->data;
+-
+-		if (cap->category == AVDTP_MEDIA_TRANSPORT && cap->length != 0) {
+-			err = AVDTP_BAD_MEDIA_TRANSPORT_FORMAT;
+-			goto failed_stream;
+-		}
+-	}
+-
+ 	if (stream->delay_reporting && session->version < 0x0103)
+ 		session->version = 0x0103;
+ 
+@@ -2827,7 +2831,8 @@ static gboolean avdtp_get_capabilities_resp(struct avdtp *session,
+ 	}
+ 
+ 	sep->caps = caps_to_list(resp->caps, size - sizeof(struct getcap_resp),
+-					&sep->codec, &sep->delay_reporting);
++					&sep->codec, &sep->delay_reporting,
++					NULL);
+ 
+ 	return TRUE;
+ }
+-- 
+2.43.0
+

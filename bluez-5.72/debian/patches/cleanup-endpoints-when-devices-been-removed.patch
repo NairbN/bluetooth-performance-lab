@@ -1,0 +1,18 @@
+Description: Cleanup endpoints when device been removed
+ This patch merge two upstream commit
+ https://github.com/bluez/bluez/commit/ea3f4047e452b081e34d017cce316aba9d623301
+ https://github.com/bluez/bluez/commit/78aabd896dbe3e23faaebbc97b8ecd711b2502fc
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/2122382
+---
+Index: bluez-5.72/src/device.c
+===================================================================
+--- bluez-5.72.orig/src/device.c	2025-09-16 16:02:14.000000000 +0800
++++ bluez-5.72/src/device.c	2025-09-16 16:03:12.615527575 +0800
+@@ -4645,6 +4645,7 @@
+ 	}
+ 	g_key_file_remove_group(key_file, "ServiceRecords", NULL);
+ 	g_key_file_remove_group(key_file, "Attributes", NULL);
++	g_key_file_remove_group(key_file, "Endpoints", NULL);
+
+ 	data = g_key_file_to_data(key_file, &length, NULL);
+ 	if (length > 0) {

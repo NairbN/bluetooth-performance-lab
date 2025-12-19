@@ -1,0 +1,146 @@
+From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
+ <yao.wei@canonical.com>
+Date: Thu, 13 Mar 2025 17:05:11 +0800
+Subject: [PATCH] policy: connect HSP/HFP when A2DP is connected
+
+When A2DP is connected, also connect HSP/HFP if it is not connected.
+
+Two patches are included in this changeset:
+* https://github.com/bluez/bluez/commit/ee22431a8d849047c1f019d2dedaf8fb72151c2a
+* https://github.com/bluez/bluez/commit/0b3d49f4e03014a911c421896ae727bba9e09ba1
+
+Author: Yao Wei <yao.wei@canonical.com>
+Bug: https://github.com/bluez/bluez/issues/1069
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/bluez/+bug/2092158
+
+---
+ plugins/policy.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 1 deletion(-)
+
+--- a/plugins/policy.c
++++ b/plugins/policy.c
+@@ -37,10 +37,12 @@
+ #define CONTROL_CONNECT_TIMEOUT 2
+ #define SOURCE_RETRY_TIMEOUT 2
+ #define SINK_RETRY_TIMEOUT SOURCE_RETRY_TIMEOUT
++#define HS_RETRY_TIMEOUT SOURCE_RETRY_TIMEOUT
+ #define CT_RETRY_TIMEOUT 1
+ #define TG_RETRY_TIMEOUT CT_RETRY_TIMEOUT
+ #define SOURCE_RETRIES 1
+ #define SINK_RETRIES SOURCE_RETRIES
++#define HS_RETRIES SOURCE_RETRIES
+ #define CT_RETRIES 1
+ #define TG_RETRIES CT_RETRIES
+ 
+@@ -87,6 +89,8 @@
+ 	uint8_t ct_retries;
+ 	unsigned int tg_timer;
+ 	uint8_t tg_retries;
++	unsigned int hs_timer;
++	uint8_t hs_retries;
+ };
+ 
+ static struct reconnect_data *reconnect_find(struct btd_device *dev)
+@@ -182,6 +186,9 @@
+ 	if (data->tg_timer > 0)
+ 		timeout_remove(data->tg_timer);
+ 
++	if (data->hs_timer > 0)
++		timeout_remove(data->hs_timer);
++
+ 	g_free(data);
+ }
+ 
+@@ -201,6 +208,33 @@
+ 	return data;
+ }
+ 
++static bool policy_connect_hs(gpointer user_data)
++{
++	struct policy_data *data = user_data;
++	struct btd_service *service;
++
++	data->hs_timer = 0;
++	data->hs_retries++;
++
++	service = btd_device_get_service(data->dev, HFP_HS_UUID);
++	if (service == NULL)
++		service = btd_device_get_service(data->dev, HSP_HS_UUID);
++	if (service != NULL)
++		policy_connect(data, service);
++
++	return FALSE;
++}
++
++static void policy_set_hs_timer(struct policy_data *data)
++{
++	if (data->hs_timer > 0)
++		timeout_remove(data->hs_timer);
++
++	data->hs_timer = timeout_add_seconds(HS_RETRY_TIMEOUT,
++							policy_connect_hs,
++							data, NULL);
++}
++
+ static bool policy_connect_sink(gpointer user_data)
+ {
+ 	struct policy_data *data = user_data;
+@@ -231,7 +265,7 @@
+ {
+ 	struct btd_device *dev = btd_service_get_device(service);
+ 	struct policy_data *data;
+-	struct btd_service *controller;
++	struct btd_service *controller, *hs;
+ 
+ 	controller = btd_device_get_service(dev, AVRCP_REMOTE_UUID);
+ 	if (controller == NULL)
+@@ -277,6 +311,14 @@
+ 			data->sink_timer = 0;
+ 		}
+ 
++		/* Try connecting HSP/HFP if it is not connected */
++		hs = btd_device_get_service(dev, HFP_HS_UUID);
++		if (hs == NULL)
++			hs = btd_device_get_service(data->dev, HSP_HS_UUID);
++		if (hs && btd_service_get_state(hs) !=
++						BTD_SERVICE_STATE_CONNECTED)
++			policy_set_hs_timer(data);
++
+ 		/* Check if service initiate the connection then proceed
+ 		 * immediately otherwise set timer
+ 		 */
+@@ -285,6 +327,7 @@
+ 		else if (btd_service_get_state(controller) !=
+ 						BTD_SERVICE_STATE_CONNECTED)
+ 			policy_set_ct_timer(data, CONTROL_CONNECT_TIMEOUT);
++
+ 		break;
+ 	case BTD_SERVICE_STATE_DISCONNECTING:
+ 		break;
+@@ -307,8 +350,26 @@
+ 
+ 	switch (new_state) {
+ 	case BTD_SERVICE_STATE_UNAVAILABLE:
++		if (data->hs_timer > 0) {
++			timeout_remove(data->hs_timer);
++			data->hs_timer = 0;
++		}
+ 		break;
+ 	case BTD_SERVICE_STATE_DISCONNECTED:
++		if (old_state == BTD_SERVICE_STATE_CONNECTING) {
++			int err = btd_service_get_error(service);
++
++			if (err == -EAGAIN) {
++				if (data->hs_retries < HS_RETRIES)
++					policy_set_hs_timer(data);
++				else
++					data->hs_retries = 0;
++				break;
++			} else if (data->hs_timer > 0) {
++				timeout_remove(data->hs_timer);
++				data->hs_timer = 0;
++			}
++		}
+ 		break;
+ 	case BTD_SERVICE_STATE_CONNECTING:
+ 		break;
