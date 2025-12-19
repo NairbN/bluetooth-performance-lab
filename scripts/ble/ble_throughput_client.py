@@ -188,7 +188,16 @@ async def run_throughput_test(args: argparse.Namespace) -> Dict[str, Any]:
     async with BleakClient(args.address) as client:
         metadata["adapter"] = getattr(client, "adapter", "unknown")
         metadata["connected_at"] = _utc_now()
-        services = await client.get_services()
+        try:
+            services = client.services  # Bleak >= 2.0 exposes services as a property.
+        except Exception:
+            get_services = getattr(client, "get_services", None)
+            if callable(get_services):
+                services = await get_services()
+            else:
+                raise RuntimeError(
+                    "Bleak client has not performed service discovery yet."
+                )
         tx_char, rx_char = validate_characteristics(services, args.service_uuid, args.tx_uuid, args.rx_uuid)
         metadata["mtu_result"] = await attempt_mtu_request(client, args.mtu)
         metadata["phy_result"] = await attempt_phy_request(client, args.phy)
