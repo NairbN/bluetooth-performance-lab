@@ -14,6 +14,7 @@ import argparse
 import logging
 import struct
 import time
+from pathlib import Path
 from typing import List, Optional
 
 import dbus
@@ -475,10 +476,19 @@ def main():
     global mainloop  # pylint: disable=global-statement
     args = parse_args()
 
-    log_kwargs = {"level": logging.INFO, "format": "%(asctime)s %(levelname)s %(message)s"}
+    handlers = [logging.StreamHandler()]
+    log_target = "stdout"
     if args.log:
-        log_kwargs["filename"] = args.log
-    logging.basicConfig(**log_kwargs)
+        log_path = Path(args.log).expanduser()
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        handlers.append(logging.FileHandler(log_path))
+        log_target = str(log_path)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        handlers=handlers,
+    )
+    logging.info("Logging to %s", log_target)
 
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
     bus = dbus.SystemBus()

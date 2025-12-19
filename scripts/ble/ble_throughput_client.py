@@ -23,6 +23,10 @@ from typing import Any, Dict, List, Optional
 from bleak import BleakClient
 
 
+def log_step(message: str) -> None:
+    print(f"[ble_throughput] {message}")
+
+
 def _int_value(value: str) -> int:
     """Parse CLI integers that may be decimal or hex (e.g., 0x01)."""
     return int(value, 0)
@@ -185,9 +189,11 @@ async def run_throughput_test(args: argparse.Namespace) -> Dict[str, Any]:
     command_log: List[Dict[str, Any]] = []
     collector = NotificationCollector()
 
+    log_step(f"Connecting to {args.address} ...")
     async with BleakClient(args.address) as client:
         metadata["adapter"] = getattr(client, "adapter", "unknown")
         metadata["connected_at"] = _utc_now()
+        log_step(f"Connected via adapter {metadata['adapter']}")
         try:
             services = client.services  # Bleak >= 2.0 exposes services as a property.
         except Exception:
@@ -199,17 +205,29 @@ async def run_throughput_test(args: argparse.Namespace) -> Dict[str, Any]:
                     "Bleak client has not performed service discovery yet."
                 )
         tx_char, rx_char = validate_characteristics(services, args.service_uuid, args.tx_uuid, args.rx_uuid)
+        log_step(f"Validated service {args.service_uuid} (TX {tx_char.uuid}, RX {rx_char.uuid})")
         metadata["mtu_result"] = await attempt_mtu_request(client, args.mtu)
+        log_step(f"MTU negotiation: {metadata['mtu_result'].get('status')}")
         metadata["phy_result"] = await attempt_phy_request(client, args.phy)
+        log_step(f"PHY request: {metadata['phy_result'].get('status')}")
 
         def notification_handler(sender: int, data: bytearray):
             collector.handle(sender, data)
 
+        log_step("Enabling notifications on TX characteristic")
         await client.start_notify(tx_char.uuid, notification_handler)
+        if args.duration_s:
+            run_desc = f"duration {args.duration_s}s"
+        elif args.packet_count:
+            run_desc = f"packet_count {args.packet_count}"
+        else:
+            run_desc = "continuous"
+        log_step(f"Test armed (payload {args.payload_bytes} bytes, {run_desc})")
 
         async def send_command(name: str, cmd_id: int, payload: bytes = b"") -> None:
             packet = bytes([cmd_id]) + payload
             await client.write_gatt_char(rx_char.uuid, packet, response=False)
+            log_step(f"Sent {name} command (0x{cmd_id:02X}) payload_len={len(payload)}")
             command_log.append(
                 {
                     "ts": _utc_now(),
