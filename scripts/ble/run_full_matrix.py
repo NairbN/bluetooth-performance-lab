@@ -22,9 +22,10 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt
 
 try:
-    from bleak import BleakClient
+    from bleak import BleakClient, BleakScanner
 except ImportError:  # pragma: no cover
     BleakClient = None
+    BleakScanner = None
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run BLE throughput/latency/RSSI sweeps for multiple scenarios.")
@@ -111,6 +112,10 @@ def _run_cmd(cmd: Sequence[str]) -> None:
 async def _probe_connection_once(address: str, timeout_s: float) -> None:
     if BleakClient is None:
         raise RuntimeError("bleak not installed; cannot wait for connection")
+    if BleakScanner is not None:
+        device = await BleakScanner.find_device_by_address(address, timeout=timeout_s)
+        if device is None:
+            raise RuntimeError(f"Device {address} not found during scan window")
     async with BleakClient(address, timeout=timeout_s):
         return
 

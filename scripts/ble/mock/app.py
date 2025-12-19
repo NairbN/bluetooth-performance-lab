@@ -58,6 +58,15 @@ def run_mock(args) -> None:
 
     adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), DBUS_PROP_IFACE)
     adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
+
+    original_alias = adapter_props.Get("org.bluez.Adapter1", "Alias")
+    original_discoverable = adapter_props.Get("org.bluez.Adapter1", "Discoverable")
+    original_timeout = adapter_props.Get("org.bluez.Adapter1", "DiscoverableTimeout")
+
+    try:
+        adapter_props.Set("org.bluez.Adapter1", "Alias", dbus.String(args.advertise_name))
+    except Exception:
+        pass
     try:
         adapter_props.Set("org.bluez.Adapter1", "DiscoverableTimeout", dbus.UInt32(0))
     except Exception:
@@ -155,6 +164,12 @@ def run_mock(args) -> None:
             pass
         try:
             gatt_manager.UnregisterApplication(app.get_path())
+        except Exception:
+            pass
+        try:
+            adapter_props.Set("org.bluez.Adapter1", "Alias", original_alias)
+            adapter_props.Set("org.bluez.Adapter1", "Discoverable", original_discoverable)
+            adapter_props.Set("org.bluez.Adapter1", "DiscoverableTimeout", original_timeout)
         except Exception:
             pass
         logging.info("Cleanup complete")
