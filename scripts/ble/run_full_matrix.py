@@ -11,8 +11,6 @@ import argparse
 import json
 import subprocess
 import sys
-import asyncio
-import time
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -20,12 +18,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt
-
-try:
-    from bleak import BleakClient, BleakScanner
-except ImportError:  # pragma: no cover
-    BleakClient = None
-    BleakScanner = None
+from matplotlib.patches import Patch
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run BLE throughput/latency/RSSI sweeps for multiple scenarios.")
@@ -68,27 +61,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rssi_script", default="scripts/ble/ble_rssi_logger.py")
     parser.add_argument("--mtu", type=int, default=247)
     parser.add_argument(
-        "--wait_for_connection",
-        action="store_true",
-        help="Block before each scenario until a BLE connection succeeds.",
-    )
-    parser.add_argument(
-        "--wait_timeout_s",
+        "--connect_timeout_s",
         type=float,
         default=20.0,
-        help="Per-attempt timeout in seconds when waiting for a connection.",
+        help="Seconds to wait for throughput client connections before failing a trial.",
     )
     parser.add_argument(
-        "--wait_retry_delay_s",
-        type=float,
-        default=5.0,
-        help="Seconds to sleep between connection attempts.",
-    )
-    parser.add_argument(
-        "--wait_attempts",
+        "--connect_attempts",
         type=int,
         default=3,
-        help="Number of connection attempts before failing when waiting is enabled.",
+        help="Number of connection attempts to try per throughput run.",
+    )
+    parser.add_argument(
+        "--connect_retry_delay_s",
+        type=float,
+        default=5.0,
+        help="Seconds to wait between connection attempts when retries are enabled.",
     )
     return parser.parse_args()
 
@@ -109,39 +97,6 @@ def _run_cmd(cmd: Sequence[str]) -> None:
     subprocess.run(cmd, check=True)
 
 
-async def _probe_connection_once(address: str, timeout_s: float) -> None:
-    if BleakClient is None:
-        raise RuntimeError("bleak not installed; cannot wait for connection")
-    if BleakScanner is not None:
-        device = await BleakScanner.find_device_by_address(address, timeout=timeout_s)
-        if device is None:
-            raise RuntimeError(f"Device {address} not found during scan window")
-    async with BleakClient(address, timeout=timeout_s):
-        return
-
-
-def _wait_for_connection_if_requested(args: argparse.Namespace, scenario: str, phy: str) -> None:
-    if not args.wait_for_connection:
-        return
-    attempts = max(1, args.wait_attempts)
-    for attempt in range(1, attempts + 1):
-        print(
-            f"[wait] Ensuring connection to {args.address} "
-            f"(scenario={scenario}, phy={phy}, attempt {attempt}/{attempts})...",
-            flush=True,
-        )
-        try:
-            asyncio.run(_probe_connection_once(args.address, args.wait_timeout_s))
-            print("[wait] Device reachable, proceeding with scenario.", flush=True)
-            return
-        except Exception as exc:  # pylint: disable=broad-except
-            if attempt == attempts:
-                raise RuntimeError(f"Unable to reach {args.address}: {exc}") from exc
-            delay = max(args.wait_retry_delay_s, 0.5)
-            print(f"[wait] Attempt failed ({exc}); retrying in {delay:.1f}s", flush=True)
-            time.sleep(delay)
-
-
 def _progress(label: str, current: int, total: int, width: int = 24) -> str:
     if total <= 0:
         return f"{label}: [????????] {current}/{total}"
@@ -153,6 +108,7 @@ def _progress(label: str, current: int, total: int, width: int = 24) -> str:
 
 def _plot_scenario(rows: List[Dict[str, float]], scenario: str, phy: str, plots_dir: Path) -> None:
     data: Dict[int, List[float]] = {}
+    health: Dict[int, Dict[str, int]] = {}
     for row in rows:
         payload = row.get("payload_bytes")
         throughput = row.get("throughput_kbps")
@@ -161,16 +117,52 @@ def _plot_scenario(rows: List[Dict[str, float]], scenario: str, phy: str, plots_
         if not isinstance(throughput, (int, float)):
             continue
         data.setdefault(payload, []).append(float(throughput))
+        stats = health.setdefault(payload, {"trials": 0, "retries": 0, "errors": 0})
+        stats["trials"] += 1
+        attempts = row.get("connection_attempts_used")
+        errors = row.get("command_errors")
+        if isinstance(attempts, (int, float)) and attempts > 1:
+            stats["retries"] += 1
+        if isinstance(errors, (int, float)) and errors > 0:
+            stats["errors"] += 1
     if not data:
         return
     payloads = sorted(data.keys())
     averages = [sum(data[p]) / len(data[p]) for p in payloads]
+    palette = {
+        "clean": ("#27ae60", "Clean run"),
+        "retry": ("#f39c12", "Needed connection retry"),
+        "error": ("#c0392b", "Command/teardown error"),
+    }
+
+    def _bucket(stats: Dict[str, int]) -> str:
+        if stats.get("errors"):
+            return "error"
+        if stats.get("retries"):
+            return "retry"
+        return "clean"
+
+    color_order: List[str] = []
+    colors: List[str] = []
+    for payload in payloads:
+        stats = health.get(payload, {})
+        bucket = _bucket(stats)
+        colors.append(palette[bucket][0])
+        if bucket not in color_order:
+            color_order.append(bucket)
+
     plt.figure()
-    plt.plot(payloads, averages, marker="o")
+    plt.plot(payloads, averages, color="#34495e", linewidth=1.2, alpha=0.8)
+    plt.scatter(payloads, averages, c=colors, s=70, edgecolors="black", linewidths=0.5, zorder=3)
     plt.title(f"{scenario} | PHY {phy} Throughput")
     plt.xlabel("Payload (bytes)")
     plt.ylabel("Throughput (kbps)")
     plt.grid(True, linestyle="--", alpha=0.5)
+
+    if color_order:
+        handles = [Patch(facecolor=palette[key][0], edgecolor="none", label=palette[key][1]) for key in color_order]
+        plt.legend(handles=handles, loc="best")
+
     plots_dir.mkdir(parents=True, exist_ok=True)
     safe_name = f"{scenario}_{phy}_throughput".replace(" ", "_")
     path = plots_dir / f"{safe_name}.png"
@@ -219,20 +211,42 @@ def _plot_rssi(rssi_rows: List[Dict[str, float]], scenario: str, phy: str, plots
 
 
 def _plot_comparison_throughput(summaries: Dict[Tuple[str, str], Dict[str, float]], plots_dir: Path) -> None:
-    entries = [
-        (f"{scenario}\n{phy}", summary["avg_throughput_kbps"])
-        for (scenario, phy), summary in summaries.items()
-        if summary.get("avg_throughput_kbps") is not None
-    ]
-    if not entries:
+    palette = {
+        "clean": ("#27ae60", "All runs clean"),
+        "retry": ("#f39c12", "Had retries"),
+        "error": ("#c0392b", "Had command errors"),
+    }
+    labels: List[str] = []
+    values: List[float] = []
+    colors: List[str] = []
+    legend_order: List[str] = []
+    for (scenario, phy), summary in summaries.items():
+        avg = summary.get("avg_throughput_kbps")
+        if avg is None:
+            continue
+        labels.append(f"{scenario}\n{phy}")
+        values.append(avg)
+        bucket = "clean"
+        if summary.get("error_trials"):
+            bucket = "error"
+        elif summary.get("retry_trials"):
+            bucket = "retry"
+        color = palette[bucket][0]
+        colors.append(color)
+        if bucket not in legend_order:
+            legend_order.append(bucket)
+
+    if not labels:
         return
-    labels, values = zip(*entries)
     plt.figure(figsize=(max(6, len(labels) * 0.8), 4))
-    plt.bar(range(len(labels)), values)
+    plt.bar(range(len(labels)), values, color=colors)
     plt.xticks(range(len(labels)), labels, rotation=45, ha="right")
     plt.ylabel("Avg Throughput (kbps)")
     plt.title("Scenario Comparison")
     plt.grid(axis="y", linestyle="--", alpha=0.4)
+    if legend_order:
+        handles = [Patch(facecolor=palette[key][0], edgecolor="none", label=palette[key][1]) for key in legend_order]
+        plt.legend(handles=handles, loc="best")
     plots_dir.mkdir(parents=True, exist_ok=True)
     path = plots_dir / "scenario_comparison.png"
     plt.tight_layout()
@@ -316,6 +330,12 @@ def run_throughput_trial(
         str(args.stop_cmd),
         "--reset_cmd",
         str(args.reset_cmd),
+        "--connect_timeout_s",
+        str(args.connect_timeout_s),
+        "--connect_attempts",
+        str(args.connect_attempts),
+        "--connect_retry_delay_s",
+        str(args.connect_retry_delay_s),
     ]
     _run_cmd(cmd)
     log_path = _new_log(out_dir, before, "*ble_throughput*.json")
@@ -335,6 +355,8 @@ def run_throughput_trial(
         "duration_s": summary.get("duration_s"),
         "throughput_kbps": summary.get("throughput_kbps"),
         "notification_rate_per_s": summary.get("notification_rate_per_s"),
+        "connection_attempts_used": summary.get("connection_attempts_used"),
+        "command_errors": summary.get("command_errors"),
         "log_json": str(log_path),
         "log_csv": data["metadata"].get("records_file", {}).get("csv"),
         "notes": args.note,
@@ -476,10 +498,23 @@ def main() -> None:
         avg = sum(row["throughput_kbps"] for row in valid) / len(valid)
         loss = sum(row.get("estimated_lost_packets", 0) for row in valid)
         packets = sum(row.get("packets", 0) for row in valid)
+        retries = sum(
+            1
+            for row in valid
+            if isinstance(row.get("connection_attempts_used"), (int, float)) and row["connection_attempts_used"] > 1
+        )
+        errors = sum(
+            1
+            for row in valid
+            if isinstance(row.get("command_errors"), (int, float)) and row["command_errors"] > 0
+        )
         return {
             "avg_throughput_kbps": avg,
             "total_packets": packets,
             "total_loss": loss,
+            "total_trials": len(valid),
+            "retry_trials": retries,
+            "error_trials": errors,
         }
 
     scenario_total = len(args.scenarios) * len(args.phys)
@@ -490,7 +525,6 @@ def main() -> None:
             if args.prompt:
                 input(f"[runner] Position hardware for scenario '{scenario}', then press Enter to continue...")
             for phy in args.phys:
-                _wait_for_connection_if_requested(args, scenario, phy)
                 scenario_counter += 1
                 print(f"\n=== {_progress('Scenario', scenario_counter, scenario_total)} {scenario} | PHY {phy} ===")
 
@@ -531,7 +565,13 @@ def main() -> None:
                     print(
                         f"  Summary -> avg throughput: {scenario_summary['avg_throughput_kbps']:.2f} kbps, "
                         f"packets: {scenario_summary['total_packets']}, "
-                        f"loss: {scenario_summary['total_loss']}",
+                        f"loss: {scenario_summary['total_loss']}"
+                        + (
+                            f", retries {scenario_summary['retry_trials']}/{scenario_summary['total_trials']}, "
+                            f"cmd errors {scenario_summary['error_trials']}"
+                            if scenario_summary.get("total_trials")
+                            else ""
+                        ),
                         flush=True,
                     )
                 else:
@@ -549,6 +589,8 @@ def main() -> None:
         "duration_s",
         "throughput_kbps",
         "notification_rate_per_s",
+        "connection_attempts_used",
+        "command_errors",
         "log_json",
         "log_csv",
         "notes",

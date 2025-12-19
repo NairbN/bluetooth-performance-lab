@@ -94,6 +94,9 @@ class ThroughputClient:
 
     def __init__(self, args):
         self.args = args
+        self.connect_timeout_s = float(getattr(args, "connect_timeout_s", 20.0))
+        self.connect_attempts = max(1, int(getattr(args, "connect_attempts", 1)))
+        self.connect_retry_delay_s = max(0.0, float(getattr(args, "connect_retry_delay_s", 0.0)))
         self.collector = NotificationCollector()
         self.metadata: Dict[str, Any] = {
             "created": utc_now(),
@@ -112,6 +115,11 @@ class ThroughputClient:
             "mtu_request": args.mtu,
             "phy_request": args.phy,
             "connection_interval_control": "Not supported from user space; logging only.",
+            "connection_retry": {
+                "timeout_s": self.connect_timeout_s,
+                "attempts": self.connect_attempts,
+                "retry_delay_s": self.connect_retry_delay_s,
+            },
         }
         self.command_log: List[Dict[str, Any]] = []
 
@@ -123,7 +131,8 @@ class ThroughputClient:
         self.csv_path = output_dir / f"{base_name}.csv"
         self.json_path = output_dir / f"{base_name}.json"
 
-        async with BleakClient(self.args.address) as client:
+        client = await self._connect_with_retries()
+        try:
             self.metadata["adapter"] = getattr(client, "adapter", "unknown")
             self.metadata["connected_at"] = utc_now()
             services = await self._resolve_services(client)
@@ -136,17 +145,32 @@ class ThroughputClient:
 
             await client.start_notify(tx_char.uuid, notification_handler)
 
-            async def send_command(name: str, cmd_id: int, payload: bytes = b"") -> None:
+            async def send_command(
+                name: str,
+                cmd_id: int,
+                payload: bytes = b"",
+                *,
+                strict: bool = True,
+            ) -> None:
                 packet = bytes([cmd_id]) + payload
-                await client.write_gatt_char(rx_char.uuid, packet, response=False)
-                self.command_log.append(
-                    {
-                        "ts": utc_now(),
-                        "name": name,
-                        "command_id": cmd_id,
-                        "payload_hex": payload.hex(),
-                    }
-                )
+                entry = {
+                    "ts": utc_now(),
+                    "name": name,
+                    "command_id": cmd_id,
+                    "payload_hex": payload.hex(),
+                }
+                try:
+                    await client.write_gatt_char(rx_char.uuid, packet, response=False)
+                except Exception as exc:  # pylint: disable=broad-except
+                    entry["status"] = "error"
+                    entry["error"] = str(exc)
+                    self.command_log.append(entry)
+                    if strict:
+                        raise
+                    print(f"[throughput] Command '{name}' failed but continuing: {exc}", flush=True)
+                    return
+                entry["status"] = "sent"
+                self.command_log.append(entry)
 
             await send_command("reset", self.args.reset_cmd)
             await asyncio.sleep(0.1)
@@ -171,15 +195,23 @@ class ThroughputClient:
                     ):
                         stop_event.set()
             finally:
-                await send_command("stop", self.args.stop_cmd)
+                await send_command("stop", self.args.stop_cmd, strict=False)
                 await asyncio.sleep(0.2)
-                await client.stop_notify(tx_char.uuid)
+                try:
+                    await client.stop_notify(tx_char.uuid)
+                except Exception as exc:  # pylint: disable=broad-except
+                    print(f"[throughput] stop_notify failed but continuing: {exc}", flush=True)
                 if duration_task:
                     duration_task.cancel()
                 self.metadata["test_end"] = utc_now()
+        finally:
+            await self._safe_disconnect(client)
 
         self.metadata["command_log"] = self.command_log
-        self.metadata["summary"] = self.collector.summary()
+        summary = self.collector.summary()
+        summary["connection_attempts_used"] = self.metadata["connection_retry"].get("attempts_used", 1)
+        summary["command_errors"] = self._command_error_count()
+        self.metadata["summary"] = summary
         self.metadata["records_file"] = {"csv": str(self.csv_path), "json": str(self.json_path)}
         self._write_outputs()
         return self.metadata["summary"]
@@ -272,3 +304,44 @@ class ThroughputClient:
         }
         with self.json_path.open("w") as json_file:
             json.dump(json_blob, json_file, indent=2)
+
+    async def _connect_with_retries(self) -> BleakClient:
+        attempts = self.connect_attempts
+        delay = self.connect_retry_delay_s
+        for attempt in range(1, attempts + 1):
+            client = BleakClient(self.args.address, timeout=self.connect_timeout_s)
+            try:
+                await client.connect(timeout=self.connect_timeout_s)
+                self.metadata["connection_retry"]["attempts_used"] = attempt
+                print(
+                    f"[throughput] Connected to {self.args.address} on attempt {attempt}/{attempts}",
+                    flush=True,
+                )
+                return client
+            except asyncio.CancelledError:
+                await self._safe_disconnect(client)
+                raise
+            except Exception as exc:  # pylint: disable=broad-except
+                await self._safe_disconnect(client)
+                print(
+                    f"[throughput] Connection attempt {attempt}/{attempts} failed: {exc}",
+                    flush=True,
+                )
+                if attempt < attempts:
+                    await asyncio.sleep(delay)
+                else:
+                    message = (
+                        f"Failed to connect to {self.args.address} after "
+                        f"{attempts} attempts ({exc})."
+                    )
+                    raise RuntimeError(message) from exc
+        raise RuntimeError(f"Failed to connect to {self.args.address}; retries exhausted.")
+
+    async def _safe_disconnect(self, client: BleakClient) -> None:
+        try:
+            await client.disconnect()
+        except Exception:
+            pass
+
+    def _command_error_count(self) -> int:
+        return sum(1 for cmd in self.command_log if cmd.get("status") == "error")

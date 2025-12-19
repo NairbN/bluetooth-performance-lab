@@ -78,7 +78,7 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `--latency_iterations 5` | `5` | Samples per latency run. |
 | `--rssi_samples 20` | `20` | RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Stored in CSV/JSON for traceability (phone model, environment). |
-| `--wait_for_connection --wait_timeout_s 20 --wait_retry_delay_s 5 --wait_attempts 3` | Disabled by default | Force the runner to block before each scenario until a connection to the DUT succeeds. Useful when BlueZ needs a moment to discover new advertisements. |
+| `--connect_timeout_s 20 --connect_attempts 3 --connect_retry_delay_s 5` | `20 / 3 / 5` | Control throughput client connection retries to ride out transient BlueZ hiccups before failing a trial. |
 
 Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
 
@@ -89,6 +89,7 @@ Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baselin
 - **Throughput & PER** via seq-number gaps (automated CSV + plots per scenario).
 - **Latency** (start-triggered and write-to-notify proxies).
 - **RSSI availability / range** and scenario prompts for body-shadow testing.
+- **Connection reliability** via per-trial retry counts and command error tracking (color-coded throughput plots + CSV fields `connection_attempts_used` / `command_errors`).
 - **Cross-scenario comparison** charts for quick A/B decisions (RF engineer context).
 
 Power draw, connection-interval stability, and Bluetooth Classic profiles (PAN/A2DP/RFCOMM) are on the roadmap (see `notes/project_overview.md`).
