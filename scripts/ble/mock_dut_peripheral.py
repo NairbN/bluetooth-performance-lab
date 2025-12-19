@@ -40,6 +40,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from dbus_next import Variant
+from dbus_next.constants import BusType
 from dbus_next.aio import MessageBus
 from dbus_next.service import PropertyAccess, ServiceInterface, dbus_property, method
 
@@ -129,11 +130,11 @@ class TXCharacteristic(Characteristic):
         super().__init__(service, index, uuid, ["notify"])
         self.notifying = False
 
-    @method(GATT_CHRC_IFACE, "", "")
+    @method()
     async def StartNotify(self):
         self.notifying = True
 
-    @method(GATT_CHRC_IFACE, "", "")
+    @method()
     async def StopNotify(self):
         self.notifying = False
 
@@ -149,8 +150,8 @@ class RXCharacteristic(Characteristic):
         super().__init__(service, index, uuid, ["write-without-response"])
         self._handler = handler
 
-    @method(GATT_CHRC_IFACE, "aya{sv}", "")
-    async def WriteValue(self, value, options):  # pylint: disable=unused-argument
+    @method()
+    async def WriteValue(self, value: "ay", options: "a{sv}"):  # pylint: disable=unused-argument
         data = bytes(value)
         await self._handler(data)
 
@@ -174,9 +175,39 @@ class Advertisement(ServiceInterface):
     def LocalName(self) -> "s":  # type: ignore[override]
         return self.name
 
-    @method(LE_ADVERTISEMENT_IFACE, in_signature="", out_signature="")
+    @method()
     def Release(self):
         logging.info("Advertisement released by BlueZ")
+
+
+class Application(ServiceInterface):
+    """Implements org.freedesktop.DBus.ObjectManager for the mock app."""
+
+    def __init__(self, services: List[Service]):
+        super().__init__(DBUS_OM_IFACE)
+        self.path = "/org/bluez/mockring"
+        self.services = services
+
+    @method()
+    def GetManagedObjects(self) -> "a{oa{sa{sv}}}":
+        managed: Dict[str, Dict[str, Dict[str, Variant]]] = {}
+        for service in self.services:
+            managed[service.path] = {
+                GATT_SERVICE_IFACE: {
+                    "UUID": Variant("s", service.uuid),
+                    "Primary": Variant("b", service.primary),
+                    "Includes": Variant("ao", []),
+                }
+            }
+            for characteristic in service.characteristics:
+                managed[characteristic.path] = {
+                    GATT_CHRC_IFACE: {
+                        "UUID": Variant("s", characteristic.uuid),
+                        "Service": Variant("o", service.path),
+                        "Flags": Variant("as", characteristic.flags),
+                    }
+                }
+        return managed
 
 
 class MockRingPeripheral:
@@ -203,23 +234,24 @@ class MockRingPeripheral:
         return 1.0 / max(self.args.notify_hz, 1.0)
 
     async def start(self):
-        self.bus = await MessageBus(system=True).connect()
+        self.bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
         adapter_path = f"/org/bluez/{self.args.adapter}"
-        app = Service(0, self.args.service_uuid)
-        self.tx_char = TXCharacteristic(app, 0, self.args.tx_uuid)
-        RXCharacteristic(app, 1, self.args.rx_uuid, self.handle_command)
-
+        service = Service(0, self.args.service_uuid)
+        self.tx_char = TXCharacteristic(service, 0, self.args.tx_uuid)
+        RXCharacteristic(service, 1, self.args.rx_uuid, self.handle_command)
+        application = Application([service])
         advertisement = Advertisement(0, self.args.service_uuid, self.args.advertise_name)
 
-        self.bus.export(app.path, app)
-        for char in app.characteristics:
+        self.bus.export(application.path, application)
+        self.bus.export(service.path, service)
+        for char in service.characteristics:
             self.bus.export(char.path, char)
         self.bus.export(advertisement.path, advertisement)
 
         gatt_manager = await self._get_interface(adapter_path, GATT_MANAGER_IFACE)
         ad_manager = await self._get_interface(adapter_path, LE_AD_MANAGER_IFACE)
 
-        await gatt_manager.call_register_application(app.path, {})
+        await gatt_manager.call_register_application(application.path, {})
         await ad_manager.call_register_advertisement(advertisement.path, {})
         self.logger.write("Mock DUT registered GATT service and started advertising.")
 
@@ -232,7 +264,7 @@ class MockRingPeripheral:
         await stop_event.wait()
         self.logger.write("Shutting down mock peripheral...")
         await ad_manager.call_unregister_advertisement(advertisement.path)
-        await gatt_manager.call_unregister_application(app.path)
+        await gatt_manager.call_unregister_application(application.path)
         self.logger.write("Cleanup complete.")
         self.logger.close()
 
