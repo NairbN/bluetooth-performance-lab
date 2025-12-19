@@ -36,6 +36,9 @@ class LatencyClient:
     def __init__(self, args):
         self.args = args
         self.samples: List[LatencySample] = []
+        self.connect_timeout_s = float(getattr(args, "connect_timeout_s", 20.0))
+        self.connect_attempts = max(1, int(getattr(args, "connect_attempts", 1)))
+        self.connect_retry_delay_s = max(0.0, float(getattr(args, "connect_retry_delay_s", 0.0)))
         self.command_log: List[Dict[str, Any]] = []
         self.metadata: Dict[str, Any] = {
             "created": utc_now(),
@@ -65,7 +68,8 @@ class LatencyClient:
         self.csv_path = output_dir / f"{base_name}.csv"
         self.json_path = output_dir / f"{base_name}.json"
 
-        async with BleakClient(self.args.address) as client:
+        client = await self._connect_with_retries()
+        try:
             self.metadata["adapter"] = getattr(client, "adapter", "unknown")
             self.metadata["connected_at"] = utc_now()
             services = await self._resolve_services(client)
@@ -76,17 +80,32 @@ class LatencyClient:
             stream = NotificationStream()
             await client.start_notify(tx_char.uuid, stream.handler)
 
-            async def send_command(name: str, cmd_id: int, payload: bytes = b"") -> None:
+            async def send_command(
+                name: str,
+                cmd_id: int,
+                payload: bytes = b"",
+                *,
+                strict: bool = True,
+            ) -> None:
                 packet = bytes([cmd_id]) + payload
-                await client.write_gatt_char(rx_char.uuid, packet, response=False)
-                self.command_log.append(
-                    {
-                        "ts": utc_now(),
-                        "name": name,
-                        "command_id": cmd_id,
-                        "payload_hex": payload.hex(),
-                    }
-                )
+                entry = {
+                    "ts": utc_now(),
+                    "name": name,
+                    "command_id": cmd_id,
+                    "payload_hex": payload.hex(),
+                }
+                try:
+                    await client.write_gatt_char(rx_char.uuid, packet, response=False)
+                except Exception as exc:  # pylint: disable=broad-except
+                    entry["status"] = "error"
+                    entry["error"] = str(exc)
+                    self.command_log.append(entry)
+                    if strict:
+                        raise
+                    print(f"[latency] Command '{name}' failed but continuing: {exc}", flush=True)
+                    return
+                entry["status"] = "sent"
+                self.command_log.append(entry)
 
             for iteration in range(1, self.args.iterations + 1):
                 stream.clear()
@@ -132,7 +151,12 @@ class LatencyClient:
                 await send_command("stop", self.args.stop_cmd)
                 await asyncio.sleep(self.args.inter_delay_s)
 
-            await client.stop_notify(tx_char.uuid)
+            try:
+                await client.stop_notify(tx_char.uuid)
+            except Exception as exc:  # pylint: disable=broad-except
+                print(f"[latency] stop_notify failed but continuing: {exc}", flush=True)
+        finally:
+            await self._safe_disconnect(client)
 
         self.metadata["command_log"] = self.command_log
         self.metadata["summary"] = self._summarize()
@@ -241,6 +265,47 @@ class LatencyClient:
         }
         with self.json_path.open("w") as json_file:
             json.dump(json_blob, json_file, indent=2)
+
+    async def _connect_with_retries(self) -> BleakClient:
+        attempts = self.connect_attempts
+        delay = self.connect_retry_delay_s
+        for attempt in range(1, attempts + 1):
+            client = BleakClient(self.args.address, timeout=self.connect_timeout_s)
+            try:
+                await client.connect(timeout=self.connect_timeout_s)
+                self.metadata["connection_retry"] = {
+                    "timeout_s": self.connect_timeout_s,
+                    "attempts": attempts,
+                    "retry_delay_s": delay,
+                    "attempts_used": attempt,
+                }
+                print(
+                    f"[latency] Connected to {self.args.address} on attempt {attempt}/{attempts}",
+                    flush=True,
+                )
+                return client
+            except asyncio.CancelledError:
+                await self._safe_disconnect(client)
+                raise
+            except Exception as exc:  # pylint: disable=broad-except
+                await self._safe_disconnect(client)
+                print(
+                    f"[latency] Connection attempt {attempt}/{attempts} failed: {exc}",
+                    flush=True,
+                )
+                if attempt < attempts:
+                    await asyncio.sleep(delay)
+                else:
+                    raise RuntimeError(
+                        f"Latency client could not reach {self.args.address} after {attempts} attempts ({exc})."
+                    ) from exc
+        raise RuntimeError(f"Latency client failed to connect to {self.args.address}.")
+
+    async def _safe_disconnect(self, client: BleakClient) -> None:
+        try:
+            await client.disconnect()
+        except Exception:
+            pass
 
 
 class NotificationStream:

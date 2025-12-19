@@ -35,7 +35,7 @@ def parse_args() -> argparse.Namespace:
         help="Scenario labels used to annotate results.",
     )
     parser.add_argument("--payloads", type=int, nargs="+", default=[20, 60, 120, 180, 244])
-    parser.add_argument("--phys", nargs="+", default=["auto", "2m"], help="PHY settings to request per scenario.")
+    parser.add_argument("--phys", nargs="+", default=["auto"], help="PHY settings to request per scenario.")
     parser.add_argument("--repeats", type=int, default=2, help="Trials per payload/PHY combination.")
     parser.add_argument("--duration_s", type=float, default=30.0, help="Throughput duration per trial.")
     parser.add_argument("--latency_iterations", type=int, default=5, help="Latency samples per run.")
@@ -63,19 +63,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--connect_timeout_s",
         type=float,
-        default=20.0,
+        default=30.0,
         help="Seconds to wait for throughput client connections before failing a trial.",
     )
     parser.add_argument(
         "--connect_attempts",
         type=int,
-        default=3,
+        default=5,
         help="Number of connection attempts to try per throughput run.",
     )
     parser.add_argument(
         "--connect_retry_delay_s",
         type=float,
-        default=5.0,
+        default=10.0,
         help="Seconds to wait between connection attempts when retries are enabled.",
     )
     return parser.parse_args()
@@ -401,6 +401,12 @@ def run_latency_trial(
         str(args.stop_cmd),
         "--reset_cmd",
         str(args.reset_cmd),
+        "--connect_timeout_s",
+        str(args.connect_timeout_s),
+        "--connect_attempts",
+        str(args.connect_attempts),
+        "--connect_retry_delay_s",
+        str(args.connect_retry_delay_s),
     ]
     _run_cmd(cmd)
     log_path = _new_log(out_dir, before, "*ble_latency*.json")
@@ -446,6 +452,12 @@ def run_rssi_trial(
         str(args.rssi_interval_s),
         "--out",
         str(out_dir),
+        "--connect_timeout_s",
+        str(args.connect_timeout_s),
+        "--connect_attempts",
+        str(args.connect_attempts),
+        "--connect_retry_delay_s",
+        str(args.connect_retry_delay_s),
     ]
     _run_cmd(cmd)
     log_path = _new_log(out_dir, before, "*ble_rssi*.json")

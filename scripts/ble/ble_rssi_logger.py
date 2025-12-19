@@ -24,6 +24,19 @@ def build_parser() -> argparse.ArgumentParser:
         default="12345678-1234-5678-1234-56789abcdef3",
         help="Optional fallback characteristic for mock RSSI data.",
     )
+    parser.add_argument("--connect_timeout_s", type=float, default=30.0, help="Seconds to wait per connection attempt.")
+    parser.add_argument(
+        "--connect_attempts",
+        type=int,
+        default=5,
+        help="Connection attempts before giving up.",
+    )
+    parser.add_argument(
+        "--connect_retry_delay_s",
+        type=float,
+        default=10.0,
+        help="Seconds to sleep between connection attempts when retries are enabled.",
+    )
     parser.add_argument("--verbose", action="store_true", help="Print summary after logging.")
     return parser
 

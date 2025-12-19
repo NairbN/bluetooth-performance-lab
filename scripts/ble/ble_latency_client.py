@@ -31,6 +31,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--reset_cmd", type=lambda x: int(x, 0), default=0x03, help="Reset command opcode.")
     parser.add_argument("--mtu", type=int, default=247, help="Requested MTU size.")
     parser.add_argument("--phy", choices=["auto", "1m", "2m", "coded"], default="auto", help="Preferred PHY request (best-effort).")
+    parser.add_argument("--connect_timeout_s", type=float, default=30.0, help="Seconds to wait per connection attempt.")
+    parser.add_argument(
+        "--connect_attempts",
+        type=int,
+        default=5,
+        help="Connection attempts before giving up (helps ride out transient adapter issues).",
+    )
+    parser.add_argument(
+        "--connect_retry_delay_s",
+        type=float,
+        default=10.0,
+        help="Seconds to sleep between connection attempts when retries are enabled.",
+    )
     parser.add_argument("--verbose", action="store_true", help="Print detailed summary logs.")
     return parser
 

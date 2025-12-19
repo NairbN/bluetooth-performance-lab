@@ -79,7 +79,7 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `--latency_iterations 5` | `5` | Samples per latency run. |
 | `--rssi_samples 20` | `20` | RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Stored in CSV/JSON for traceability (phone model, environment). |
-| `--connect_timeout_s 20 --connect_attempts 3 --connect_retry_delay_s 5` | `20 / 3 / 5` | Control throughput client connection retries to ride out transient BlueZ hiccups before failing a trial. |
+| `--connect_timeout_s 30 --connect_attempts 5 --connect_retry_delay_s 10` | `30 / 5 / 10` | Control BLE connection retries (applies to throughput, latency, and RSSI clients). |
 
 Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
 

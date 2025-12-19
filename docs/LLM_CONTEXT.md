@@ -1,180 +1,59 @@
-# LLM Context — Bluetooth Performance Testing Lab
+# LLM Context — Smart Ring BLE Performance Lab
 
-**Audience:** OpenAI Codex
-**Purpose:** Provide persistent, authoritative context so Codex can assist with this repository without re-discovery, hallucination, or scope creep.
-
-This document defines **what this project is**, **what has already been done**, and **what Codex is explicitly allowed and not allowed to do**.
+**Audience:** Coding assistants working on this repo  
+**Purpose:** Provide canonical context so helpers avoid re-discovery, outdated assumptions, or fabricated data.
 
 ---
 
-## 1. Project Summary (High-Level)
+## 1. Project Snapshot
 
-This repository implements a **Bluetooth performance testing laboratory** focused on understanding how Bluetooth **profiles, protocols, and hardware** impact real-world performance.
-
-The lab measures and analyzes:
-
-* Throughput
-* Latency
-* Jitter
-* Stability
-
-Across:
-
-* Bluetooth Classic (PAN, RFCOMM, HID, A2DP)
-* Bluetooth Low Energy (GATT-based data transfer)
-
-The project prioritizes **repeatability, traceability, and protocol-level understanding** over synthetic benchmarks.
+- This repository houses a **BLE-focused performance lab** for the Smart Ring test service. The goal is to gather throughput, latency, RSSI, and connection health metrics *before* real hardware ships.
+- Core automation lives in `scripts/ble/run_full_matrix.py`, invoked via `scripts/tools/run_full_matrix.sh`. It sweeps payloads, PHYs, and scenarios, and now writes connection retry metadata so flaky runs are obvious.
+- The mock peripheral (`scripts/tools/start_mock.sh`) emulates the Smart Ring GATT service. Force adapters into **LE-only mode** and clear caches via `scripts/tools/clear_bt_cache.sh` when switching firmware or after BR/EDR conflicts.
+- Every client (throughput, latency, RSSI) shares the same retry CLI flags: `--connect_timeout_s`, `--connect_attempts`, `--connect_retry_delay_s`. Console logs show `[throughput] Connected …`, `[latency] Connection attempt … failed`, etc.
+- Results: CSV/JSON logs in `logs/ble/`, aggregated tables under `results/tables/`, and plots under `results/plots/` with color-coded health markers.
 
 ---
 
-## 2. Current Project State (IMPORTANT)
+## 2. Current State
 
-At the time this document is written:
-
-* ✅ Test environment is fully defined and documented.
-* ✅ Hardware for Linux A and Linux B is finalized.
-* ✅ OS, firmware, BlueZ versions are locked.
-* ✅ Test topology is finalized.
-* ✅ Lab report structure is written.
-* ✅ BLE mock, central clients, analysis scripts, and scenario automation (`run_full_matrix`) are implemented.
-* ⚠️ **BLE connectivity between Linux A ↔ Linux B is currently unreliable**. After refactoring the mock and automation scripts, Linux B’s BlueZ stack frequently fails to complete LE connections (Bleak reports `BleakDeviceNotFoundError` or connection timeouts) even when `btmon` shows mock advertisements. The failure persists even when using the upstream BlueZ example GATT/advertisement scripts, indicating the issue lies with controller state (adapter cache/discovery) rather than our mock.
-
-⚠️ **No experiments have been executed yet**
-⚠️ **No performance data exists yet**
-⚠️ **No conclusions should be written**
-
-Codex **must not invent data**.
+- ✅ BLE clients + automation implemented and share retry controls.
+- ✅ Mock peripheral + helper scripts verified.
+- ✅ Documentation updated (this file, `docs/how_to_run_experiments.md`, `docs/test_coverage_plan.md`, etc.).
+- ⚠️ Real Smart Ring hardware **not connected yet**. Never invent measured data.
+- ⚠️ BlueZ may still get stuck in BR/EDR mode; enforce LE-only and clear caches before blaming the scripts.
 
 ---
 
-## 3. Test Environment Snapshot (Reference)
-
-### Linux A (Server / NAP)
-
-* OS: Ubuntu 24.04.3 LTS
-* CPU: Intel Core i9-10920X
-* RAM: 32 GB
-* Bluetooth: Intel USB controller, Bluetooth 5.3
-* BlueZ: 5.72
-* Role: PAN NAP, primary server
-
-### Linux B (Client / PANU)
-
-* OS: Ubuntu 24.04.3 LTS
-* CPU: Intel Core i7-7600U
-* RAM: 16 GB
-* Bluetooth: Intel USB controller, Bluetooth 4.2
-* BlueZ: 5.72
-* Role: PANU, primary client
-
----
-
-## 4. Repository Structure (Authoritative)
+## 3. Repository Structure (essentials)
 
 ```
 bluetooth-performance-lab/
 ├── README.md
-├── docs/
-│   ├── lab_report.md
-│   ├── bluetooth_architecture.md
-│   ├── test_topology.md
-│   └── LLM_CONTEXT.md
-├── experiments/
-│   ├── pan/
-│   ├── rfcomm/
-│   ├── ble_gatt/
-│   └── interference/
+├── docs/                  # Lab how-to, coverage plan, architecture notes
+├── notes/                 # Additional planning / troubleshooting detail
 ├── scripts/
-│   ├── pan/
-│   ├── rfcomm/
-│   └── ble/
-├── logs/
-│   ├── btmon/
-│   ├── iperf/
-│   └── rfcomm/
-├── results/
-│   ├── tables/
-│   └── plots/
-└── notes/
+│   ├── ble/               # Clients, mock, analysis helpers
+│   └── tools/             # setup/run wrappers, cache cleaner, archiver
+├── experiments/           # Legacy experiment notes (pan/rfcomm/etc.)
+├── logs/                  # Raw outputs (ignored by git)
+└── results/               # Derived tables/plots
 ```
 
-Codex should **respect this structure** and place outputs in the correct directories.
-
 ---
 
-## 5. Codex Permissions (STRICT)
+## 4. Expectations for LLM Helpers
 
-Codex is explicitly allowed to:
+Allowed:
 
-* ✅ Write scripts (e.g., shell scripts, Python tools)
-* ✅ Modify experiment documentation under `experiments/`
-* ✅ Parse raw logs into structured tables
-* ✅ Generate plots from collected data
-* ✅ Suggest conclusions **without writing final conclusions**
+- Add or update scripts, docs, or analysis tooling.
+- Modify configs/README/docs when explicitly asked (this file already grants permission).
+- Improve logging, retry logic, plotting, or tooling reliability.
 
-Codex is explicitly **NOT allowed** to:
+Not allowed:
 
-* ❌ Invent or fabricate performance data
-* ❌ Modify hardware or environment descriptions
-* ❌ Rewrite finalized documentation (`README.md`, `docs/bluetooth_architecture.md`, `docs/test_topology.md`) unless explicitly instructed
-* ❌ Write final conclusions without user approval
+- Invent throughput/latency/RSSI numbers. Use placeholders or describe procedures instead.
+- Change hardware descriptions without instructions from the user.
+- Commit destructive git actions (e.g., `reset --hard`) unless the user explicitly requests it.
 
----
-
-## 6. Coding and Documentation Guidelines
-
-When generating code or scripts:
-
-* Prefer clarity over brevity
-* Include comments explaining Bluetooth-specific behavior
-* Avoid hardcoding MAC addresses unless explicitly requested
-* Make scripts idempotent where possible
-
-When modifying documentation:
-
-* Do not remove existing sections
-* Only append or fill in explicitly marked areas
-* Clearly label autogenerated content
-
----
-
-## 7. Experiment Workflow Expectations
-
-Typical Codex-assisted workflow:
-
-1. User requests help running a specific experiment
-2. Codex generates setup or execution scripts
-3. User runs experiments manually
-4. User provides raw logs
-5. Codex parses logs and generates tables/plots
-6. Codex suggests analysis points
-7. User writes final conclusions
-
----
-
-## 8. Anti-Hallucination Rules (Critical)
-
-If Codex lacks sufficient information:
-
-* Ask for clarification
-* Request logs or outputs
-* Do **not** assume defaults
-
-If a requested task would violate permissions:
-
-* Explain why
-* Suggest an allowed alternative
-
----
-
-## 9. Key Principle
-
-> Codex acts as a **lab assistant and automation helper**, not as the experimenter or analyst of record.
-
-All authoritative decisions, interpretations, and conclusions remain the responsibility of the human operator.
-
----
-
-## 10. End of Context
-
-This document should be read **before any Codex interaction** related to this repository.
+When unsure, ask the user for clarification rather than guessing.

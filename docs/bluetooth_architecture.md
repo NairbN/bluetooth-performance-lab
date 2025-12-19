@@ -1,161 +1,85 @@
-# Bluetooth Architecture Overview
+# BLE Architecture Notes for the Smart Ring Lab
 
-This document provides the protocol-level background needed to interpret the results of the Bluetooth Performance Testing Lab. It explains **how data moves through the Bluetooth stack**, why different profiles behave differently, and which layers are responsible for throughput, latency, and stability.
+This lab is now **BLE-only**, so this document focuses on the parts of the stack that matter for throughput, latency, and reliability when exercising the Smart Ring test service.
 
 ---
 
-## 1. Bluetooth Stack Overview
-
-Bluetooth is a layered protocol stack. Performance characteristics are determined primarily by **which layers are used** and **how they are configured**, not just by radio speed.
-
-### High-Level Stack (Bluetooth Classic)
+## 1. Stack Layers in Play
 
 ```
-Application / Profile (PAN, RFCOMM, A2DP, HID)
-L2CAP
-ACL (Asynchronous Connection-Less)
-Baseband / Link Controller
-Radio (2.4 GHz ISM)
+Application (Smart Ring test service)
+└─ GATT (service + characteristics)
+   └─ ATT
+      └─ L2CAP (LE)
+         └─ Link Layer (connection events)
+            └─ PHY / Radio (LE 1M, 2M, Coded)
 ```
 
-### High-Level Stack (Bluetooth Low Energy)
+- **Service UUID:** `12345678-1234-5678-1234-56789ABCDEF0`
+- **TX characteristic (DUT → central, Notify):** `...DEF1`
+- **RX characteristic (central → DUT, Write Without Response):** `...DEF2`
+
+The lab never touches BR/EDR profiles (PAN, RFCOMM, etc.) anymore; forcing adapters into LE-only mode prevents them from interfering.
+
+---
+
+## 2. Why MTU & Payload Matter
+
+- The Smart Ring payload embeds `[SEQ][TS][DATA…]`. The scripts let you sweep `payload_bytes` to see how MTU headroom affects throughput.
+- BlueZ defaults to MTU 23. The clients call `request_mtu()` and log the negotiated value in case the controller refuses.
+- Throughput plots encode payload size on the x-axis, so you can correlate MTU behavior with packet loss.
+
+---
+
+## 3. PHY Selection
+
+- `auto` leaves the adapter default (usually LE 1M).
+- `2m` (or `1m` / `coded` when enabled) uses `set_preferred_phy`.
+- Results are captured as `phy_request`/`phy_result` in each JSON log so you know whether the OS actually honored the request.
+
+---
+
+## 4. Connection Interval & Retries
+
+- User space cannot directly force a connection interval, so the lab logs whatever the DUT negotiates (when exposed) and uses **connection retry metadata** as a proxy for link stability.
+- Every client now records:
+  - `connection_retry.timeout_s`
+  - Number of attempts requested/used
+  - `command_errors` when stop/reset writes fail during teardown
+- Plots color markers orange/red when retries or command failures occur to highlight unstable runs even if throughput numbers look fine.
+
+---
+
+## 5. Command Flow (RX characteristic)
 
 ```
-Application / Profile (GATT-based)
-GATT / ATT
-L2CAP (LE)
-Link Layer (connection events)
-Radio (2.4 GHz ISM)
+Reset (0x03) → short delay
+Start (0x01, payload size + optional packet count)
+   \→ DUT streams notifications on TX
+Stop (0x02) → Stop Notify
 ```
 
----
-
-## 2. ACL (Asynchronous Connection-Less)
-
-### What ACL Is
-
-* The **primary data transport** for Bluetooth Classic
-* Used by PAN, RFCOMM, A2DP, HID, OBEX
-* Packet-switched, reliable (retransmissions supported)
-
-### Why ACL Matters for Performance
-
-* All Classic profiles **share the same ACL link**
-* Bandwidth is time-sliced between logical channels
-* Retransmissions reduce effective throughput
-
-### Key Properties
-
-* Symmetric uplink/downlink
-* Adaptive packet scheduling
-* Supports multiple packet sizes (DM/DH types)
+- All commands are Write Without Response. If the DUT disconnects mid-teardown, the clients log the failure and move on so logs are still written.
+- Latency runs reuse the same command flow but gate on individual notifications to measure Start-to-first-notification or trigger-mode latency.
 
 ---
 
-## 3. L2CAP (Logical Link Control and Adaptation Protocol)
+## 6. Traceability in Logs
 
-### Purpose
+Each JSON metadata block includes:
 
-L2CAP sits on top of ACL and provides:
+- Adapter name + timestamp
+- Requested/negotiated MTU & PHY
+- Command log (with timestamps + payloads)
+- Link health data:
+  - `connection_attempts_used`
+  - `command_errors`
+  - Duration, packet counts, estimated loss
 
-* Multiplexing of multiple logical channels
-* Segmentation and reassembly of packets
-* Flow control and MTU enforcement
-
-### Why L2CAP Dominates Profile Behavior
-
-* Profiles differ mainly in **how they use L2CAP**
-* MTU size directly impacts throughput
-* Channel scheduling impacts latency
-
-### Examples
-
-* PAN uses large MTUs and continuous streams
-* RFCOMM uses small frames with heavy control overhead
-* BLE GATT uses short packets tied to connection intervals
+These fields make it possible to correlate BLE stack behavior (e.g., repeated retries) with environment notes or btmon traces.
 
 ---
 
-## 4. Profile-Level Behavior
+## 7. Takeaway
 
-### PAN (Personal Area Network)
-
-* Runs IP over BNEP over L2CAP
-* Optimized for bulk data transfer
-* Best proxy for raw ACL throughput
-
-### RFCOMM / SPP
-
-* Emulates serial ports
-* Adds framing, flow control, and credit-based scheduling
-* Significantly lower throughput than PAN
-
-### A2DP
-
-* Continuous media streaming
-* Fixed bitrate determined by codec
-* Prioritizes smooth playback over throughput
-
-### HID / HOGP
-
-* Very small packets
-* High polling frequency
-* Optimized for latency, not bandwidth
-
-### BLE GATT
-
-* Attribute-based data model
-* Throughput limited by connection interval, MTU, and PHY
-* Highly power-efficient
-
----
-
-## 5. Bluetooth Low Energy (BLE) Constraints
-
-### Connection Interval
-
-* Determines how often data can be exchanged
-* Shorter intervals = lower latency, higher power usage
-
-### MTU Size
-
-* Default MTU is small
-* Increasing MTU improves throughput but not latency
-
-### PHY
-
-* 1M, 2M, and Coded PHYs trade speed for range
-
----
-
-## 6. Firmware and Controller Effects
-
-Bluetooth performance is influenced by:
-
-* Controller generation (e.g., Bluetooth 4.2 vs 5.3)
-* Firmware scheduling decisions
-* Host-controller interface efficiency
-
-These effects are often visible in **btmon traces** as:
-
-* Retransmissions
-* Delayed acknowledgments
-* Channel congestion
-
----
-
-## 7. Why This Matters for the Lab
-
-Understanding this architecture allows lab results to be explained in terms of:
-
-* Protocol overhead
-* Scheduling behavior
-* Hardware capability differences
-
-Rather than treating Bluetooth as a black box, this lab correlates **measured performance** with **stack-level behavior**.
-
----
-
-## 8. Key Takeaway
-
-> Bluetooth performance differences are primarily a result of **protocol design choices**, not radio speed alone.
+Performance in this lab is dictated by **connection event scheduling + MTU/PHY configuration**, not radio marketing numbers. Capturing retries, MTU negotiation, and command failures alongside throughput/latency results gives enough context to explain anomalies once the real Smart Ring hardware arrives.

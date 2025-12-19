@@ -73,7 +73,7 @@ normalise_mac() {
 
 adapter_dir="/var/lib/bluetooth/$(normalise_mac "$adapter")"
 
-if [[ ! -d "$adapter_dir" ]]; then
+if ! sudo test -d "$adapter_dir"; then
   echo "[clear_bt_cache] Adapter directory $adapter_dir not found." >&2
   exit 1
 fi
@@ -99,7 +99,7 @@ else
   target_desc="device cache ${device_dir}"
 fi
 
-if [[ ! -d "$target_path" ]]; then
+if ! sudo test -d "$target_path"; then
   echo "[clear_bt_cache] Target ${target_desc} not found at ${target_path}."
   exit 0
 fi

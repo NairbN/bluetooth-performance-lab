@@ -1,0 +1,5052 @@
+{
+  "metadata": {
+    "created": "2025-12-19T22:11:09.128810+00:00",
+    "address": "1C:4D:70:1E:13:A0",
+    "service_uuid": "12345678-1234-5678-1234-56789abcdef0",
+    "tx_uuid": "12345678-1234-5678-1234-56789abcdef1",
+    "rx_uuid": "12345678-1234-5678-1234-56789abcdef2",
+    "payload_bytes_requested": 244,
+    "packet_count_requested": 0,
+    "duration_requested_s": 30.0,
+    "command_ids": {
+      "start": 1,
+      "stop": 2,
+      "reset": 3
+    },
+    "mtu_request": 247,
+    "phy_request": "2m",
+    "connection_interval_control": "Not supported from user space; logging only.",
+    "connection_retry": {
+      "timeout_s": 30.0,
+      "attempts": 5,
+      "retry_delay_s": 5.0,
+      "attempts_used": 1
+    },
+    "adapter": "unknown",
+    "connected_at": "2025-12-19T22:11:16.496987+00:00",
+    "mtu_result": {
+      "requested": 247,
+      "status": "unsupported_by_bleak"
+    },
+    "phy_result": {
+      "requested": "2m",
+      "status": "unsupported_by_bleak"
+    },
+    "test_end": "2025-12-19T22:11:47.066786+00:00",
+    "command_log": [
+      {
+        "ts": "2025-12-19T22:11:16.734758+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-19T22:11:16.836240+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40000",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-19T22:11:46.864728+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      }
+    ],
+    "summary": {
+      "packets": 622,
+      "estimated_lost_packets": 0,
+      "duration_s": 30.147825956344604,
+      "throughput_kbps": 40.27302007641064,
+      "notification_rate_per_s": 20.631670121112005,
+      "bytes_recorded": 151768,
+      "connection_attempts_used": 1,
+      "command_errors": 0
+    },
+    "records_file": {
+      "csv": "logs/ble/20251219_221109_ble_throughput.csv",
+      "json": "logs/ble/20251219_221109_ble_throughput.json"
+    }
+  },
+  "packets": [
+    {
+      "seq": 0,
+      "dut_ts": 53013,
+      "arrival_time": "2025-12-19T22:11:16.915518+00:00",
+      "arrival_epoch": 1766182276.9154897,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 1,
+      "dut_ts": 53039,
+      "arrival_time": "2025-12-19T22:11:16.960400+00:00",
+      "arrival_epoch": 1766182276.9603765,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 2,
+      "dut_ts": 53065,
+      "arrival_time": "2025-12-19T22:11:17.005487+00:00",
+      "arrival_epoch": 1766182277.0054677,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 3,
+      "dut_ts": 53091,
+      "arrival_time": "2025-12-19T22:11:17.048494+00:00",
+      "arrival_epoch": 1766182277.048471,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 4,
+      "dut_ts": 53117,
+      "arrival_time": "2025-12-19T22:11:17.093480+00:00",
+      "arrival_epoch": 1766182277.093465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 5,
+      "dut_ts": 53142,
+      "arrival_time": "2025-12-19T22:11:17.185467+00:00",
+      "arrival_epoch": 1766182277.185448,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 6,
+      "dut_ts": 53168,
+      "arrival_time": "2025-12-19T22:11:17.273455+00:00",
+      "arrival_epoch": 1766182277.2734368,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 7,
+      "dut_ts": 53194,
+      "arrival_time": "2025-12-19T22:11:17.276385+00:00",
+      "arrival_epoch": 1766182277.2763677,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 8,
+      "dut_ts": 53220,
+      "arrival_time": "2025-12-19T22:11:17.318341+00:00",
+      "arrival_epoch": 1766182277.3183076,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 9,
+      "dut_ts": 53246,
+      "arrival_time": "2025-12-19T22:11:17.363485+00:00",
+      "arrival_epoch": 1766182277.3634667,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 10,
+      "dut_ts": 53272,
+      "arrival_time": "2025-12-19T22:11:17.408474+00:00",
+      "arrival_epoch": 1766182277.4084568,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 11,
+      "dut_ts": 53298,
+      "arrival_time": "2025-12-19T22:11:17.453495+00:00",
+      "arrival_epoch": 1766182277.4534767,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 12,
+      "dut_ts": 53324,
+      "arrival_time": "2025-12-19T22:11:17.545486+00:00",
+      "arrival_epoch": 1766182277.5454543,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 13,
+      "dut_ts": 53350,
+      "arrival_time": "2025-12-19T22:11:17.588384+00:00",
+      "arrival_epoch": 1766182277.5883586,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 14,
+      "dut_ts": 53376,
+      "arrival_time": "2025-12-19T22:11:17.633353+00:00",
+      "arrival_epoch": 1766182277.6333323,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 15,
+      "dut_ts": 53402,
+      "arrival_time": "2025-12-19T22:11:17.678476+00:00",
+      "arrival_epoch": 1766182277.6784587,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 16,
+      "dut_ts": 53428,
+      "arrival_time": "2025-12-19T22:11:17.723409+00:00",
+      "arrival_epoch": 1766182277.7233915,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 17,
+      "dut_ts": 53454,
+      "arrival_time": "2025-12-19T22:11:17.768524+00:00",
+      "arrival_epoch": 1766182277.7685041,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 18,
+      "dut_ts": 53480,
+      "arrival_time": "2025-12-19T22:11:17.813524+00:00",
+      "arrival_epoch": 1766182277.813506,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 19,
+      "dut_ts": 53505,
+      "arrival_time": "2025-12-19T22:11:17.859387+00:00",
+      "arrival_epoch": 1766182277.8593676,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 20,
+      "dut_ts": 53531,
+      "arrival_time": "2025-12-19T22:11:17.903579+00:00",
+      "arrival_epoch": 1766182277.9035547,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 21,
+      "dut_ts": 53557,
+      "arrival_time": "2025-12-19T22:11:17.950489+00:00",
+      "arrival_epoch": 1766182277.950471,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 22,
+      "dut_ts": 53583,
+      "arrival_time": "2025-12-19T22:11:17.993484+00:00",
+      "arrival_epoch": 1766182277.9934666,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 23,
+      "dut_ts": 53608,
+      "arrival_time": "2025-12-19T22:11:18.038481+00:00",
+      "arrival_epoch": 1766182278.0384622,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 24,
+      "dut_ts": 53634,
+      "arrival_time": "2025-12-19T22:11:18.083400+00:00",
+      "arrival_epoch": 1766182278.0833821,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 25,
+      "dut_ts": 53661,
+      "arrival_time": "2025-12-19T22:11:18.128359+00:00",
+      "arrival_epoch": 1766182278.1283402,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 26,
+      "dut_ts": 53687,
+      "arrival_time": "2025-12-19T22:11:18.173474+00:00",
+      "arrival_epoch": 1766182278.173456,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 27,
+      "dut_ts": 53713,
+      "arrival_time": "2025-12-19T22:11:18.218473+00:00",
+      "arrival_epoch": 1766182278.2184548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 28,
+      "dut_ts": 53739,
+      "arrival_time": "2025-12-19T22:11:18.263321+00:00",
+      "arrival_epoch": 1766182278.2633018,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 29,
+      "dut_ts": 53764,
+      "arrival_time": "2025-12-19T22:11:18.308464+00:00",
+      "arrival_epoch": 1766182278.3084466,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 30,
+      "dut_ts": 53790,
+      "arrival_time": "2025-12-19T22:11:18.355460+00:00",
+      "arrival_epoch": 1766182278.3554423,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 31,
+      "dut_ts": 53816,
+      "arrival_time": "2025-12-19T22:11:18.488396+00:00",
+      "arrival_epoch": 1766182278.4883766,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 32,
+      "dut_ts": 53842,
+      "arrival_time": "2025-12-19T22:11:18.535469+00:00",
+      "arrival_epoch": 1766182278.5354385,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 33,
+      "dut_ts": 53868,
+      "arrival_time": "2025-12-19T22:11:18.578482+00:00",
+      "arrival_epoch": 1766182278.5784652,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 34,
+      "dut_ts": 53893,
+      "arrival_time": "2025-12-19T22:11:18.668261+00:00",
+      "arrival_epoch": 1766182278.6682425,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 35,
+      "dut_ts": 53919,
+      "arrival_time": "2025-12-19T22:11:18.715447+00:00",
+      "arrival_epoch": 1766182278.7154293,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 36,
+      "dut_ts": 53945,
+      "arrival_time": "2025-12-19T22:11:18.758297+00:00",
+      "arrival_epoch": 1766182278.7582796,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 37,
+      "dut_ts": 53971,
+      "arrival_time": "2025-12-19T22:11:18.805491+00:00",
+      "arrival_epoch": 1766182278.8054712,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 38,
+      "dut_ts": 53997,
+      "arrival_time": "2025-12-19T22:11:18.848471+00:00",
+      "arrival_epoch": 1766182278.8484542,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 39,
+      "dut_ts": 54022,
+      "arrival_time": "2025-12-19T22:11:18.893473+00:00",
+      "arrival_epoch": 1766182278.893455,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 40,
+      "dut_ts": 54048,
+      "arrival_time": "2025-12-19T22:11:18.938489+00:00",
+      "arrival_epoch": 1766182278.938455,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 41,
+      "dut_ts": 54074,
+      "arrival_time": "2025-12-19T22:11:18.983439+00:00",
+      "arrival_epoch": 1766182278.9834218,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 42,
+      "dut_ts": 54100,
+      "arrival_time": "2025-12-19T22:11:19.028484+00:00",
+      "arrival_epoch": 1766182279.0284665,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 43,
+      "dut_ts": 54125,
+      "arrival_time": "2025-12-19T22:11:19.118522+00:00",
+      "arrival_epoch": 1766182279.1185024,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 44,
+      "dut_ts": 54151,
+      "arrival_time": "2025-12-19T22:11:19.121407+00:00",
+      "arrival_epoch": 1766182279.1213949,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 45,
+      "dut_ts": 54177,
+      "arrival_time": "2025-12-19T22:11:19.163522+00:00",
+      "arrival_epoch": 1766182279.163502,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 46,
+      "dut_ts": 54202,
+      "arrival_time": "2025-12-19T22:11:19.253487+00:00",
+      "arrival_epoch": 1766182279.2534668,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 47,
+      "dut_ts": 54228,
+      "arrival_time": "2025-12-19T22:11:19.433404+00:00",
+      "arrival_epoch": 1766182279.4333844,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 48,
+      "dut_ts": 54254,
+      "arrival_time": "2025-12-19T22:11:19.478481+00:00",
+      "arrival_epoch": 1766182279.4784486,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 49,
+      "dut_ts": 54280,
+      "arrival_time": "2025-12-19T22:11:19.523378+00:00",
+      "arrival_epoch": 1766182279.5233598,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 50,
+      "dut_ts": 54305,
+      "arrival_time": "2025-12-19T22:11:19.613477+00:00",
+      "arrival_epoch": 1766182279.6134589,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 51,
+      "dut_ts": 54331,
+      "arrival_time": "2025-12-19T22:11:19.616335+00:00",
+      "arrival_epoch": 1766182279.6163154,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 52,
+      "dut_ts": 54357,
+      "arrival_time": "2025-12-19T22:11:19.658504+00:00",
+      "arrival_epoch": 1766182279.6584842,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 53,
+      "dut_ts": 54383,
+      "arrival_time": "2025-12-19T22:11:19.703513+00:00",
+      "arrival_epoch": 1766182279.7034936,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 54,
+      "dut_ts": 54410,
+      "arrival_time": "2025-12-19T22:11:19.750452+00:00",
+      "arrival_epoch": 1766182279.7504256,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 55,
+      "dut_ts": 54436,
+      "arrival_time": "2025-12-19T22:11:19.793556+00:00",
+      "arrival_epoch": 1766182279.7935321,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 56,
+      "dut_ts": 54462,
+      "arrival_time": "2025-12-19T22:11:19.838474+00:00",
+      "arrival_epoch": 1766182279.83845,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 57,
+      "dut_ts": 54488,
+      "arrival_time": "2025-12-19T22:11:19.883547+00:00",
+      "arrival_epoch": 1766182279.8835275,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 58,
+      "dut_ts": 54513,
+      "arrival_time": "2025-12-19T22:11:19.930427+00:00",
+      "arrival_epoch": 1766182279.9304092,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 59,
+      "dut_ts": 54539,
+      "arrival_time": "2025-12-19T22:11:19.975493+00:00",
+      "arrival_epoch": 1766182279.9754717,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 60,
+      "dut_ts": 54565,
+      "arrival_time": "2025-12-19T22:11:20.018453+00:00",
+      "arrival_epoch": 1766182280.018433,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 61,
+      "dut_ts": 54591,
+      "arrival_time": "2025-12-19T22:11:20.063483+00:00",
+      "arrival_epoch": 1766182280.0634646,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 62,
+      "dut_ts": 54617,
+      "arrival_time": "2025-12-19T22:11:20.108496+00:00",
+      "arrival_epoch": 1766182280.108474,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 63,
+      "dut_ts": 54643,
+      "arrival_time": "2025-12-19T22:11:20.153491+00:00",
+      "arrival_epoch": 1766182280.1534684,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 64,
+      "dut_ts": 54669,
+      "arrival_time": "2025-12-19T22:11:20.198470+00:00",
+      "arrival_epoch": 1766182280.198452,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 65,
+      "dut_ts": 54695,
+      "arrival_time": "2025-12-19T22:11:20.243490+00:00",
+      "arrival_epoch": 1766182280.243468,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 66,
+      "dut_ts": 54721,
+      "arrival_time": "2025-12-19T22:11:20.288497+00:00",
+      "arrival_epoch": 1766182280.2884784,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 67,
+      "dut_ts": 54747,
+      "arrival_time": "2025-12-19T22:11:20.335513+00:00",
+      "arrival_epoch": 1766182280.3354926,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 68,
+      "dut_ts": 54773,
+      "arrival_time": "2025-12-19T22:11:20.423396+00:00",
+      "arrival_epoch": 1766182280.423377,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 69,
+      "dut_ts": 54799,
+      "arrival_time": "2025-12-19T22:11:20.560571+00:00",
+      "arrival_epoch": 1766182280.5605526,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 70,
+      "dut_ts": 54825,
+      "arrival_time": "2025-12-19T22:11:20.603574+00:00",
+      "arrival_epoch": 1766182280.6035533,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 71,
+      "dut_ts": 54851,
+      "arrival_time": "2025-12-19T22:11:20.648550+00:00",
+      "arrival_epoch": 1766182280.6485322,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 72,
+      "dut_ts": 54877,
+      "arrival_time": "2025-12-19T22:11:20.693559+00:00",
+      "arrival_epoch": 1766182280.6935406,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 73,
+      "dut_ts": 54902,
+      "arrival_time": "2025-12-19T22:11:20.738587+00:00",
+      "arrival_epoch": 1766182280.7385693,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 74,
+      "dut_ts": 54928,
+      "arrival_time": "2025-12-19T22:11:20.783475+00:00",
+      "arrival_epoch": 1766182280.7834568,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 75,
+      "dut_ts": 54954,
+      "arrival_time": "2025-12-19T22:11:20.828564+00:00",
+      "arrival_epoch": 1766182280.8285453,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 76,
+      "dut_ts": 54980,
+      "arrival_time": "2025-12-19T22:11:20.873482+00:00",
+      "arrival_epoch": 1766182280.8734634,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 77,
+      "dut_ts": 55006,
+      "arrival_time": "2025-12-19T22:11:20.918512+00:00",
+      "arrival_epoch": 1766182280.9184904,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 78,
+      "dut_ts": 55032,
+      "arrival_time": "2025-12-19T22:11:20.965500+00:00",
+      "arrival_epoch": 1766182280.9654815,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 79,
+      "dut_ts": 55058,
+      "arrival_time": "2025-12-19T22:11:21.008646+00:00",
+      "arrival_epoch": 1766182281.0086281,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 80,
+      "dut_ts": 55083,
+      "arrival_time": "2025-12-19T22:11:21.053582+00:00",
+      "arrival_epoch": 1766182281.0535634,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 81,
+      "dut_ts": 55109,
+      "arrival_time": "2025-12-19T22:11:21.098570+00:00",
+      "arrival_epoch": 1766182281.0985508,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 82,
+      "dut_ts": 55135,
+      "arrival_time": "2025-12-19T22:11:21.143469+00:00",
+      "arrival_epoch": 1766182281.1434486,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 83,
+      "dut_ts": 55161,
+      "arrival_time": "2025-12-19T22:11:21.188553+00:00",
+      "arrival_epoch": 1766182281.1885333,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 84,
+      "dut_ts": 55187,
+      "arrival_time": "2025-12-19T22:11:21.233377+00:00",
+      "arrival_epoch": 1766182281.2333548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 85,
+      "dut_ts": 55213,
+      "arrival_time": "2025-12-19T22:11:21.280425+00:00",
+      "arrival_epoch": 1766182281.2804043,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 86,
+      "dut_ts": 55239,
+      "arrival_time": "2025-12-19T22:11:21.323496+00:00",
+      "arrival_epoch": 1766182281.323457,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 87,
+      "dut_ts": 55265,
+      "arrival_time": "2025-12-19T22:11:21.368371+00:00",
+      "arrival_epoch": 1766182281.3683522,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 88,
+      "dut_ts": 55291,
+      "arrival_time": "2025-12-19T22:11:21.460618+00:00",
+      "arrival_epoch": 1766182281.4605963,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 89,
+      "dut_ts": 55317,
+      "arrival_time": "2025-12-19T22:11:21.593561+00:00",
+      "arrival_epoch": 1766182281.5935407,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 90,
+      "dut_ts": 55343,
+      "arrival_time": "2025-12-19T22:11:21.685558+00:00",
+      "arrival_epoch": 1766182281.6855388,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 91,
+      "dut_ts": 55369,
+      "arrival_time": "2025-12-19T22:11:21.728448+00:00",
+      "arrival_epoch": 1766182281.7284288,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 92,
+      "dut_ts": 55395,
+      "arrival_time": "2025-12-19T22:11:21.773475+00:00",
+      "arrival_epoch": 1766182281.773452,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 93,
+      "dut_ts": 55421,
+      "arrival_time": "2025-12-19T22:11:21.820550+00:00",
+      "arrival_epoch": 1766182281.8205307,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 94,
+      "dut_ts": 55447,
+      "arrival_time": "2025-12-19T22:11:21.863437+00:00",
+      "arrival_epoch": 1766182281.863416,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 95,
+      "dut_ts": 55473,
+      "arrival_time": "2025-12-19T22:11:21.908514+00:00",
+      "arrival_epoch": 1766182281.9084942,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 96,
+      "dut_ts": 55499,
+      "arrival_time": "2025-12-19T22:11:21.953467+00:00",
+      "arrival_epoch": 1766182281.9534466,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 97,
+      "dut_ts": 55526,
+      "arrival_time": "2025-12-19T22:11:21.998576+00:00",
+      "arrival_epoch": 1766182281.9985564,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 98,
+      "dut_ts": 55552,
+      "arrival_time": "2025-12-19T22:11:22.043553+00:00",
+      "arrival_epoch": 1766182282.0435326,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 99,
+      "dut_ts": 55577,
+      "arrival_time": "2025-12-19T22:11:22.088490+00:00",
+      "arrival_epoch": 1766182282.0884695,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 100,
+      "dut_ts": 55603,
+      "arrival_time": "2025-12-19T22:11:22.135459+00:00",
+      "arrival_epoch": 1766182282.1354387,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 101,
+      "dut_ts": 55629,
+      "arrival_time": "2025-12-19T22:11:22.178495+00:00",
+      "arrival_epoch": 1766182282.1784759,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 102,
+      "dut_ts": 55655,
+      "arrival_time": "2025-12-19T22:11:22.223483+00:00",
+      "arrival_epoch": 1766182282.2234619,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 103,
+      "dut_ts": 55681,
+      "arrival_time": "2025-12-19T22:11:22.268557+00:00",
+      "arrival_epoch": 1766182282.2685375,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 104,
+      "dut_ts": 55707,
+      "arrival_time": "2025-12-19T22:11:22.313577+00:00",
+      "arrival_epoch": 1766182282.3135414,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 105,
+      "dut_ts": 55733,
+      "arrival_time": "2025-12-19T22:11:22.358506+00:00",
+      "arrival_epoch": 1766182282.3584855,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 106,
+      "dut_ts": 55758,
+      "arrival_time": "2025-12-19T22:11:22.403554+00:00",
+      "arrival_epoch": 1766182282.4035325,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 107,
+      "dut_ts": 55785,
+      "arrival_time": "2025-12-19T22:11:22.448485+00:00",
+      "arrival_epoch": 1766182282.448465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 108,
+      "dut_ts": 55810,
+      "arrival_time": "2025-12-19T22:11:22.493550+00:00",
+      "arrival_epoch": 1766182282.493529,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 109,
+      "dut_ts": 55836,
+      "arrival_time": "2025-12-19T22:11:22.538560+00:00",
+      "arrival_epoch": 1766182282.5385404,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 110,
+      "dut_ts": 55861,
+      "arrival_time": "2025-12-19T22:11:22.583564+00:00",
+      "arrival_epoch": 1766182282.5835443,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 111,
+      "dut_ts": 55887,
+      "arrival_time": "2025-12-19T22:11:22.673521+00:00",
+      "arrival_epoch": 1766182282.6735022,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 112,
+      "dut_ts": 55913,
+      "arrival_time": "2025-12-19T22:11:22.676416+00:00",
+      "arrival_epoch": 1766182282.6763966,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 113,
+      "dut_ts": 55939,
+      "arrival_time": "2025-12-19T22:11:22.718555+00:00",
+      "arrival_epoch": 1766182282.7185357,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 114,
+      "dut_ts": 55965,
+      "arrival_time": "2025-12-19T22:11:22.763548+00:00",
+      "arrival_epoch": 1766182282.7635286,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 115,
+      "dut_ts": 55991,
+      "arrival_time": "2025-12-19T22:11:22.808398+00:00",
+      "arrival_epoch": 1766182282.8083797,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 116,
+      "dut_ts": 56017,
+      "arrival_time": "2025-12-19T22:11:22.853343+00:00",
+      "arrival_epoch": 1766182282.8533237,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 117,
+      "dut_ts": 56043,
+      "arrival_time": "2025-12-19T22:11:22.898572+00:00",
+      "arrival_epoch": 1766182282.8985527,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 118,
+      "dut_ts": 56069,
+      "arrival_time": "2025-12-19T22:11:22.945610+00:00",
+      "arrival_epoch": 1766182282.9455898,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 119,
+      "dut_ts": 56095,
+      "arrival_time": "2025-12-19T22:11:22.988589+00:00",
+      "arrival_epoch": 1766182282.9885674,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 120,
+      "dut_ts": 56120,
+      "arrival_time": "2025-12-19T22:11:23.033491+00:00",
+      "arrival_epoch": 1766182283.0334697,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 121,
+      "dut_ts": 56146,
+      "arrival_time": "2025-12-19T22:11:23.078534+00:00",
+      "arrival_epoch": 1766182283.0785143,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 122,
+      "dut_ts": 56172,
+      "arrival_time": "2025-12-19T22:11:23.123524+00:00",
+      "arrival_epoch": 1766182283.1235042,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 123,
+      "dut_ts": 56198,
+      "arrival_time": "2025-12-19T22:11:23.168527+00:00",
+      "arrival_epoch": 1766182283.1685069,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 124,
+      "dut_ts": 56224,
+      "arrival_time": "2025-12-19T22:11:23.213453+00:00",
+      "arrival_epoch": 1766182283.2134335,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 125,
+      "dut_ts": 56250,
+      "arrival_time": "2025-12-19T22:11:23.260577+00:00",
+      "arrival_epoch": 1766182283.2605577,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 126,
+      "dut_ts": 56275,
+      "arrival_time": "2025-12-19T22:11:23.303553+00:00",
+      "arrival_epoch": 1766182283.3035343,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 127,
+      "dut_ts": 56301,
+      "arrival_time": "2025-12-19T22:11:23.348530+00:00",
+      "arrival_epoch": 1766182283.3485112,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 128,
+      "dut_ts": 56327,
+      "arrival_time": "2025-12-19T22:11:23.393491+00:00",
+      "arrival_epoch": 1766182283.3934715,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 129,
+      "dut_ts": 56353,
+      "arrival_time": "2025-12-19T22:11:23.438459+00:00",
+      "arrival_epoch": 1766182283.4384391,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 130,
+      "dut_ts": 56379,
+      "arrival_time": "2025-12-19T22:11:23.483561+00:00",
+      "arrival_epoch": 1766182283.4835405,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 131,
+      "dut_ts": 56405,
+      "arrival_time": "2025-12-19T22:11:23.528538+00:00",
+      "arrival_epoch": 1766182283.5285194,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 132,
+      "dut_ts": 56431,
+      "arrival_time": "2025-12-19T22:11:23.573499+00:00",
+      "arrival_epoch": 1766182283.5734787,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 133,
+      "dut_ts": 56456,
+      "arrival_time": "2025-12-19T22:11:23.618384+00:00",
+      "arrival_epoch": 1766182283.6183643,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 134,
+      "dut_ts": 56483,
+      "arrival_time": "2025-12-19T22:11:23.663552+00:00",
+      "arrival_epoch": 1766182283.6635325,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 135,
+      "dut_ts": 56508,
+      "arrival_time": "2025-12-19T22:11:23.708539+00:00",
+      "arrival_epoch": 1766182283.7085202,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 136,
+      "dut_ts": 56534,
+      "arrival_time": "2025-12-19T22:11:23.753378+00:00",
+      "arrival_epoch": 1766182283.7533581,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 137,
+      "dut_ts": 56560,
+      "arrival_time": "2025-12-19T22:11:23.845555+00:00",
+      "arrival_epoch": 1766182283.8455353,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 138,
+      "dut_ts": 56586,
+      "arrival_time": "2025-12-19T22:11:23.888564+00:00",
+      "arrival_epoch": 1766182283.8885438,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 139,
+      "dut_ts": 56612,
+      "arrival_time": "2025-12-19T22:11:23.933411+00:00",
+      "arrival_epoch": 1766182283.9333916,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 140,
+      "dut_ts": 56638,
+      "arrival_time": "2025-12-19T22:11:23.978528+00:00",
+      "arrival_epoch": 1766182283.9785085,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 141,
+      "dut_ts": 56664,
+      "arrival_time": "2025-12-19T22:11:24.023502+00:00",
+      "arrival_epoch": 1766182284.0234816,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 142,
+      "dut_ts": 56690,
+      "arrival_time": "2025-12-19T22:11:24.069585+00:00",
+      "arrival_epoch": 1766182284.0695655,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 143,
+      "dut_ts": 56716,
+      "arrival_time": "2025-12-19T22:11:24.113555+00:00",
+      "arrival_epoch": 1766182284.113535,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 144,
+      "dut_ts": 56741,
+      "arrival_time": "2025-12-19T22:11:24.160542+00:00",
+      "arrival_epoch": 1766182284.1605222,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 145,
+      "dut_ts": 56767,
+      "arrival_time": "2025-12-19T22:11:24.205558+00:00",
+      "arrival_epoch": 1766182284.205537,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 146,
+      "dut_ts": 56793,
+      "arrival_time": "2025-12-19T22:11:24.248463+00:00",
+      "arrival_epoch": 1766182284.2484453,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 147,
+      "dut_ts": 56819,
+      "arrival_time": "2025-12-19T22:11:24.295533+00:00",
+      "arrival_epoch": 1766182284.295512,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 148,
+      "dut_ts": 56845,
+      "arrival_time": "2025-12-19T22:11:24.338555+00:00",
+      "arrival_epoch": 1766182284.3385358,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 149,
+      "dut_ts": 56871,
+      "arrival_time": "2025-12-19T22:11:24.383536+00:00",
+      "arrival_epoch": 1766182284.383516,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 150,
+      "dut_ts": 56897,
+      "arrival_time": "2025-12-19T22:11:24.428517+00:00",
+      "arrival_epoch": 1766182284.4284985,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 151,
+      "dut_ts": 56923,
+      "arrival_time": "2025-12-19T22:11:24.474497+00:00",
+      "arrival_epoch": 1766182284.4744773,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 152,
+      "dut_ts": 56949,
+      "arrival_time": "2025-12-19T22:11:24.518354+00:00",
+      "arrival_epoch": 1766182284.518334,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 153,
+      "dut_ts": 56974,
+      "arrival_time": "2025-12-19T22:11:24.563487+00:00",
+      "arrival_epoch": 1766182284.5634675,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 154,
+      "dut_ts": 57000,
+      "arrival_time": "2025-12-19T22:11:24.608504+00:00",
+      "arrival_epoch": 1766182284.608468,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 155,
+      "dut_ts": 57026,
+      "arrival_time": "2025-12-19T22:11:24.698506+00:00",
+      "arrival_epoch": 1766182284.698487,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 156,
+      "dut_ts": 57052,
+      "arrival_time": "2025-12-19T22:11:24.701469+00:00",
+      "arrival_epoch": 1766182284.7014496,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 157,
+      "dut_ts": 57078,
+      "arrival_time": "2025-12-19T22:11:24.743402+00:00",
+      "arrival_epoch": 1766182284.743383,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 158,
+      "dut_ts": 57104,
+      "arrival_time": "2025-12-19T22:11:24.790413+00:00",
+      "arrival_epoch": 1766182284.7903938,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 159,
+      "dut_ts": 57130,
+      "arrival_time": "2025-12-19T22:11:24.833390+00:00",
+      "arrival_epoch": 1766182284.833371,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 160,
+      "dut_ts": 57156,
+      "arrival_time": "2025-12-19T22:11:24.880497+00:00",
+      "arrival_epoch": 1766182284.8804789,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 161,
+      "dut_ts": 57182,
+      "arrival_time": "2025-12-19T22:11:24.925472+00:00",
+      "arrival_epoch": 1766182284.9254525,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 162,
+      "dut_ts": 57208,
+      "arrival_time": "2025-12-19T22:11:24.970476+00:00",
+      "arrival_epoch": 1766182284.9704568,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 163,
+      "dut_ts": 57234,
+      "arrival_time": "2025-12-19T22:11:25.060499+00:00",
+      "arrival_epoch": 1766182285.0604808,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 164,
+      "dut_ts": 57260,
+      "arrival_time": "2025-12-19T22:11:25.193406+00:00",
+      "arrival_epoch": 1766182285.1933875,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 165,
+      "dut_ts": 57285,
+      "arrival_time": "2025-12-19T22:11:25.196471+00:00",
+      "arrival_epoch": 1766182285.1964502,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 166,
+      "dut_ts": 57311,
+      "arrival_time": "2025-12-19T22:11:25.238460+00:00",
+      "arrival_epoch": 1766182285.23844,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 167,
+      "dut_ts": 57337,
+      "arrival_time": "2025-12-19T22:11:25.283539+00:00",
+      "arrival_epoch": 1766182285.28352,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 168,
+      "dut_ts": 57363,
+      "arrival_time": "2025-12-19T22:11:25.328534+00:00",
+      "arrival_epoch": 1766182285.3285139,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 169,
+      "dut_ts": 57388,
+      "arrival_time": "2025-12-19T22:11:25.375489+00:00",
+      "arrival_epoch": 1766182285.375449,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 170,
+      "dut_ts": 57414,
+      "arrival_time": "2025-12-19T22:11:25.418540+00:00",
+      "arrival_epoch": 1766182285.41852,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 171,
+      "dut_ts": 57440,
+      "arrival_time": "2025-12-19T22:11:25.463402+00:00",
+      "arrival_epoch": 1766182285.463381,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 172,
+      "dut_ts": 57466,
+      "arrival_time": "2025-12-19T22:11:25.508589+00:00",
+      "arrival_epoch": 1766182285.5085685,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 173,
+      "dut_ts": 57492,
+      "arrival_time": "2025-12-19T22:11:25.599474+00:00",
+      "arrival_epoch": 1766182285.5994494,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 174,
+      "dut_ts": 57517,
+      "arrival_time": "2025-12-19T22:11:25.601527+00:00",
+      "arrival_epoch": 1766182285.6015077,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 175,
+      "dut_ts": 57543,
+      "arrival_time": "2025-12-19T22:11:25.643553+00:00",
+      "arrival_epoch": 1766182285.6435323,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 176,
+      "dut_ts": 57569,
+      "arrival_time": "2025-12-19T22:11:25.690465+00:00",
+      "arrival_epoch": 1766182285.6904445,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 177,
+      "dut_ts": 57595,
+      "arrival_time": "2025-12-19T22:11:25.735534+00:00",
+      "arrival_epoch": 1766182285.7355146,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 178,
+      "dut_ts": 57621,
+      "arrival_time": "2025-12-19T22:11:25.778499+00:00",
+      "arrival_epoch": 1766182285.7784805,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 179,
+      "dut_ts": 57646,
+      "arrival_time": "2025-12-19T22:11:25.823550+00:00",
+      "arrival_epoch": 1766182285.8235302,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 180,
+      "dut_ts": 57672,
+      "arrival_time": "2025-12-19T22:11:25.868376+00:00",
+      "arrival_epoch": 1766182285.868348,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 181,
+      "dut_ts": 57699,
+      "arrival_time": "2025-12-19T22:11:25.913571+00:00",
+      "arrival_epoch": 1766182285.913521,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 182,
+      "dut_ts": 57725,
+      "arrival_time": "2025-12-19T22:11:25.958494+00:00",
+      "arrival_epoch": 1766182285.9584727,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 183,
+      "dut_ts": 57751,
+      "arrival_time": "2025-12-19T22:11:26.003442+00:00",
+      "arrival_epoch": 1766182286.0034173,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 184,
+      "dut_ts": 57777,
+      "arrival_time": "2025-12-19T22:11:26.048489+00:00",
+      "arrival_epoch": 1766182286.048469,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 185,
+      "dut_ts": 57803,
+      "arrival_time": "2025-12-19T22:11:26.138483+00:00",
+      "arrival_epoch": 1766182286.1384623,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 186,
+      "dut_ts": 57829,
+      "arrival_time": "2025-12-19T22:11:26.183376+00:00",
+      "arrival_epoch": 1766182286.1833572,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 187,
+      "dut_ts": 57854,
+      "arrival_time": "2025-12-19T22:11:26.228552+00:00",
+      "arrival_epoch": 1766182286.2285304,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 188,
+      "dut_ts": 57880,
+      "arrival_time": "2025-12-19T22:11:26.273541+00:00",
+      "arrival_epoch": 1766182286.273522,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 189,
+      "dut_ts": 57906,
+      "arrival_time": "2025-12-19T22:11:26.363542+00:00",
+      "arrival_epoch": 1766182286.363523,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 190,
+      "dut_ts": 57932,
+      "arrival_time": "2025-12-19T22:11:26.366385+00:00",
+      "arrival_epoch": 1766182286.3663683,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 191,
+      "dut_ts": 57957,
+      "arrival_time": "2025-12-19T22:11:26.408479+00:00",
+      "arrival_epoch": 1766182286.4084606,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 192,
+      "dut_ts": 57982,
+      "arrival_time": "2025-12-19T22:11:26.455476+00:00",
+      "arrival_epoch": 1766182286.4554534,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 193,
+      "dut_ts": 58008,
+      "arrival_time": "2025-12-19T22:11:26.498480+00:00",
+      "arrival_epoch": 1766182286.4984577,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 194,
+      "dut_ts": 58034,
+      "arrival_time": "2025-12-19T22:11:26.543482+00:00",
+      "arrival_epoch": 1766182286.5434644,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 195,
+      "dut_ts": 58059,
+      "arrival_time": "2025-12-19T22:11:26.588408+00:00",
+      "arrival_epoch": 1766182286.5883875,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 196,
+      "dut_ts": 58085,
+      "arrival_time": "2025-12-19T22:11:26.633371+00:00",
+      "arrival_epoch": 1766182286.6333497,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 197,
+      "dut_ts": 58111,
+      "arrival_time": "2025-12-19T22:11:26.678547+00:00",
+      "arrival_epoch": 1766182286.678527,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 198,
+      "dut_ts": 58137,
+      "arrival_time": "2025-12-19T22:11:26.727531+00:00",
+      "arrival_epoch": 1766182286.7275116,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 199,
+      "dut_ts": 58163,
+      "arrival_time": "2025-12-19T22:11:26.768544+00:00",
+      "arrival_epoch": 1766182286.768526,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 200,
+      "dut_ts": 58189,
+      "arrival_time": "2025-12-19T22:11:26.813543+00:00",
+      "arrival_epoch": 1766182286.813525,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 201,
+      "dut_ts": 58215,
+      "arrival_time": "2025-12-19T22:11:26.858541+00:00",
+      "arrival_epoch": 1766182286.858523,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 202,
+      "dut_ts": 58241,
+      "arrival_time": "2025-12-19T22:11:26.903543+00:00",
+      "arrival_epoch": 1766182286.9035234,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 203,
+      "dut_ts": 58267,
+      "arrival_time": "2025-12-19T22:11:26.948443+00:00",
+      "arrival_epoch": 1766182286.948418,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 204,
+      "dut_ts": 58293,
+      "arrival_time": "2025-12-19T22:11:26.993495+00:00",
+      "arrival_epoch": 1766182286.9934747,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 205,
+      "dut_ts": 58319,
+      "arrival_time": "2025-12-19T22:11:27.038498+00:00",
+      "arrival_epoch": 1766182287.0384793,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 206,
+      "dut_ts": 58345,
+      "arrival_time": "2025-12-19T22:11:27.083548+00:00",
+      "arrival_epoch": 1766182287.0835288,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 207,
+      "dut_ts": 58371,
+      "arrival_time": "2025-12-19T22:11:27.128440+00:00",
+      "arrival_epoch": 1766182287.1284003,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 208,
+      "dut_ts": 58397,
+      "arrival_time": "2025-12-19T22:11:27.173601+00:00",
+      "arrival_epoch": 1766182287.1735792,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 209,
+      "dut_ts": 58422,
+      "arrival_time": "2025-12-19T22:11:27.220567+00:00",
+      "arrival_epoch": 1766182287.2205465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 210,
+      "dut_ts": 58448,
+      "arrival_time": "2025-12-19T22:11:27.263538+00:00",
+      "arrival_epoch": 1766182287.2635176,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 211,
+      "dut_ts": 58474,
+      "arrival_time": "2025-12-19T22:11:27.308551+00:00",
+      "arrival_epoch": 1766182287.308532,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 212,
+      "dut_ts": 58500,
+      "arrival_time": "2025-12-19T22:11:27.355444+00:00",
+      "arrival_epoch": 1766182287.3554254,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 213,
+      "dut_ts": 58526,
+      "arrival_time": "2025-12-19T22:11:27.400436+00:00",
+      "arrival_epoch": 1766182287.4004166,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 214,
+      "dut_ts": 58552,
+      "arrival_time": "2025-12-19T22:11:27.444326+00:00",
+      "arrival_epoch": 1766182287.4443066,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 215,
+      "dut_ts": 58578,
+      "arrival_time": "2025-12-19T22:11:27.488457+00:00",
+      "arrival_epoch": 1766182287.4884374,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 216,
+      "dut_ts": 58603,
+      "arrival_time": "2025-12-19T22:11:27.533399+00:00",
+      "arrival_epoch": 1766182287.5333793,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 217,
+      "dut_ts": 58629,
+      "arrival_time": "2025-12-19T22:11:27.578564+00:00",
+      "arrival_epoch": 1766182287.5785444,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 218,
+      "dut_ts": 58655,
+      "arrival_time": "2025-12-19T22:11:27.623469+00:00",
+      "arrival_epoch": 1766182287.623451,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 219,
+      "dut_ts": 58680,
+      "arrival_time": "2025-12-19T22:11:27.668468+00:00",
+      "arrival_epoch": 1766182287.6684499,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 220,
+      "dut_ts": 58706,
+      "arrival_time": "2025-12-19T22:11:27.713498+00:00",
+      "arrival_epoch": 1766182287.7134802,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 221,
+      "dut_ts": 58732,
+      "arrival_time": "2025-12-19T22:11:27.758501+00:00",
+      "arrival_epoch": 1766182287.7584827,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 222,
+      "dut_ts": 58757,
+      "arrival_time": "2025-12-19T22:11:27.803460+00:00",
+      "arrival_epoch": 1766182287.8034415,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 223,
+      "dut_ts": 58782,
+      "arrival_time": "2025-12-19T22:11:27.848488+00:00",
+      "arrival_epoch": 1766182287.8484695,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 224,
+      "dut_ts": 58808,
+      "arrival_time": "2025-12-19T22:11:27.893328+00:00",
+      "arrival_epoch": 1766182287.893307,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 225,
+      "dut_ts": 58834,
+      "arrival_time": "2025-12-19T22:11:27.938403+00:00",
+      "arrival_epoch": 1766182287.9383836,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 226,
+      "dut_ts": 58860,
+      "arrival_time": "2025-12-19T22:11:28.028419+00:00",
+      "arrival_epoch": 1766182288.0283995,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 227,
+      "dut_ts": 58886,
+      "arrival_time": "2025-12-19T22:11:28.163347+00:00",
+      "arrival_epoch": 1766182288.16333,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 228,
+      "dut_ts": 58911,
+      "arrival_time": "2025-12-19T22:11:28.208502+00:00",
+      "arrival_epoch": 1766182288.208484,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 229,
+      "dut_ts": 58937,
+      "arrival_time": "2025-12-19T22:11:28.253735+00:00",
+      "arrival_epoch": 1766182288.253717,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 230,
+      "dut_ts": 58963,
+      "arrival_time": "2025-12-19T22:11:28.298400+00:00",
+      "arrival_epoch": 1766182288.2983818,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 231,
+      "dut_ts": 58989,
+      "arrival_time": "2025-12-19T22:11:28.343485+00:00",
+      "arrival_epoch": 1766182288.3434672,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 232,
+      "dut_ts": 59015,
+      "arrival_time": "2025-12-19T22:11:28.388481+00:00",
+      "arrival_epoch": 1766182288.388462,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 233,
+      "dut_ts": 59040,
+      "arrival_time": "2025-12-19T22:11:28.433507+00:00",
+      "arrival_epoch": 1766182288.4334733,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 234,
+      "dut_ts": 59066,
+      "arrival_time": "2025-12-19T22:11:28.478405+00:00",
+      "arrival_epoch": 1766182288.478385,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 235,
+      "dut_ts": 59093,
+      "arrival_time": "2025-12-19T22:11:28.523450+00:00",
+      "arrival_epoch": 1766182288.523431,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 236,
+      "dut_ts": 59119,
+      "arrival_time": "2025-12-19T22:11:28.568472+00:00",
+      "arrival_epoch": 1766182288.5684533,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 237,
+      "dut_ts": 59145,
+      "arrival_time": "2025-12-19T22:11:28.658527+00:00",
+      "arrival_epoch": 1766182288.6585073,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 238,
+      "dut_ts": 59171,
+      "arrival_time": "2025-12-19T22:11:28.703474+00:00",
+      "arrival_epoch": 1766182288.703456,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 239,
+      "dut_ts": 59197,
+      "arrival_time": "2025-12-19T22:11:28.748502+00:00",
+      "arrival_epoch": 1766182288.7484844,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 240,
+      "dut_ts": 59223,
+      "arrival_time": "2025-12-19T22:11:28.838417+00:00",
+      "arrival_epoch": 1766182288.8383987,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 241,
+      "dut_ts": 59249,
+      "arrival_time": "2025-12-19T22:11:28.843327+00:00",
+      "arrival_epoch": 1766182288.8433092,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 242,
+      "dut_ts": 59275,
+      "arrival_time": "2025-12-19T22:11:28.928467+00:00",
+      "arrival_epoch": 1766182288.9284482,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 243,
+      "dut_ts": 59301,
+      "arrival_time": "2025-12-19T22:11:28.973277+00:00",
+      "arrival_epoch": 1766182288.9732575,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 244,
+      "dut_ts": 59327,
+      "arrival_time": "2025-12-19T22:11:29.018269+00:00",
+      "arrival_epoch": 1766182289.0182505,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 245,
+      "dut_ts": 59352,
+      "arrival_time": "2025-12-19T22:11:29.063484+00:00",
+      "arrival_epoch": 1766182289.063466,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 246,
+      "dut_ts": 59378,
+      "arrival_time": "2025-12-19T22:11:29.108482+00:00",
+      "arrival_epoch": 1766182289.1084647,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 247,
+      "dut_ts": 59403,
+      "arrival_time": "2025-12-19T22:11:29.153482+00:00",
+      "arrival_epoch": 1766182289.1534636,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 248,
+      "dut_ts": 59429,
+      "arrival_time": "2025-12-19T22:11:29.198459+00:00",
+      "arrival_epoch": 1766182289.19844,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 249,
+      "dut_ts": 59456,
+      "arrival_time": "2025-12-19T22:11:29.247483+00:00",
+      "arrival_epoch": 1766182289.2474654,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 250,
+      "dut_ts": 59481,
+      "arrival_time": "2025-12-19T22:11:29.288480+00:00",
+      "arrival_epoch": 1766182289.2884617,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 251,
+      "dut_ts": 59508,
+      "arrival_time": "2025-12-19T22:11:29.333480+00:00",
+      "arrival_epoch": 1766182289.333462,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 252,
+      "dut_ts": 59533,
+      "arrival_time": "2025-12-19T22:11:29.378414+00:00",
+      "arrival_epoch": 1766182289.378395,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 253,
+      "dut_ts": 59559,
+      "arrival_time": "2025-12-19T22:11:29.425478+00:00",
+      "arrival_epoch": 1766182289.4254606,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 254,
+      "dut_ts": 59585,
+      "arrival_time": "2025-12-19T22:11:29.468560+00:00",
+      "arrival_epoch": 1766182289.4685392,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 255,
+      "dut_ts": 59611,
+      "arrival_time": "2025-12-19T22:11:29.513548+00:00",
+      "arrival_epoch": 1766182289.513528,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 256,
+      "dut_ts": 59636,
+      "arrival_time": "2025-12-19T22:11:29.603556+00:00",
+      "arrival_epoch": 1766182289.603536,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 257,
+      "dut_ts": 59662,
+      "arrival_time": "2025-12-19T22:11:29.606459+00:00",
+      "arrival_epoch": 1766182289.6064415,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 258,
+      "dut_ts": 59688,
+      "arrival_time": "2025-12-19T22:11:29.648474+00:00",
+      "arrival_epoch": 1766182289.6484559,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 259,
+      "dut_ts": 59714,
+      "arrival_time": "2025-12-19T22:11:29.693484+00:00",
+      "arrival_epoch": 1766182289.693466,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 260,
+      "dut_ts": 59739,
+      "arrival_time": "2025-12-19T22:11:29.740397+00:00",
+      "arrival_epoch": 1766182289.740378,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 261,
+      "dut_ts": 59764,
+      "arrival_time": "2025-12-19T22:11:29.783449+00:00",
+      "arrival_epoch": 1766182289.7834287,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 262,
+      "dut_ts": 59790,
+      "arrival_time": "2025-12-19T22:11:29.828558+00:00",
+      "arrival_epoch": 1766182289.8285384,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 263,
+      "dut_ts": 59815,
+      "arrival_time": "2025-12-19T22:11:29.873442+00:00",
+      "arrival_epoch": 1766182289.8734236,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 264,
+      "dut_ts": 59841,
+      "arrival_time": "2025-12-19T22:11:29.918453+00:00",
+      "arrival_epoch": 1766182289.9184356,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 265,
+      "dut_ts": 59867,
+      "arrival_time": "2025-12-19T22:11:29.963475+00:00",
+      "arrival_epoch": 1766182289.963456,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 266,
+      "dut_ts": 59893,
+      "arrival_time": "2025-12-19T22:11:30.008422+00:00",
+      "arrival_epoch": 1766182290.0084043,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 267,
+      "dut_ts": 59918,
+      "arrival_time": "2025-12-19T22:11:30.053481+00:00",
+      "arrival_epoch": 1766182290.0534627,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 268,
+      "dut_ts": 59944,
+      "arrival_time": "2025-12-19T22:11:30.098406+00:00",
+      "arrival_epoch": 1766182290.0983882,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 269,
+      "dut_ts": 59970,
+      "arrival_time": "2025-12-19T22:11:30.143467+00:00",
+      "arrival_epoch": 1766182290.1434495,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 270,
+      "dut_ts": 59995,
+      "arrival_time": "2025-12-19T22:11:30.188410+00:00",
+      "arrival_epoch": 1766182290.1883914,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 271,
+      "dut_ts": 60021,
+      "arrival_time": "2025-12-19T22:11:30.233370+00:00",
+      "arrival_epoch": 1766182290.2333517,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 272,
+      "dut_ts": 60048,
+      "arrival_time": "2025-12-19T22:11:30.325482+00:00",
+      "arrival_epoch": 1766182290.325464,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 273,
+      "dut_ts": 60073,
+      "arrival_time": "2025-12-19T22:11:30.368472+00:00",
+      "arrival_epoch": 1766182290.3684545,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 274,
+      "dut_ts": 60099,
+      "arrival_time": "2025-12-19T22:11:30.413495+00:00",
+      "arrival_epoch": 1766182290.4134781,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 275,
+      "dut_ts": 60124,
+      "arrival_time": "2025-12-19T22:11:30.460518+00:00",
+      "arrival_epoch": 1766182290.4604995,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 276,
+      "dut_ts": 60150,
+      "arrival_time": "2025-12-19T22:11:30.503482+00:00",
+      "arrival_epoch": 1766182290.5034645,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 277,
+      "dut_ts": 60176,
+      "arrival_time": "2025-12-19T22:11:30.548486+00:00",
+      "arrival_epoch": 1766182290.5484674,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 278,
+      "dut_ts": 60202,
+      "arrival_time": "2025-12-19T22:11:30.593471+00:00",
+      "arrival_epoch": 1766182290.5934532,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 279,
+      "dut_ts": 60228,
+      "arrival_time": "2025-12-19T22:11:30.640449+00:00",
+      "arrival_epoch": 1766182290.6404314,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 280,
+      "dut_ts": 60254,
+      "arrival_time": "2025-12-19T22:11:30.730485+00:00",
+      "arrival_epoch": 1766182290.7304673,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 281,
+      "dut_ts": 60280,
+      "arrival_time": "2025-12-19T22:11:30.818480+00:00",
+      "arrival_epoch": 1766182290.8184617,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 282,
+      "dut_ts": 60306,
+      "arrival_time": "2025-12-19T22:11:30.821533+00:00",
+      "arrival_epoch": 1766182290.8215158,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 283,
+      "dut_ts": 60332,
+      "arrival_time": "2025-12-19T22:11:30.863515+00:00",
+      "arrival_epoch": 1766182290.8634746,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 284,
+      "dut_ts": 60358,
+      "arrival_time": "2025-12-19T22:11:30.909035+00:00",
+      "arrival_epoch": 1766182290.9090004,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 285,
+      "dut_ts": 60384,
+      "arrival_time": "2025-12-19T22:11:31.000439+00:00",
+      "arrival_epoch": 1766182291.0004191,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 286,
+      "dut_ts": 60410,
+      "arrival_time": "2025-12-19T22:11:31.043481+00:00",
+      "arrival_epoch": 1766182291.0434635,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 287,
+      "dut_ts": 60436,
+      "arrival_time": "2025-12-19T22:11:31.088495+00:00",
+      "arrival_epoch": 1766182291.0884776,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 288,
+      "dut_ts": 60462,
+      "arrival_time": "2025-12-19T22:11:31.133391+00:00",
+      "arrival_epoch": 1766182291.1333716,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 289,
+      "dut_ts": 60488,
+      "arrival_time": "2025-12-19T22:11:31.178530+00:00",
+      "arrival_epoch": 1766182291.178511,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 290,
+      "dut_ts": 60514,
+      "arrival_time": "2025-12-19T22:11:31.223454+00:00",
+      "arrival_epoch": 1766182291.223435,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 291,
+      "dut_ts": 60539,
+      "arrival_time": "2025-12-19T22:11:31.268468+00:00",
+      "arrival_epoch": 1766182291.2684493,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 292,
+      "dut_ts": 60566,
+      "arrival_time": "2025-12-19T22:11:31.313542+00:00",
+      "arrival_epoch": 1766182291.3135223,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 293,
+      "dut_ts": 60591,
+      "arrival_time": "2025-12-19T22:11:31.450553+00:00",
+      "arrival_epoch": 1766182291.4505327,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 294,
+      "dut_ts": 60617,
+      "arrival_time": "2025-12-19T22:11:31.495560+00:00",
+      "arrival_epoch": 1766182291.4955401,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 295,
+      "dut_ts": 60643,
+      "arrival_time": "2025-12-19T22:11:31.538565+00:00",
+      "arrival_epoch": 1766182291.538533,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 296,
+      "dut_ts": 60668,
+      "arrival_time": "2025-12-19T22:11:31.585542+00:00",
+      "arrival_epoch": 1766182291.5855227,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 297,
+      "dut_ts": 60694,
+      "arrival_time": "2025-12-19T22:11:31.628547+00:00",
+      "arrival_epoch": 1766182291.6285272,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 298,
+      "dut_ts": 60720,
+      "arrival_time": "2025-12-19T22:11:31.673402+00:00",
+      "arrival_epoch": 1766182291.6733837,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 299,
+      "dut_ts": 60746,
+      "arrival_time": "2025-12-19T22:11:31.718488+00:00",
+      "arrival_epoch": 1766182291.7184691,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 300,
+      "dut_ts": 60772,
+      "arrival_time": "2025-12-19T22:11:31.767471+00:00",
+      "arrival_epoch": 1766182291.7674525,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 301,
+      "dut_ts": 60798,
+      "arrival_time": "2025-12-19T22:11:31.808481+00:00",
+      "arrival_epoch": 1766182291.808464,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 302,
+      "dut_ts": 60824,
+      "arrival_time": "2025-12-19T22:11:31.853497+00:00",
+      "arrival_epoch": 1766182291.8534791,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 303,
+      "dut_ts": 60849,
+      "arrival_time": "2025-12-19T22:11:31.898480+00:00",
+      "arrival_epoch": 1766182291.898461,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 304,
+      "dut_ts": 60875,
+      "arrival_time": "2025-12-19T22:11:31.943394+00:00",
+      "arrival_epoch": 1766182291.943376,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 305,
+      "dut_ts": 60901,
+      "arrival_time": "2025-12-19T22:11:31.988468+00:00",
+      "arrival_epoch": 1766182291.9884503,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 306,
+      "dut_ts": 60927,
+      "arrival_time": "2025-12-19T22:11:32.033339+00:00",
+      "arrival_epoch": 1766182292.0333197,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 307,
+      "dut_ts": 60953,
+      "arrival_time": "2025-12-19T22:11:32.123430+00:00",
+      "arrival_epoch": 1766182292.1234124,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 308,
+      "dut_ts": 60979,
+      "arrival_time": "2025-12-19T22:11:32.258563+00:00",
+      "arrival_epoch": 1766182292.258543,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 309,
+      "dut_ts": 61005,
+      "arrival_time": "2025-12-19T22:11:32.303552+00:00",
+      "arrival_epoch": 1766182292.3035312,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 310,
+      "dut_ts": 61031,
+      "arrival_time": "2025-12-19T22:11:32.349352+00:00",
+      "arrival_epoch": 1766182292.349333,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 311,
+      "dut_ts": 61056,
+      "arrival_time": "2025-12-19T22:11:32.395556+00:00",
+      "arrival_epoch": 1766182292.3955362,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 312,
+      "dut_ts": 61082,
+      "arrival_time": "2025-12-19T22:11:32.483410+00:00",
+      "arrival_epoch": 1766182292.4833894,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 313,
+      "dut_ts": 61108,
+      "arrival_time": "2025-12-19T22:11:32.530545+00:00",
+      "arrival_epoch": 1766182292.5305247,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 314,
+      "dut_ts": 61133,
+      "arrival_time": "2025-12-19T22:11:32.573511+00:00",
+      "arrival_epoch": 1766182292.5734918,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 315,
+      "dut_ts": 61159,
+      "arrival_time": "2025-12-19T22:11:32.618477+00:00",
+      "arrival_epoch": 1766182292.6184573,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 316,
+      "dut_ts": 61185,
+      "arrival_time": "2025-12-19T22:11:32.663394+00:00",
+      "arrival_epoch": 1766182292.6633737,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 317,
+      "dut_ts": 61211,
+      "arrival_time": "2025-12-19T22:11:32.708535+00:00",
+      "arrival_epoch": 1766182292.7085152,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 318,
+      "dut_ts": 61237,
+      "arrival_time": "2025-12-19T22:11:32.753546+00:00",
+      "arrival_epoch": 1766182292.7535267,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 319,
+      "dut_ts": 61263,
+      "arrival_time": "2025-12-19T22:11:32.798563+00:00",
+      "arrival_epoch": 1766182292.798544,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 320,
+      "dut_ts": 61288,
+      "arrival_time": "2025-12-19T22:11:32.843397+00:00",
+      "arrival_epoch": 1766182292.8433788,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 321,
+      "dut_ts": 61314,
+      "arrival_time": "2025-12-19T22:11:32.890408+00:00",
+      "arrival_epoch": 1766182292.8903887,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 322,
+      "dut_ts": 61340,
+      "arrival_time": "2025-12-19T22:11:32.933404+00:00",
+      "arrival_epoch": 1766182292.933386,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 323,
+      "dut_ts": 61366,
+      "arrival_time": "2025-12-19T22:11:32.978561+00:00",
+      "arrival_epoch": 1766182292.978541,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 324,
+      "dut_ts": 61392,
+      "arrival_time": "2025-12-19T22:11:33.023321+00:00",
+      "arrival_epoch": 1766182293.0233033,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 325,
+      "dut_ts": 61418,
+      "arrival_time": "2025-12-19T22:11:33.068566+00:00",
+      "arrival_epoch": 1766182293.0685468,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 326,
+      "dut_ts": 61444,
+      "arrival_time": "2025-12-19T22:11:33.115572+00:00",
+      "arrival_epoch": 1766182293.1155338,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 327,
+      "dut_ts": 61470,
+      "arrival_time": "2025-12-19T22:11:33.158519+00:00",
+      "arrival_epoch": 1766182293.1584985,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 328,
+      "dut_ts": 61496,
+      "arrival_time": "2025-12-19T22:11:33.248553+00:00",
+      "arrival_epoch": 1766182293.248532,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 329,
+      "dut_ts": 61522,
+      "arrival_time": "2025-12-19T22:11:33.251461+00:00",
+      "arrival_epoch": 1766182293.2514412,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 330,
+      "dut_ts": 61548,
+      "arrival_time": "2025-12-19T22:11:33.293551+00:00",
+      "arrival_epoch": 1766182293.2935321,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 331,
+      "dut_ts": 61574,
+      "arrival_time": "2025-12-19T22:11:33.338526+00:00",
+      "arrival_epoch": 1766182293.3385065,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 332,
+      "dut_ts": 61600,
+      "arrival_time": "2025-12-19T22:11:33.383547+00:00",
+      "arrival_epoch": 1766182293.3835278,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 333,
+      "dut_ts": 61626,
+      "arrival_time": "2025-12-19T22:11:33.428557+00:00",
+      "arrival_epoch": 1766182293.4285374,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 334,
+      "dut_ts": 61652,
+      "arrival_time": "2025-12-19T22:11:33.475541+00:00",
+      "arrival_epoch": 1766182293.4755208,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 335,
+      "dut_ts": 61678,
+      "arrival_time": "2025-12-19T22:11:33.520551+00:00",
+      "arrival_epoch": 1766182293.5205317,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 336,
+      "dut_ts": 61704,
+      "arrival_time": "2025-12-19T22:11:33.563553+00:00",
+      "arrival_epoch": 1766182293.5635338,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 337,
+      "dut_ts": 61730,
+      "arrival_time": "2025-12-19T22:11:33.608555+00:00",
+      "arrival_epoch": 1766182293.6085355,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 338,
+      "dut_ts": 61755,
+      "arrival_time": "2025-12-19T22:11:33.653380+00:00",
+      "arrival_epoch": 1766182293.6533625,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 339,
+      "dut_ts": 61781,
+      "arrival_time": "2025-12-19T22:11:33.698595+00:00",
+      "arrival_epoch": 1766182293.6985757,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 340,
+      "dut_ts": 61807,
+      "arrival_time": "2025-12-19T22:11:33.743537+00:00",
+      "arrival_epoch": 1766182293.7435179,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 341,
+      "dut_ts": 61832,
+      "arrival_time": "2025-12-19T22:11:33.833582+00:00",
+      "arrival_epoch": 1766182293.8335602,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 342,
+      "dut_ts": 61858,
+      "arrival_time": "2025-12-19T22:11:33.836521+00:00",
+      "arrival_epoch": 1766182293.8365026,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 343,
+      "dut_ts": 61884,
+      "arrival_time": "2025-12-19T22:11:33.839699+00:00",
+      "arrival_epoch": 1766182293.8396802,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 344,
+      "dut_ts": 61909,
+      "arrival_time": "2025-12-19T22:11:33.878550+00:00",
+      "arrival_epoch": 1766182293.8785307,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 345,
+      "dut_ts": 61936,
+      "arrival_time": "2025-12-19T22:11:33.923485+00:00",
+      "arrival_epoch": 1766182293.9234664,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 346,
+      "dut_ts": 61962,
+      "arrival_time": "2025-12-19T22:11:33.968539+00:00",
+      "arrival_epoch": 1766182293.9685197,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 347,
+      "dut_ts": 61987,
+      "arrival_time": "2025-12-19T22:11:34.015560+00:00",
+      "arrival_epoch": 1766182294.01554,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 348,
+      "dut_ts": 62013,
+      "arrival_time": "2025-12-19T22:11:34.058533+00:00",
+      "arrival_epoch": 1766182294.0585132,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 349,
+      "dut_ts": 62039,
+      "arrival_time": "2025-12-19T22:11:34.103557+00:00",
+      "arrival_epoch": 1766182294.1035373,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 350,
+      "dut_ts": 62065,
+      "arrival_time": "2025-12-19T22:11:34.150446+00:00",
+      "arrival_epoch": 1766182294.150428,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 351,
+      "dut_ts": 62090,
+      "arrival_time": "2025-12-19T22:11:34.193546+00:00",
+      "arrival_epoch": 1766182294.193526,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 352,
+      "dut_ts": 62117,
+      "arrival_time": "2025-12-19T22:11:34.238526+00:00",
+      "arrival_epoch": 1766182294.2385066,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 353,
+      "dut_ts": 62143,
+      "arrival_time": "2025-12-19T22:11:34.285491+00:00",
+      "arrival_epoch": 1766182294.285471,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 354,
+      "dut_ts": 62168,
+      "arrival_time": "2025-12-19T22:11:34.373315+00:00",
+      "arrival_epoch": 1766182294.3732955,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 355,
+      "dut_ts": 62194,
+      "arrival_time": "2025-12-19T22:11:34.376458+00:00",
+      "arrival_epoch": 1766182294.3764384,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 356,
+      "dut_ts": 62220,
+      "arrival_time": "2025-12-19T22:11:34.418478+00:00",
+      "arrival_epoch": 1766182294.4184582,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 357,
+      "dut_ts": 62246,
+      "arrival_time": "2025-12-19T22:11:34.463376+00:00",
+      "arrival_epoch": 1766182294.4633565,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 358,
+      "dut_ts": 62272,
+      "arrival_time": "2025-12-19T22:11:34.510558+00:00",
+      "arrival_epoch": 1766182294.5105376,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 359,
+      "dut_ts": 62298,
+      "arrival_time": "2025-12-19T22:11:34.553588+00:00",
+      "arrival_epoch": 1766182294.5535686,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 360,
+      "dut_ts": 62324,
+      "arrival_time": "2025-12-19T22:11:34.598564+00:00",
+      "arrival_epoch": 1766182294.5985446,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 361,
+      "dut_ts": 62350,
+      "arrival_time": "2025-12-19T22:11:34.645562+00:00",
+      "arrival_epoch": 1766182294.645542,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 362,
+      "dut_ts": 62375,
+      "arrival_time": "2025-12-19T22:11:34.688551+00:00",
+      "arrival_epoch": 1766182294.6885316,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 363,
+      "dut_ts": 62401,
+      "arrival_time": "2025-12-19T22:11:34.733575+00:00",
+      "arrival_epoch": 1766182294.7335355,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 364,
+      "dut_ts": 62427,
+      "arrival_time": "2025-12-19T22:11:34.778459+00:00",
+      "arrival_epoch": 1766182294.7784395,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 365,
+      "dut_ts": 62452,
+      "arrival_time": "2025-12-19T22:11:34.823417+00:00",
+      "arrival_epoch": 1766182294.8233976,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 366,
+      "dut_ts": 62478,
+      "arrival_time": "2025-12-19T22:11:34.958575+00:00",
+      "arrival_epoch": 1766182294.9585552,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 367,
+      "dut_ts": 62504,
+      "arrival_time": "2025-12-19T22:11:35.003489+00:00",
+      "arrival_epoch": 1766182295.003467,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 368,
+      "dut_ts": 62530,
+      "arrival_time": "2025-12-19T22:11:35.048428+00:00",
+      "arrival_epoch": 1766182295.0484095,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 369,
+      "dut_ts": 62556,
+      "arrival_time": "2025-12-19T22:11:35.093492+00:00",
+      "arrival_epoch": 1766182295.093455,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 370,
+      "dut_ts": 62582,
+      "arrival_time": "2025-12-19T22:11:35.140369+00:00",
+      "arrival_epoch": 1766182295.1403522,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 371,
+      "dut_ts": 62608,
+      "arrival_time": "2025-12-19T22:11:35.183419+00:00",
+      "arrival_epoch": 1766182295.183386,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 372,
+      "dut_ts": 62634,
+      "arrival_time": "2025-12-19T22:11:35.228578+00:00",
+      "arrival_epoch": 1766182295.228558,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 373,
+      "dut_ts": 62660,
+      "arrival_time": "2025-12-19T22:11:35.273421+00:00",
+      "arrival_epoch": 1766182295.273389,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 374,
+      "dut_ts": 62686,
+      "arrival_time": "2025-12-19T22:11:35.365585+00:00",
+      "arrival_epoch": 1766182295.365566,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 375,
+      "dut_ts": 62712,
+      "arrival_time": "2025-12-19T22:11:35.408622+00:00",
+      "arrival_epoch": 1766182295.4085886,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 376,
+      "dut_ts": 62738,
+      "arrival_time": "2025-12-19T22:11:35.498570+00:00",
+      "arrival_epoch": 1766182295.4985492,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 377,
+      "dut_ts": 62764,
+      "arrival_time": "2025-12-19T22:11:35.501462+00:00",
+      "arrival_epoch": 1766182295.5014427,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 378,
+      "dut_ts": 62790,
+      "arrival_time": "2025-12-19T22:11:35.543565+00:00",
+      "arrival_epoch": 1766182295.543546,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 379,
+      "dut_ts": 62816,
+      "arrival_time": "2025-12-19T22:11:35.590502+00:00",
+      "arrival_epoch": 1766182295.5904806,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 380,
+      "dut_ts": 62842,
+      "arrival_time": "2025-12-19T22:11:35.633463+00:00",
+      "arrival_epoch": 1766182295.6334453,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 381,
+      "dut_ts": 62868,
+      "arrival_time": "2025-12-19T22:11:35.678561+00:00",
+      "arrival_epoch": 1766182295.678542,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 382,
+      "dut_ts": 62894,
+      "arrival_time": "2025-12-19T22:11:35.725463+00:00",
+      "arrival_epoch": 1766182295.7254431,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 383,
+      "dut_ts": 62920,
+      "arrival_time": "2025-12-19T22:11:35.768348+00:00",
+      "arrival_epoch": 1766182295.76833,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 384,
+      "dut_ts": 62945,
+      "arrival_time": "2025-12-19T22:11:35.813532+00:00",
+      "arrival_epoch": 1766182295.813513,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 385,
+      "dut_ts": 62971,
+      "arrival_time": "2025-12-19T22:11:35.858557+00:00",
+      "arrival_epoch": 1766182295.8585374,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 386,
+      "dut_ts": 62997,
+      "arrival_time": "2025-12-19T22:11:35.903546+00:00",
+      "arrival_epoch": 1766182295.903527,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 387,
+      "dut_ts": 63023,
+      "arrival_time": "2025-12-19T22:11:35.948239+00:00",
+      "arrival_epoch": 1766182295.948223,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 388,
+      "dut_ts": 63049,
+      "arrival_time": "2025-12-19T22:11:35.993523+00:00",
+      "arrival_epoch": 1766182295.9935033,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 389,
+      "dut_ts": 63075,
+      "arrival_time": "2025-12-19T22:11:36.038583+00:00",
+      "arrival_epoch": 1766182296.0385635,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 390,
+      "dut_ts": 63100,
+      "arrival_time": "2025-12-19T22:11:36.083826+00:00",
+      "arrival_epoch": 1766182296.083808,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 391,
+      "dut_ts": 63127,
+      "arrival_time": "2025-12-19T22:11:36.128464+00:00",
+      "arrival_epoch": 1766182296.1284444,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 392,
+      "dut_ts": 63153,
+      "arrival_time": "2025-12-19T22:11:36.173514+00:00",
+      "arrival_epoch": 1766182296.1734943,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 393,
+      "dut_ts": 63179,
+      "arrival_time": "2025-12-19T22:11:36.218571+00:00",
+      "arrival_epoch": 1766182296.21855,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 394,
+      "dut_ts": 63205,
+      "arrival_time": "2025-12-19T22:11:36.265488+00:00",
+      "arrival_epoch": 1766182296.265469,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 395,
+      "dut_ts": 63231,
+      "arrival_time": "2025-12-19T22:11:36.308555+00:00",
+      "arrival_epoch": 1766182296.3085353,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 396,
+      "dut_ts": 63257,
+      "arrival_time": "2025-12-19T22:11:36.353466+00:00",
+      "arrival_epoch": 1766182296.353448,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 397,
+      "dut_ts": 63283,
+      "arrival_time": "2025-12-19T22:11:36.398549+00:00",
+      "arrival_epoch": 1766182296.3985298,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 398,
+      "dut_ts": 63309,
+      "arrival_time": "2025-12-19T22:11:36.443559+00:00",
+      "arrival_epoch": 1766182296.4435396,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 399,
+      "dut_ts": 63335,
+      "arrival_time": "2025-12-19T22:11:36.488556+00:00",
+      "arrival_epoch": 1766182296.4885354,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 400,
+      "dut_ts": 63361,
+      "arrival_time": "2025-12-19T22:11:36.578557+00:00",
+      "arrival_epoch": 1766182296.578537,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 401,
+      "dut_ts": 63387,
+      "arrival_time": "2025-12-19T22:11:36.581450+00:00",
+      "arrival_epoch": 1766182296.5814314,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 402,
+      "dut_ts": 63412,
+      "arrival_time": "2025-12-19T22:11:36.625555+00:00",
+      "arrival_epoch": 1766182296.6255364,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 403,
+      "dut_ts": 63438,
+      "arrival_time": "2025-12-19T22:11:36.668556+00:00",
+      "arrival_epoch": 1766182296.6685367,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 404,
+      "dut_ts": 63463,
+      "arrival_time": "2025-12-19T22:11:36.713565+00:00",
+      "arrival_epoch": 1766182296.7135465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 405,
+      "dut_ts": 63488,
+      "arrival_time": "2025-12-19T22:11:36.758476+00:00",
+      "arrival_epoch": 1766182296.7584584,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 406,
+      "dut_ts": 63515,
+      "arrival_time": "2025-12-19T22:11:36.803515+00:00",
+      "arrival_epoch": 1766182296.803494,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 407,
+      "dut_ts": 63541,
+      "arrival_time": "2025-12-19T22:11:36.848562+00:00",
+      "arrival_epoch": 1766182296.8485434,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 408,
+      "dut_ts": 63567,
+      "arrival_time": "2025-12-19T22:11:36.893409+00:00",
+      "arrival_epoch": 1766182296.8933911,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 409,
+      "dut_ts": 63592,
+      "arrival_time": "2025-12-19T22:11:36.938560+00:00",
+      "arrival_epoch": 1766182296.9385414,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 410,
+      "dut_ts": 63618,
+      "arrival_time": "2025-12-19T22:11:36.985487+00:00",
+      "arrival_epoch": 1766182296.9854681,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 411,
+      "dut_ts": 63643,
+      "arrival_time": "2025-12-19T22:11:37.028573+00:00",
+      "arrival_epoch": 1766182297.0285525,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 412,
+      "dut_ts": 63669,
+      "arrival_time": "2025-12-19T22:11:37.073487+00:00",
+      "arrival_epoch": 1766182297.0734513,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 413,
+      "dut_ts": 63695,
+      "arrival_time": "2025-12-19T22:11:37.119647+00:00",
+      "arrival_epoch": 1766182297.1196277,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 414,
+      "dut_ts": 63721,
+      "arrival_time": "2025-12-19T22:11:37.210562+00:00",
+      "arrival_epoch": 1766182297.2105365,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 415,
+      "dut_ts": 63747,
+      "arrival_time": "2025-12-19T22:11:37.253513+00:00",
+      "arrival_epoch": 1766182297.2534943,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 416,
+      "dut_ts": 63773,
+      "arrival_time": "2025-12-19T22:11:37.298495+00:00",
+      "arrival_epoch": 1766182297.2984767,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 417,
+      "dut_ts": 63799,
+      "arrival_time": "2025-12-19T22:11:37.343494+00:00",
+      "arrival_epoch": 1766182297.3434753,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 418,
+      "dut_ts": 63824,
+      "arrival_time": "2025-12-19T22:11:37.388507+00:00",
+      "arrival_epoch": 1766182297.3884883,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 419,
+      "dut_ts": 63850,
+      "arrival_time": "2025-12-19T22:11:37.433423+00:00",
+      "arrival_epoch": 1766182297.433405,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 420,
+      "dut_ts": 63875,
+      "arrival_time": "2025-12-19T22:11:37.478498+00:00",
+      "arrival_epoch": 1766182297.478479,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 421,
+      "dut_ts": 63901,
+      "arrival_time": "2025-12-19T22:11:37.523334+00:00",
+      "arrival_epoch": 1766182297.5233154,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 422,
+      "dut_ts": 63927,
+      "arrival_time": "2025-12-19T22:11:37.568321+00:00",
+      "arrival_epoch": 1766182297.5683038,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 423,
+      "dut_ts": 63953,
+      "arrival_time": "2025-12-19T22:11:37.615500+00:00",
+      "arrival_epoch": 1766182297.615482,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 424,
+      "dut_ts": 63979,
+      "arrival_time": "2025-12-19T22:11:37.658569+00:00",
+      "arrival_epoch": 1766182297.6585498,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 425,
+      "dut_ts": 64004,
+      "arrival_time": "2025-12-19T22:11:37.748410+00:00",
+      "arrival_epoch": 1766182297.7483912,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 426,
+      "dut_ts": 64030,
+      "arrival_time": "2025-12-19T22:11:37.751466+00:00",
+      "arrival_epoch": 1766182297.7514493,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 427,
+      "dut_ts": 64056,
+      "arrival_time": "2025-12-19T22:11:37.755577+00:00",
+      "arrival_epoch": 1766182297.7555602,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 428,
+      "dut_ts": 64082,
+      "arrival_time": "2025-12-19T22:11:37.793552+00:00",
+      "arrival_epoch": 1766182297.7935324,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 429,
+      "dut_ts": 64108,
+      "arrival_time": "2025-12-19T22:11:37.838545+00:00",
+      "arrival_epoch": 1766182297.8385262,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 430,
+      "dut_ts": 64134,
+      "arrival_time": "2025-12-19T22:11:37.883403+00:00",
+      "arrival_epoch": 1766182297.8833814,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 431,
+      "dut_ts": 64160,
+      "arrival_time": "2025-12-19T22:11:37.928563+00:00",
+      "arrival_epoch": 1766182297.9285414,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 432,
+      "dut_ts": 64185,
+      "arrival_time": "2025-12-19T22:11:37.973560+00:00",
+      "arrival_epoch": 1766182297.97354,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 433,
+      "dut_ts": 64212,
+      "arrival_time": "2025-12-19T22:11:38.018556+00:00",
+      "arrival_epoch": 1766182298.0185363,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 434,
+      "dut_ts": 64238,
+      "arrival_time": "2025-12-19T22:11:38.063588+00:00",
+      "arrival_epoch": 1766182298.0635684,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 435,
+      "dut_ts": 64264,
+      "arrival_time": "2025-12-19T22:11:38.108549+00:00",
+      "arrival_epoch": 1766182298.1085289,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 436,
+      "dut_ts": 64290,
+      "arrival_time": "2025-12-19T22:11:38.153548+00:00",
+      "arrival_epoch": 1766182298.153529,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 437,
+      "dut_ts": 64316,
+      "arrival_time": "2025-12-19T22:11:38.198575+00:00",
+      "arrival_epoch": 1766182298.198556,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 438,
+      "dut_ts": 64342,
+      "arrival_time": "2025-12-19T22:11:38.243491+00:00",
+      "arrival_epoch": 1766182298.2434723,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 439,
+      "dut_ts": 64367,
+      "arrival_time": "2025-12-19T22:11:38.288472+00:00",
+      "arrival_epoch": 1766182298.2884529,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 440,
+      "dut_ts": 64393,
+      "arrival_time": "2025-12-19T22:11:38.333585+00:00",
+      "arrival_epoch": 1766182298.3335462,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 441,
+      "dut_ts": 64419,
+      "arrival_time": "2025-12-19T22:11:38.378548+00:00",
+      "arrival_epoch": 1766182298.3785284,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 442,
+      "dut_ts": 64445,
+      "arrival_time": "2025-12-19T22:11:38.423477+00:00",
+      "arrival_epoch": 1766182298.4234583,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 443,
+      "dut_ts": 64471,
+      "arrival_time": "2025-12-19T22:11:38.470497+00:00",
+      "arrival_epoch": 1766182298.470478,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 444,
+      "dut_ts": 64496,
+      "arrival_time": "2025-12-19T22:11:38.513583+00:00",
+      "arrival_epoch": 1766182298.5135634,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 445,
+      "dut_ts": 64521,
+      "arrival_time": "2025-12-19T22:11:38.558509+00:00",
+      "arrival_epoch": 1766182298.5584896,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 446,
+      "dut_ts": 64548,
+      "arrival_time": "2025-12-19T22:11:38.605551+00:00",
+      "arrival_epoch": 1766182298.6055322,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 447,
+      "dut_ts": 64574,
+      "arrival_time": "2025-12-19T22:11:38.648450+00:00",
+      "arrival_epoch": 1766182298.648431,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 448,
+      "dut_ts": 64600,
+      "arrival_time": "2025-12-19T22:11:38.693423+00:00",
+      "arrival_epoch": 1766182298.6934054,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 449,
+      "dut_ts": 64625,
+      "arrival_time": "2025-12-19T22:11:38.784551+00:00",
+      "arrival_epoch": 1766182298.7845328,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 450,
+      "dut_ts": 64651,
+      "arrival_time": "2025-12-19T22:11:38.833566+00:00",
+      "arrival_epoch": 1766182298.8335464,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 451,
+      "dut_ts": 64676,
+      "arrival_time": "2025-12-19T22:11:38.873543+00:00",
+      "arrival_epoch": 1766182298.8735235,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 452,
+      "dut_ts": 64702,
+      "arrival_time": "2025-12-19T22:11:38.920522+00:00",
+      "arrival_epoch": 1766182298.920503,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 453,
+      "dut_ts": 64728,
+      "arrival_time": "2025-12-19T22:11:38.963542+00:00",
+      "arrival_epoch": 1766182298.9635227,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 454,
+      "dut_ts": 64754,
+      "arrival_time": "2025-12-19T22:11:39.008347+00:00",
+      "arrival_epoch": 1766182299.0083098,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 455,
+      "dut_ts": 64780,
+      "arrival_time": "2025-12-19T22:11:39.055575+00:00",
+      "arrival_epoch": 1766182299.055556,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 456,
+      "dut_ts": 64806,
+      "arrival_time": "2025-12-19T22:11:39.143552+00:00",
+      "arrival_epoch": 1766182299.1435337,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 457,
+      "dut_ts": 64832,
+      "arrival_time": "2025-12-19T22:11:39.188532+00:00",
+      "arrival_epoch": 1766182299.188514,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 458,
+      "dut_ts": 64858,
+      "arrival_time": "2025-12-19T22:11:39.325574+00:00",
+      "arrival_epoch": 1766182299.3255548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 459,
+      "dut_ts": 64884,
+      "arrival_time": "2025-12-19T22:11:39.368360+00:00",
+      "arrival_epoch": 1766182299.3683414,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 460,
+      "dut_ts": 64910,
+      "arrival_time": "2025-12-19T22:11:39.413542+00:00",
+      "arrival_epoch": 1766182299.4135227,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 461,
+      "dut_ts": 64936,
+      "arrival_time": "2025-12-19T22:11:39.458242+00:00",
+      "arrival_epoch": 1766182299.4582253,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 462,
+      "dut_ts": 64962,
+      "arrival_time": "2025-12-19T22:11:39.503486+00:00",
+      "arrival_epoch": 1766182299.503468,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 463,
+      "dut_ts": 64988,
+      "arrival_time": "2025-12-19T22:11:39.548497+00:00",
+      "arrival_epoch": 1766182299.5484655,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 464,
+      "dut_ts": 65014,
+      "arrival_time": "2025-12-19T22:11:39.593499+00:00",
+      "arrival_epoch": 1766182299.5934675,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 465,
+      "dut_ts": 65040,
+      "arrival_time": "2025-12-19T22:11:39.685495+00:00",
+      "arrival_epoch": 1766182299.685478,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 466,
+      "dut_ts": 65066,
+      "arrival_time": "2025-12-19T22:11:39.774362+00:00",
+      "arrival_epoch": 1766182299.7743359,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 467,
+      "dut_ts": 65092,
+      "arrival_time": "2025-12-19T22:11:39.776273+00:00",
+      "arrival_epoch": 1766182299.7762532,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 468,
+      "dut_ts": 65117,
+      "arrival_time": "2025-12-19T22:11:39.779371+00:00",
+      "arrival_epoch": 1766182299.7793524,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 469,
+      "dut_ts": 65143,
+      "arrival_time": "2025-12-19T22:11:39.818587+00:00",
+      "arrival_epoch": 1766182299.8185682,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 470,
+      "dut_ts": 65169,
+      "arrival_time": "2025-12-19T22:11:39.863469+00:00",
+      "arrival_epoch": 1766182299.8634367,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 471,
+      "dut_ts": 65195,
+      "arrival_time": "2025-12-19T22:11:39.908574+00:00",
+      "arrival_epoch": 1766182299.9085548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 472,
+      "dut_ts": 65221,
+      "arrival_time": "2025-12-19T22:11:39.953504+00:00",
+      "arrival_epoch": 1766182299.9534855,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 473,
+      "dut_ts": 65247,
+      "arrival_time": "2025-12-19T22:11:39.998330+00:00",
+      "arrival_epoch": 1766182299.998312,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 474,
+      "dut_ts": 65272,
+      "arrival_time": "2025-12-19T22:11:40.043497+00:00",
+      "arrival_epoch": 1766182300.0434792,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 475,
+      "dut_ts": 65298,
+      "arrival_time": "2025-12-19T22:11:40.088519+00:00",
+      "arrival_epoch": 1766182300.088502,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 476,
+      "dut_ts": 65324,
+      "arrival_time": "2025-12-19T22:11:40.133295+00:00",
+      "arrival_epoch": 1766182300.1332781,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 477,
+      "dut_ts": 65349,
+      "arrival_time": "2025-12-19T22:11:40.178505+00:00",
+      "arrival_epoch": 1766182300.1784883,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 478,
+      "dut_ts": 65375,
+      "arrival_time": "2025-12-19T22:11:40.223486+00:00",
+      "arrival_epoch": 1766182300.223468,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 479,
+      "dut_ts": 65401,
+      "arrival_time": "2025-12-19T22:11:40.268416+00:00",
+      "arrival_epoch": 1766182300.2683978,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 480,
+      "dut_ts": 65427,
+      "arrival_time": "2025-12-19T22:11:40.315476+00:00",
+      "arrival_epoch": 1766182300.3154588,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 481,
+      "dut_ts": 65453,
+      "arrival_time": "2025-12-19T22:11:40.358503+00:00",
+      "arrival_epoch": 1766182300.3584852,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 482,
+      "dut_ts": 65479,
+      "arrival_time": "2025-12-19T22:11:40.403500+00:00",
+      "arrival_epoch": 1766182300.4034834,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 483,
+      "dut_ts": 65504,
+      "arrival_time": "2025-12-19T22:11:40.448496+00:00",
+      "arrival_epoch": 1766182300.4484782,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 484,
+      "dut_ts": 65530,
+      "arrival_time": "2025-12-19T22:11:40.493496+00:00",
+      "arrival_epoch": 1766182300.493478,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 485,
+      "dut_ts": 20,
+      "arrival_time": "2025-12-19T22:11:40.673487+00:00",
+      "arrival_epoch": 1766182300.6734548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 486,
+      "dut_ts": 46,
+      "arrival_time": "2025-12-19T22:11:40.676314+00:00",
+      "arrival_epoch": 1766182300.6762972,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 487,
+      "dut_ts": 72,
+      "arrival_time": "2025-12-19T22:11:40.720488+00:00",
+      "arrival_epoch": 1766182300.7204697,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 488,
+      "dut_ts": 98,
+      "arrival_time": "2025-12-19T22:11:40.763484+00:00",
+      "arrival_epoch": 1766182300.7634664,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 489,
+      "dut_ts": 123,
+      "arrival_time": "2025-12-19T22:11:40.808485+00:00",
+      "arrival_epoch": 1766182300.808467,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 490,
+      "dut_ts": 149,
+      "arrival_time": "2025-12-19T22:11:40.853452+00:00",
+      "arrival_epoch": 1766182300.853434,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 491,
+      "dut_ts": 175,
+      "arrival_time": "2025-12-19T22:11:40.898501+00:00",
+      "arrival_epoch": 1766182300.898469,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 492,
+      "dut_ts": 201,
+      "arrival_time": "2025-12-19T22:11:41.078470+00:00",
+      "arrival_epoch": 1766182301.078448,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 493,
+      "dut_ts": 227,
+      "arrival_time": "2025-12-19T22:11:41.125488+00:00",
+      "arrival_epoch": 1766182301.1254694,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 494,
+      "dut_ts": 252,
+      "arrival_time": "2025-12-19T22:11:41.170515+00:00",
+      "arrival_epoch": 1766182301.1704974,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 495,
+      "dut_ts": 278,
+      "arrival_time": "2025-12-19T22:11:41.213503+00:00",
+      "arrival_epoch": 1766182301.2134862,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 496,
+      "dut_ts": 304,
+      "arrival_time": "2025-12-19T22:11:41.258490+00:00",
+      "arrival_epoch": 1766182301.2584724,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 497,
+      "dut_ts": 329,
+      "arrival_time": "2025-12-19T22:11:41.303502+00:00",
+      "arrival_epoch": 1766182301.303485,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 498,
+      "dut_ts": 355,
+      "arrival_time": "2025-12-19T22:11:41.348475+00:00",
+      "arrival_epoch": 1766182301.3484569,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 499,
+      "dut_ts": 381,
+      "arrival_time": "2025-12-19T22:11:41.440410+00:00",
+      "arrival_epoch": 1766182301.4403925,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 500,
+      "dut_ts": 407,
+      "arrival_time": "2025-12-19T22:11:41.483432+00:00",
+      "arrival_epoch": 1766182301.4833949,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 501,
+      "dut_ts": 433,
+      "arrival_time": "2025-12-19T22:11:41.528432+00:00",
+      "arrival_epoch": 1766182301.528414,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 502,
+      "dut_ts": 459,
+      "arrival_time": "2025-12-19T22:11:41.573408+00:00",
+      "arrival_epoch": 1766182301.5733886,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 503,
+      "dut_ts": 485,
+      "arrival_time": "2025-12-19T22:11:41.618486+00:00",
+      "arrival_epoch": 1766182301.6184692,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 504,
+      "dut_ts": 511,
+      "arrival_time": "2025-12-19T22:11:41.663502+00:00",
+      "arrival_epoch": 1766182301.6634848,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 505,
+      "dut_ts": 537,
+      "arrival_time": "2025-12-19T22:11:41.708471+00:00",
+      "arrival_epoch": 1766182301.7084548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 506,
+      "dut_ts": 563,
+      "arrival_time": "2025-12-19T22:11:41.753469+00:00",
+      "arrival_epoch": 1766182301.7534504,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 507,
+      "dut_ts": 589,
+      "arrival_time": "2025-12-19T22:11:41.798378+00:00",
+      "arrival_epoch": 1766182301.7983603,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 508,
+      "dut_ts": 614,
+      "arrival_time": "2025-12-19T22:11:41.843483+00:00",
+      "arrival_epoch": 1766182301.8434649,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 509,
+      "dut_ts": 640,
+      "arrival_time": "2025-12-19T22:11:41.888499+00:00",
+      "arrival_epoch": 1766182301.8884819,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 510,
+      "dut_ts": 666,
+      "arrival_time": "2025-12-19T22:11:41.933483+00:00",
+      "arrival_epoch": 1766182301.933465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 511,
+      "dut_ts": 692,
+      "arrival_time": "2025-12-19T22:11:41.978497+00:00",
+      "arrival_epoch": 1766182301.97848,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 512,
+      "dut_ts": 718,
+      "arrival_time": "2025-12-19T22:11:42.023413+00:00",
+      "arrival_epoch": 1766182302.0233948,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 513,
+      "dut_ts": 744,
+      "arrival_time": "2025-12-19T22:11:42.068487+00:00",
+      "arrival_epoch": 1766182302.0684705,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 514,
+      "dut_ts": 770,
+      "arrival_time": "2025-12-19T22:11:42.158504+00:00",
+      "arrival_epoch": 1766182302.1584876,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 515,
+      "dut_ts": 795,
+      "arrival_time": "2025-12-19T22:11:42.163312+00:00",
+      "arrival_epoch": 1766182302.163295,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 516,
+      "dut_ts": 821,
+      "arrival_time": "2025-12-19T22:11:42.203322+00:00",
+      "arrival_epoch": 1766182302.2033017,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 517,
+      "dut_ts": 847,
+      "arrival_time": "2025-12-19T22:11:42.248488+00:00",
+      "arrival_epoch": 1766182302.2484698,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 518,
+      "dut_ts": 873,
+      "arrival_time": "2025-12-19T22:11:42.293527+00:00",
+      "arrival_epoch": 1766182302.2934885,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 519,
+      "dut_ts": 899,
+      "arrival_time": "2025-12-19T22:11:42.338565+00:00",
+      "arrival_epoch": 1766182302.338533,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 520,
+      "dut_ts": 925,
+      "arrival_time": "2025-12-19T22:11:42.383528+00:00",
+      "arrival_epoch": 1766182302.3835092,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 521,
+      "dut_ts": 951,
+      "arrival_time": "2025-12-19T22:11:42.430573+00:00",
+      "arrival_epoch": 1766182302.4305537,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 522,
+      "dut_ts": 976,
+      "arrival_time": "2025-12-19T22:11:42.473365+00:00",
+      "arrival_epoch": 1766182302.4733438,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 523,
+      "dut_ts": 1002,
+      "arrival_time": "2025-12-19T22:11:42.519564+00:00",
+      "arrival_epoch": 1766182302.519545,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 524,
+      "dut_ts": 1027,
+      "arrival_time": "2025-12-19T22:11:42.563381+00:00",
+      "arrival_epoch": 1766182302.5633624,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 525,
+      "dut_ts": 1054,
+      "arrival_time": "2025-12-19T22:11:42.608582+00:00",
+      "arrival_epoch": 1766182302.6085627,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 526,
+      "dut_ts": 1079,
+      "arrival_time": "2025-12-19T22:11:42.653547+00:00",
+      "arrival_epoch": 1766182302.653529,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 527,
+      "dut_ts": 1105,
+      "arrival_time": "2025-12-19T22:11:42.698569+00:00",
+      "arrival_epoch": 1766182302.6985507,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 528,
+      "dut_ts": 1131,
+      "arrival_time": "2025-12-19T22:11:42.743565+00:00",
+      "arrival_epoch": 1766182302.7435312,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 529,
+      "dut_ts": 1156,
+      "arrival_time": "2025-12-19T22:11:42.788515+00:00",
+      "arrival_epoch": 1766182302.7884967,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 530,
+      "dut_ts": 1182,
+      "arrival_time": "2025-12-19T22:11:42.833506+00:00",
+      "arrival_epoch": 1766182302.8334892,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 531,
+      "dut_ts": 1209,
+      "arrival_time": "2025-12-19T22:11:42.878496+00:00",
+      "arrival_epoch": 1766182302.8784783,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 532,
+      "dut_ts": 1234,
+      "arrival_time": "2025-12-19T22:11:42.925509+00:00",
+      "arrival_epoch": 1766182302.9254923,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 533,
+      "dut_ts": 1260,
+      "arrival_time": "2025-12-19T22:11:42.968518+00:00",
+      "arrival_epoch": 1766182302.9684863,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 534,
+      "dut_ts": 1286,
+      "arrival_time": "2025-12-19T22:11:43.013510+00:00",
+      "arrival_epoch": 1766182303.0134928,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 535,
+      "dut_ts": 1312,
+      "arrival_time": "2025-12-19T22:11:43.058501+00:00",
+      "arrival_epoch": 1766182303.058484,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 536,
+      "dut_ts": 1338,
+      "arrival_time": "2025-12-19T22:11:43.105422+00:00",
+      "arrival_epoch": 1766182303.1054049,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 537,
+      "dut_ts": 1363,
+      "arrival_time": "2025-12-19T22:11:43.148534+00:00",
+      "arrival_epoch": 1766182303.1485116,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 538,
+      "dut_ts": 1389,
+      "arrival_time": "2025-12-19T22:11:43.193436+00:00",
+      "arrival_epoch": 1766182303.1934185,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 539,
+      "dut_ts": 1415,
+      "arrival_time": "2025-12-19T22:11:43.240430+00:00",
+      "arrival_epoch": 1766182303.2404113,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 540,
+      "dut_ts": 1441,
+      "arrival_time": "2025-12-19T22:11:43.283476+00:00",
+      "arrival_epoch": 1766182303.2834578,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 541,
+      "dut_ts": 1467,
+      "arrival_time": "2025-12-19T22:11:43.328489+00:00",
+      "arrival_epoch": 1766182303.3284712,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 542,
+      "dut_ts": 1493,
+      "arrival_time": "2025-12-19T22:11:43.373496+00:00",
+      "arrival_epoch": 1766182303.373478,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 543,
+      "dut_ts": 1519,
+      "arrival_time": "2025-12-19T22:11:43.418326+00:00",
+      "arrival_epoch": 1766182303.4182873,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 544,
+      "dut_ts": 1545,
+      "arrival_time": "2025-12-19T22:11:43.463412+00:00",
+      "arrival_epoch": 1766182303.4633949,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 545,
+      "dut_ts": 1571,
+      "arrival_time": "2025-12-19T22:11:43.508523+00:00",
+      "arrival_epoch": 1766182303.508506,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 546,
+      "dut_ts": 1597,
+      "arrival_time": "2025-12-19T22:11:43.553519+00:00",
+      "arrival_epoch": 1766182303.5535018,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 547,
+      "dut_ts": 1623,
+      "arrival_time": "2025-12-19T22:11:43.598488+00:00",
+      "arrival_epoch": 1766182303.5984702,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 548,
+      "dut_ts": 1649,
+      "arrival_time": "2025-12-19T22:11:43.643500+00:00",
+      "arrival_epoch": 1766182303.6434834,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 549,
+      "dut_ts": 1675,
+      "arrival_time": "2025-12-19T22:11:43.688516+00:00",
+      "arrival_epoch": 1766182303.688499,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 550,
+      "dut_ts": 1701,
+      "arrival_time": "2025-12-19T22:11:43.733421+00:00",
+      "arrival_epoch": 1766182303.7334032,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 551,
+      "dut_ts": 1727,
+      "arrival_time": "2025-12-19T22:11:43.780416+00:00",
+      "arrival_epoch": 1766182303.7803988,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 552,
+      "dut_ts": 1753,
+      "arrival_time": "2025-12-19T22:11:43.823396+00:00",
+      "arrival_epoch": 1766182303.8233743,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 553,
+      "dut_ts": 1779,
+      "arrival_time": "2025-12-19T22:11:43.868525+00:00",
+      "arrival_epoch": 1766182303.8684924,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 554,
+      "dut_ts": 1805,
+      "arrival_time": "2025-12-19T22:11:43.913507+00:00",
+      "arrival_epoch": 1766182303.9134886,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 555,
+      "dut_ts": 1830,
+      "arrival_time": "2025-12-19T22:11:43.958504+00:00",
+      "arrival_epoch": 1766182303.9584856,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 556,
+      "dut_ts": 1856,
+      "arrival_time": "2025-12-19T22:11:44.003334+00:00",
+      "arrival_epoch": 1766182304.0033157,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 557,
+      "dut_ts": 1882,
+      "arrival_time": "2025-12-19T22:11:44.048500+00:00",
+      "arrival_epoch": 1766182304.0484838,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 558,
+      "dut_ts": 1908,
+      "arrival_time": "2025-12-19T22:11:44.093471+00:00",
+      "arrival_epoch": 1766182304.0934541,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 559,
+      "dut_ts": 1934,
+      "arrival_time": "2025-12-19T22:11:44.138496+00:00",
+      "arrival_epoch": 1766182304.1384778,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 560,
+      "dut_ts": 1960,
+      "arrival_time": "2025-12-19T22:11:44.183502+00:00",
+      "arrival_epoch": 1766182304.183485,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 561,
+      "dut_ts": 1986,
+      "arrival_time": "2025-12-19T22:11:44.228481+00:00",
+      "arrival_epoch": 1766182304.228462,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 562,
+      "dut_ts": 2012,
+      "arrival_time": "2025-12-19T22:11:44.275498+00:00",
+      "arrival_epoch": 1766182304.275481,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 563,
+      "dut_ts": 2038,
+      "arrival_time": "2025-12-19T22:11:44.318483+00:00",
+      "arrival_epoch": 1766182304.3184657,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 564,
+      "dut_ts": 2064,
+      "arrival_time": "2025-12-19T22:11:44.366351+00:00",
+      "arrival_epoch": 1766182304.3663335,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 565,
+      "dut_ts": 2090,
+      "arrival_time": "2025-12-19T22:11:44.408479+00:00",
+      "arrival_epoch": 1766182304.4084616,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 566,
+      "dut_ts": 2116,
+      "arrival_time": "2025-12-19T22:11:44.453329+00:00",
+      "arrival_epoch": 1766182304.4533076,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 567,
+      "dut_ts": 2142,
+      "arrival_time": "2025-12-19T22:11:44.498522+00:00",
+      "arrival_epoch": 1766182304.498504,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 568,
+      "dut_ts": 2167,
+      "arrival_time": "2025-12-19T22:11:44.543494+00:00",
+      "arrival_epoch": 1766182304.5434766,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 569,
+      "dut_ts": 2192,
+      "arrival_time": "2025-12-19T22:11:44.635510+00:00",
+      "arrival_epoch": 1766182304.6354907,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 570,
+      "dut_ts": 2218,
+      "arrival_time": "2025-12-19T22:11:44.678493+00:00",
+      "arrival_epoch": 1766182304.6784759,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 571,
+      "dut_ts": 2243,
+      "arrival_time": "2025-12-19T22:11:44.723490+00:00",
+      "arrival_epoch": 1766182304.7234712,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 572,
+      "dut_ts": 2269,
+      "arrival_time": "2025-12-19T22:11:44.770575+00:00",
+      "arrival_epoch": 1766182304.7705574,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 573,
+      "dut_ts": 2294,
+      "arrival_time": "2025-12-19T22:11:44.813574+00:00",
+      "arrival_epoch": 1766182304.8135538,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 574,
+      "dut_ts": 2320,
+      "arrival_time": "2025-12-19T22:11:44.860433+00:00",
+      "arrival_epoch": 1766182304.8604147,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 575,
+      "dut_ts": 2345,
+      "arrival_time": "2025-12-19T22:11:44.903549+00:00",
+      "arrival_epoch": 1766182304.9035292,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 576,
+      "dut_ts": 2371,
+      "arrival_time": "2025-12-19T22:11:44.948587+00:00",
+      "arrival_epoch": 1766182304.948568,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 577,
+      "dut_ts": 2397,
+      "arrival_time": "2025-12-19T22:11:45.038567+00:00",
+      "arrival_epoch": 1766182305.038548,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 578,
+      "dut_ts": 2423,
+      "arrival_time": "2025-12-19T22:11:45.041408+00:00",
+      "arrival_epoch": 1766182305.0413895,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 579,
+      "dut_ts": 2449,
+      "arrival_time": "2025-12-19T22:11:45.083565+00:00",
+      "arrival_epoch": 1766182305.0835462,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 580,
+      "dut_ts": 2474,
+      "arrival_time": "2025-12-19T22:11:45.130484+00:00",
+      "arrival_epoch": 1766182305.130465,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 581,
+      "dut_ts": 2500,
+      "arrival_time": "2025-12-19T22:11:45.173506+00:00",
+      "arrival_epoch": 1766182305.1734867,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 582,
+      "dut_ts": 2526,
+      "arrival_time": "2025-12-19T22:11:45.218552+00:00",
+      "arrival_epoch": 1766182305.2185314,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 583,
+      "dut_ts": 2552,
+      "arrival_time": "2025-12-19T22:11:45.308503+00:00",
+      "arrival_epoch": 1766182305.308484,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 584,
+      "dut_ts": 2578,
+      "arrival_time": "2025-12-19T22:11:45.311386+00:00",
+      "arrival_epoch": 1766182305.3113675,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 585,
+      "dut_ts": 2604,
+      "arrival_time": "2025-12-19T22:11:45.353530+00:00",
+      "arrival_epoch": 1766182305.3534787,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 586,
+      "dut_ts": 2630,
+      "arrival_time": "2025-12-19T22:11:45.398343+00:00",
+      "arrival_epoch": 1766182305.398324,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 587,
+      "dut_ts": 2656,
+      "arrival_time": "2025-12-19T22:11:45.443504+00:00",
+      "arrival_epoch": 1766182305.4434857,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 588,
+      "dut_ts": 2682,
+      "arrival_time": "2025-12-19T22:11:45.488340+00:00",
+      "arrival_epoch": 1766182305.488321,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 589,
+      "dut_ts": 2708,
+      "arrival_time": "2025-12-19T22:11:45.533421+00:00",
+      "arrival_epoch": 1766182305.5334013,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 590,
+      "dut_ts": 2734,
+      "arrival_time": "2025-12-19T22:11:45.580421+00:00",
+      "arrival_epoch": 1766182305.580402,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 591,
+      "dut_ts": 2760,
+      "arrival_time": "2025-12-19T22:11:45.623407+00:00",
+      "arrival_epoch": 1766182305.6233897,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 592,
+      "dut_ts": 2786,
+      "arrival_time": "2025-12-19T22:11:45.668447+00:00",
+      "arrival_epoch": 1766182305.6684296,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 593,
+      "dut_ts": 2813,
+      "arrival_time": "2025-12-19T22:11:45.758495+00:00",
+      "arrival_epoch": 1766182305.7584758,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 594,
+      "dut_ts": 2839,
+      "arrival_time": "2025-12-19T22:11:45.803451+00:00",
+      "arrival_epoch": 1766182305.8034158,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 595,
+      "dut_ts": 2865,
+      "arrival_time": "2025-12-19T22:11:45.848420+00:00",
+      "arrival_epoch": 1766182305.8484027,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 596,
+      "dut_ts": 2891,
+      "arrival_time": "2025-12-19T22:11:45.893420+00:00",
+      "arrival_epoch": 1766182305.8933997,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 597,
+      "dut_ts": 2917,
+      "arrival_time": "2025-12-19T22:11:45.938417+00:00",
+      "arrival_epoch": 1766182305.938397,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 598,
+      "dut_ts": 2943,
+      "arrival_time": "2025-12-19T22:11:46.030420+00:00",
+      "arrival_epoch": 1766182306.0304003,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 599,
+      "dut_ts": 2968,
+      "arrival_time": "2025-12-19T22:11:46.073404+00:00",
+      "arrival_epoch": 1766182306.0733864,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 600,
+      "dut_ts": 2994,
+      "arrival_time": "2025-12-19T22:11:46.118416+00:00",
+      "arrival_epoch": 1766182306.118397,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 601,
+      "dut_ts": 3020,
+      "arrival_time": "2025-12-19T22:11:46.163344+00:00",
+      "arrival_epoch": 1766182306.1633265,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 602,
+      "dut_ts": 3045,
+      "arrival_time": "2025-12-19T22:11:46.208431+00:00",
+      "arrival_epoch": 1766182306.208412,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 603,
+      "dut_ts": 3071,
+      "arrival_time": "2025-12-19T22:11:46.253419+00:00",
+      "arrival_epoch": 1766182306.2534006,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 604,
+      "dut_ts": 3097,
+      "arrival_time": "2025-12-19T22:11:46.298497+00:00",
+      "arrival_epoch": 1766182306.2984784,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 605,
+      "dut_ts": 3123,
+      "arrival_time": "2025-12-19T22:11:46.388429+00:00",
+      "arrival_epoch": 1766182306.3884096,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 606,
+      "dut_ts": 3148,
+      "arrival_time": "2025-12-19T22:11:46.391348+00:00",
+      "arrival_epoch": 1766182306.39133,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 607,
+      "dut_ts": 3174,
+      "arrival_time": "2025-12-19T22:11:46.435382+00:00",
+      "arrival_epoch": 1766182306.4353485,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 608,
+      "dut_ts": 3200,
+      "arrival_time": "2025-12-19T22:11:46.478490+00:00",
+      "arrival_epoch": 1766182306.4784706,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 609,
+      "dut_ts": 3226,
+      "arrival_time": "2025-12-19T22:11:46.523434+00:00",
+      "arrival_epoch": 1766182306.5234146,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 610,
+      "dut_ts": 3252,
+      "arrival_time": "2025-12-19T22:11:46.568331+00:00",
+      "arrival_epoch": 1766182306.5683124,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 611,
+      "dut_ts": 3277,
+      "arrival_time": "2025-12-19T22:11:46.613494+00:00",
+      "arrival_epoch": 1766182306.6134624,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 612,
+      "dut_ts": 3303,
+      "arrival_time": "2025-12-19T22:11:46.658485+00:00",
+      "arrival_epoch": 1766182306.6584663,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 613,
+      "dut_ts": 3329,
+      "arrival_time": "2025-12-19T22:11:46.703502+00:00",
+      "arrival_epoch": 1766182306.7034829,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 614,
+      "dut_ts": 3355,
+      "arrival_time": "2025-12-19T22:11:46.793509+00:00",
+      "arrival_epoch": 1766182306.7934911,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 615,
+      "dut_ts": 3380,
+      "arrival_time": "2025-12-19T22:11:46.796343+00:00",
+      "arrival_epoch": 1766182306.7963254,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 616,
+      "dut_ts": 3406,
+      "arrival_time": "2025-12-19T22:11:46.840429+00:00",
+      "arrival_epoch": 1766182306.8404093,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 617,
+      "dut_ts": 3431,
+      "arrival_time": "2025-12-19T22:11:46.884395+00:00",
+      "arrival_epoch": 1766182306.8843772,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 618,
+      "dut_ts": 3457,
+      "arrival_time": "2025-12-19T22:11:46.931430+00:00",
+      "arrival_epoch": 1766182306.931411,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 619,
+      "dut_ts": 3483,
+      "arrival_time": "2025-12-19T22:11:46.973479+00:00",
+      "arrival_epoch": 1766182306.9734588,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 620,
+      "dut_ts": 3509,
+      "arrival_time": "2025-12-19T22:11:47.018359+00:00",
+      "arrival_epoch": 1766182307.018319,
+      "payload_len": 240,
+      "raw_len": 244
+    },
+    {
+      "seq": 621,
+      "dut_ts": 3534,
+      "arrival_time": "2025-12-19T22:11:47.063335+00:00",
+      "arrival_epoch": 1766182307.0633156,
+      "payload_len": 240,
+      "raw_len": 244
+    }
+  ]
+}

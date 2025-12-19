@@ -21,6 +21,9 @@ class RssiClient:
 
     def __init__(self, args):
         self.args = args
+        self.connect_timeout_s = float(getattr(args, "connect_timeout_s", 20.0))
+        self.connect_attempts = max(1, int(getattr(args, "connect_attempts", 1)))
+        self.connect_retry_delay_s = max(0.0, float(getattr(args, "connect_retry_delay_s", 0.0)))
         self.records: List[Dict[str, Any]] = []
         self.metadata: Dict[str, Any] = {
             "created": utc_now(),
@@ -41,7 +44,8 @@ class RssiClient:
         self.csv_path = output_dir / f"{base_name}.csv"
         self.json_path = output_dir / f"{base_name}.json"
 
-        async with BleakClient(self.args.address) as client:
+        client = await self._connect_with_retries()
+        try:
             self.metadata["adapter"] = getattr(client, "adapter", "unknown")
             self.metadata["connected_at"] = utc_now()
             self.metadata["rssi_sampling"] = (
@@ -57,6 +61,8 @@ class RssiClient:
                     self.metadata["notes"].append(note)
                 self.records.append({"index": idx, "timestamp": utc_now(), "rssi_dbm": rssi})
                 await asyncio.sleep(self.args.interval_s)
+        finally:
+            await self._safe_disconnect(client)
 
         if self.metadata["notes"]:
             self.metadata["notes"] = sorted(set(self.metadata["notes"]))
@@ -133,3 +139,44 @@ class RssiClient:
         json_blob = {"metadata": self.metadata, "samples": self.records}
         with self.json_path.open("w") as json_file:
             json.dump(json_blob, json_file, indent=2)
+
+    async def _connect_with_retries(self) -> BleakClient:
+        attempts = self.connect_attempts
+        delay = self.connect_retry_delay_s
+        for attempt in range(1, attempts + 1):
+            client = BleakClient(self.args.address, timeout=self.connect_timeout_s)
+            try:
+                await client.connect(timeout=self.connect_timeout_s)
+                self.metadata["connection_retry"] = {
+                    "timeout_s": self.connect_timeout_s,
+                    "attempts": attempts,
+                    "retry_delay_s": delay,
+                    "attempts_used": attempt,
+                }
+                print(
+                    f"[rssi] Connected to {self.args.address} on attempt {attempt}/{attempts}",
+                    flush=True,
+                )
+                return client
+            except asyncio.CancelledError:
+                await self._safe_disconnect(client)
+                raise
+            except Exception as exc:  # pylint: disable=broad-except
+                await self._safe_disconnect(client)
+                print(
+                    f"[rssi] Connection attempt {attempt}/{attempts} failed: {exc}",
+                    flush=True,
+                )
+                if attempt < attempts:
+                    await asyncio.sleep(delay)
+                else:
+                    raise RuntimeError(
+                        f"RSSI logger could not reach {self.args.address} after {attempts} attempts ({exc})."
+                    ) from exc
+        raise RuntimeError(f"RSSI logger failed to connect to {self.args.address}.")
+
+    async def _safe_disconnect(self, client: BleakClient) -> None:
+        try:
+            await client.disconnect()
+        except Exception:
+            pass

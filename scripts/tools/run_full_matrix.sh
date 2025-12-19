@@ -13,7 +13,7 @@ fi
 source .venv/bin/activate
 
 DEFAULT_ARGS=(
-  --phys auto 2m
+  --phys auto
   --payloads 20 60 120 180 244
   --repeats 2
   --duration_s 30
