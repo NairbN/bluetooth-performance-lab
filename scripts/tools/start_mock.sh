@@ -7,11 +7,11 @@ if [[ $EUID -ne 0 ]]; then
   exec sudo "$0" "$@"
 fi
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 if [[ ! -d ".venv" ]]; then
-  echo "[start_mock] .venv not found. Run ./scripts/setup_linux_b.sh first." >&2
+  echo "[start_mock] .venv not found. Run ./scripts/tools/setup_linux_b.sh first." >&2
   exit 1
 fi
 
