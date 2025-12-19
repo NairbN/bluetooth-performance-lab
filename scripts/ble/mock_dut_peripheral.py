@@ -129,11 +129,11 @@ class TXCharacteristic(Characteristic):
         super().__init__(service, index, uuid, ["notify"])
         self.notifying = False
 
-    @method(GATT_CHRC_IFACE, in_signature="", out_signature="")
+    @method(GATT_CHRC_IFACE, "", "")
     async def StartNotify(self):
         self.notifying = True
 
-    @method(GATT_CHRC_IFACE, in_signature="", out_signature="")
+    @method(GATT_CHRC_IFACE, "", "")
     async def StopNotify(self):
         self.notifying = False
 
@@ -149,7 +149,7 @@ class RXCharacteristic(Characteristic):
         super().__init__(service, index, uuid, ["write-without-response"])
         self._handler = handler
 
-    @method(GATT_CHRC_IFACE, in_signature="aya{sv}", out_signature="")
+    @method(GATT_CHRC_IFACE, "aya{sv}", "")
     async def WriteValue(self, value, options):  # pylint: disable=unused-argument
         data = bytes(value)
         await self._handler(data)
