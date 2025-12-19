@@ -58,6 +58,14 @@ def run_mock(args) -> None:
 
     adapter_props = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), DBUS_PROP_IFACE)
     adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
+    try:
+        adapter_props.Set("org.bluez.Adapter1", "DiscoverableTimeout", dbus.UInt32(0))
+    except Exception:
+        pass
+    try:
+        adapter_props.Set("org.bluez.Adapter1", "Discoverable", dbus.Boolean(1))
+    except Exception:
+        pass
 
     gatt_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), GATT_MANAGER_IFACE)
     ad_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), LE_ADVERTISING_MANAGER_IFACE)
@@ -96,6 +104,7 @@ def run_mock(args) -> None:
     advertisement = Advertisement(bus, 0, "peripheral")
     advertisement.add_service_uuid(args.service_uuid)
     advertisement.add_local_name(args.advertise_name)
+    advertisement.set_flags(["general-discoverable", "le-only"])
     desired_includes = ["tx-power"]  # prefer conservative set; local-name already covered via LocalName property
     for include in desired_includes:
         if include in supported_includes:

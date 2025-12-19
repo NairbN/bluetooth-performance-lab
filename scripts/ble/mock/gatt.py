@@ -36,6 +36,7 @@ class Advertisement(dbus.service.Object):
         self.service_uuids: List[str] | None = None
         self.local_name: str | None = None
         self.includes: List[str] = []
+        self.flags: List[str] = []
         dbus.service.Object.__init__(self, bus, self.path)
 
     def add_service_uuid(self, uuid: str) -> None:
@@ -48,6 +49,9 @@ class Advertisement(dbus.service.Object):
         if include not in self.includes:
             self.includes.append(include)
 
+    def set_flags(self, flags: List[str]) -> None:
+        self.flags = flags
+
     def get_properties(self):
         props = {"Type": self.ad_type}
         if self.service_uuids is not None:
@@ -56,6 +60,8 @@ class Advertisement(dbus.service.Object):
             props["LocalName"] = dbus.String(self.local_name)
         if self.includes:
             props["Includes"] = dbus.Array(self.includes, signature="s")
+        if self.flags:
+            props["Flags"] = dbus.Array(self.flags, signature="s")
         return {LE_ADVERTISEMENT_IFACE: props}
 
     def get_path(self):
