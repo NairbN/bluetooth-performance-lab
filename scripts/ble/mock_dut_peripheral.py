@@ -32,11 +32,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mock_rssi_variation", type=int, default=5, help="Variation (+/- dBm) for mock RSSI characteristic.")
     parser.add_argument("--log", default=None, help="Optional log file path")
     parser.add_argument("--quiet", action="store_true", help="Reduce stdout noise")
+    parser.add_argument("--verbose", action="store_true", help="Force verbose console logging (overrides --quiet).")
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
+    if getattr(args, "verbose", False):
+        args.quiet = False
     run_mock(args)
 
 
