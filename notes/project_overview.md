@@ -12,19 +12,19 @@ Provide a vendor-neutral BLE throughput test harness for the Smart Ring DUT:
 
 | Component | Description |
 | --- | --- |
-| `scripts/ble/mock_dut_peripheral.py` + `scripts/start_mock.sh` | BlueZ-based mock exposing the test service; prints adapter MAC, processes Start/Stop/Reset commands, and streams `[SEQ][TS][DATA]` notifications with proper pacing. |
+| `scripts/ble/mock_dut_peripheral.py` + `scripts/tools/start_mock.sh` | BlueZ-based mock exposing the test service; prints adapter MAC, processes Start/Stop/Reset commands, and streams `[SEQ][TS][DATA]` notifications with proper pacing. |
 | `scripts/ble/ble_throughput_client.py` | Central logger: validates service/characteristics, sends commands, records notifications, exports CSV/JSON summaries (packets, PER, throughput, jitter). |
 | `scripts/ble/ble_latency_client.py` | Measures “start command → notification” and “write → notification” latencies with configurable iterations/timeouts. |
 | `scripts/ble/ble_rssi_logger.py` | Best-effort RSSI sampler (logs limitations if Linux can’t provide continuous values). |
 | `scripts/ble/run_throughput_matrix.py` / `run_full_matrix.py` (+ shell wrappers) | End-to-end automation: sweeps payloads/PHYs/scenarios, prints progress + summaries, generates per-scenario plots and a final comparison chart. |
-| Setup/Cleanup (`scripts/setup_linux_a.sh`, `setup_linux_b.sh`, `cleanup_outputs.sh`) | One-command environment prep on each machine plus log/results reset. |
+| Setup/Cleanup (`scripts/tools/setup_linux_a.sh`, `setup_linux_b.sh`, `cleanup_outputs.sh`) | One-command environment prep on each machine plus log/results reset. |
 | Analysis (`scripts/analysis/ble_log_summarize.py`, `ble_plot.py`) | Converts raw logs to tables and plots; full-matrix runner now auto-emits key plots. |
 
 ## Workflow
 
-1. **Mock (Linux B)**: `./scripts/setup_linux_b.sh` (once) → `./scripts/start_mock.sh` (prints MAC, advertises service).
-2. **Central (Linux A)**: `./scripts/setup_linux_a.sh` (once) → `source .venv/bin/activate` → optional `./scripts/cleanup_outputs.sh --yes`.
-3. **Run tests**: `./scripts/run_full_matrix.sh --address <MAC> --note "<phone/scenario>"` (prompts between baseline, hand-behind-body, pocket, backpack; sweeps payloads + PHYs; logs throughput/latency/RSSI). See "Adjusting Test Parameters" to adjust the parameters
+1. **Mock (Linux B)**: `./scripts/tools/setup_linux_b.sh` (once) → `./scripts/tools/start_mock.sh` (prints MAC, advertises service).
+2. **Central (Linux A)**: `./scripts/tools/setup_linux_a.sh` (once) → `source .venv/bin/activate` → optional `./scripts/tools/cleanup_outputs.sh --yes`.
+3. **Run tests**: `./scripts/tools/run_full_matrix.sh --address <MAC> --note "<phone/scenario>"` (prompts between baseline, hand-behind-body, pocket, backpack; sweeps payloads + PHYs; logs throughput/latency/RSSI). See "Adjusting Test Parameters" to adjust the parameters
 4. **Results**: Raw logs in `logs/ble/`; aggregated CSVs under `results/tables/`; per-scenario and comparison plots (throughput, latency, RSSI availability) in `results/plots/`. Summaries printed live and after completion (even if interrupted).
 
 ### Adjusting Test Parameters
@@ -43,7 +43,7 @@ Both `run_full_matrix.sh` and `run_throughput_matrix.sh` are thin wrappers over 
 | `--rssi_samples 20` | `20` | Number of RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Tag stored in CSV/log metadata (phone model, location, etc.). |
 
-Example: `./scripts/run_full_matrix.sh --address <MAC> --payloads 40 80 --repeats 1 --skip_latency`.
+Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --payloads 40 80 --repeats 1 --skip_latency`.
 
 ## Metrics Covered
 

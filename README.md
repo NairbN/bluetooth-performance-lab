@@ -11,8 +11,8 @@ This repo hosts a vendor-neutral lab environment for validating a Smart Ring DUT
 ```bash
 cd ~/Workspace/bluetooth-performance-lab
 git pull
-./scripts/setup_linux_b.sh        # first run or after pull
-./scripts/start_mock.sh           # prints adapter MAC and advertises the test service
+./scripts/tools/setup_linux_b.sh        # first run or after pull
+./scripts/tools/start_mock.sh           # prints adapter MAC and advertises the test service
 ```
 
 Keep that terminal open; it runs the mock and logs to `logs/mock_dut.log`.
@@ -22,15 +22,15 @@ Keep that terminal open; it runs the mock and logs to `logs/mock_dut.log`.
 ```bash
 cd ~/Workspace/bluetooth-performance-lab
 git pull
-./scripts/setup_linux_a.sh        # first run or after pull
+./scripts/tools/setup_linux_a.sh        # first run or after pull
 source .venv/bin/activate
-./scripts/cleanup_outputs.sh --yes   # optional: clear logs/results
+./scripts/tools/cleanup_outputs.sh --yes   # optional: clear logs/results
 ```
 
 ### 3. Run the BLE test matrix
 
 ```bash
-./scripts/run_full_matrix.sh --address <MAC_FROM_MOCK> --note "Phone/Scenario"
+./scripts/tools/run_full_matrix.sh --address <MAC_FROM_MOCK> --note "Phone/Scenario"
 ```
 
 This walks through the default scenarios (baseline, hand-behind-body, phone in pocket, phone in backpack), sweeps payloads/PHYs, logs throughput/latency/RSSI, and generates CSVs + plots automatically.
@@ -47,12 +47,12 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 
 | Path | Role |
 | --- | --- |
-| `scripts/start_mock.sh` → `scripts/ble/mock_dut_peripheral.py` | BlueZ-based mock exposing the test GATT service (UUID `12345678-1234-5678-1234-56789ABCDEF0`). Prints adapter MAC, handles Start/Stop/Reset commands, streams `[SEQ][TS][DATA]` notifications. |
+| `scripts/tools/start_mock.sh` → `scripts/ble/mock_dut_peripheral.py` | BlueZ-based mock exposing the test GATT service (UUID `12345678-1234-5678-1234-56789ABCDEF0`). Prints adapter MAC, handles Start/Stop/Reset commands, streams `[SEQ][TS][DATA]` notifications. |
 | `scripts/ble/ble_throughput_client.py` | Central harness for throughput & packet-loss logging (CSV/JSON). Supports optional `--verbose` for detailed logs. |
 | `scripts/ble/ble_latency_client.py` | Measures start-triggered or write-to-notify latency with configurable iterations/timeouts. |
 | `scripts/ble/ble_rssi_logger.py` | Best-effort RSSI logger (records limitations when Linux can’t provide continuous values). |
-| `scripts/run_full_matrix.sh` (`run_throughput_matrix.sh`) | Automation wrappers covering scenarios, PHYs, payload sweeps, latency, and RSSI. Prints progress bars, per-scenario summaries, and generates plots. |
-| `scripts/cleanup_outputs.sh` | Clears `logs/ble/` and `results/*` (optional before each run). |
+| `scripts/tools/run_full_matrix.sh` (`run_throughput_matrix.sh`) | Automation wrappers covering scenarios, PHYs, payload sweeps, latency, and RSSI. Prints progress bars, per-scenario summaries, and generates plots. |
+| `scripts/tools/cleanup_outputs.sh` | Clears `logs/ble/` and `results/*` (optional before each run). |
 | `scripts/analysis/ble_log_summarize.py`, `ble_plot.py` | Additional post-processing helpers (summaries/plots). |
 | `docs/`, `experiments/`, `notes/` | Detailed context (test plan, topology, mock/device setup, troubleshooting). |
 
@@ -74,7 +74,7 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `--rssi_samples 20` | `20` | RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Stored in CSV/JSON for traceability (phone model, environment). |
 
-Example: `./scripts/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
+Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
 
 ---
 
