@@ -31,11 +31,13 @@ The project prioritizes **repeatability, traceability, and protocol-level unders
 
 At the time this document is written:
 
-* ✅ Test environment is fully defined and documented
-* ✅ Hardware for Linux A and Linux B is finalized
-* ✅ OS, firmware, BlueZ versions are locked
-* ✅ Test topology is finalized
-* ✅ Lab report structure is written
+* ✅ Test environment is fully defined and documented.
+* ✅ Hardware for Linux A and Linux B is finalized.
+* ✅ OS, firmware, BlueZ versions are locked.
+* ✅ Test topology is finalized.
+* ✅ Lab report structure is written.
+* ✅ BLE mock, central clients, analysis scripts, and scenario automation (`run_full_matrix`) are implemented.
+* ⚠️ **BLE connectivity between Linux A ↔ Linux B is currently unreliable**. After refactoring the mock and automation scripts, Linux B’s BlueZ stack frequently fails to complete LE connections (Bleak reports `BleakDeviceNotFoundError` or connection timeouts) even when `btmon` shows mock advertisements. The failure persists even when using the upstream BlueZ example GATT/advertisement scripts, indicating the issue lies with controller state (adapter cache/discovery) rather than our mock.
 
 ⚠️ **No experiments have been executed yet**
 ⚠️ **No performance data exists yet**
