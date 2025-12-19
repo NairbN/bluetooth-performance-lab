@@ -157,9 +157,9 @@ class RXCharacteristic(Characteristic):
 
 
 class Advertisement(ServiceInterface):
-    def __init__(self, index: int, service_uuid: str, name: str):
+    def __init__(self, service_uuid: str, name: str):
         super().__init__(LE_ADVERTISEMENT_IFACE)
-        self.path = f"/org/bluez/mockring/advertisement{index}"
+        self.path = "/org/bluez/mockring/advertisement0"
         self.service_uuid = service_uuid
         self.name = name
 
@@ -240,7 +240,7 @@ class MockRingPeripheral:
         self.tx_char = TXCharacteristic(service, 0, self.args.tx_uuid)
         RXCharacteristic(service, 1, self.args.rx_uuid, self.handle_command)
         application = Application([service])
-        advertisement = Advertisement(0, self.args.service_uuid, self.args.advertise_name)
+        advertisement = Advertisement(self.args.service_uuid, self.args.advertise_name)
 
         self.bus.export(application.path, application)
         self.bus.export(service.path, service)
@@ -251,6 +251,7 @@ class MockRingPeripheral:
         gatt_manager = await self._get_interface(adapter_path, GATT_MANAGER_IFACE)
         ad_manager = await self._get_interface(adapter_path, LE_AD_MANAGER_IFACE)
 
+        await asyncio.sleep(0.1)
         await gatt_manager.call_register_application(application.path, {})
         await ad_manager.call_register_advertisement(advertisement.path, {})
         self.logger.write("Mock DUT registered GATT service and started advertising.")
