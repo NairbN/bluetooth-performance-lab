@@ -58,6 +58,7 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `scripts/ble/ble_rssi_logger.py` | Best-effort RSSI logger (records limitations when Linux can’t provide continuous values). |
 | `scripts/tools/run_full_matrix.sh` (`run_throughput_matrix.sh`) | Automation wrappers covering scenarios, PHYs, payload sweeps, latency, and RSSI. Prints progress bars, per-scenario summaries, and generates plots. |
 | `scripts/tools/cleanup_outputs.sh` | Clears `logs/ble/` and `results/*` (optional before each run). |
+| `scripts/tools/clear_bt_cache.sh` | Stops bluetoothd and removes cached `/var/lib/bluetooth/<adapter>/<device>` entries when GATT changes cause stale data, then restarts the service. |
 | `scripts/analysis/ble_log_summarize.py`, `ble_plot.py` | Additional post-processing helpers (summaries/plots). |
 | `docs/`, `experiments/`, `notes/` | Detailed context (test plan, topology, mock/device setup, troubleshooting). |
 
