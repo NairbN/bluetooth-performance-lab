@@ -14,6 +14,10 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
+import matplotlib
+
+matplotlib.use("Agg")
+from matplotlib import pyplot as plt
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run BLE throughput/latency/RSSI sweeps for multiple scenarios.")
@@ -39,6 +43,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rssi_interval_s", type=float, default=1.0)
     parser.add_argument("--out", default="logs/ble", help="Directory where individual logs are written.")
     parser.add_argument("--results_dir", default="results/tables", help="Directory to store aggregated CSVs.")
+    parser.add_argument("--plots_dir", default="results/plots", help="Directory to store generated plots.")
     parser.add_argument("--note", default="", help="Optional note appended to every row (e.g., phone model).")
     parser.add_argument("--prompt", action="store_true", help="Prompt before each scenario to allow repositioning.")
     parser.add_argument("--skip_throughput", action="store_true")
@@ -70,8 +75,145 @@ def _new_log(out_dir: Path, before: Dict[str, Path], pattern: str) -> Optional[P
 
 
 def _run_cmd(cmd: Sequence[str]) -> None:
-    print(f"[runner] Exec: {' '.join(cmd)}")
     subprocess.run(cmd, check=True)
+
+
+def _progress(label: str, current: int, total: int, width: int = 24) -> str:
+    if total <= 0:
+        return f"{label}: [????????] {current}/{total}"
+    ratio = min(max(current / total, 0.0), 1.0)
+    filled = int(ratio * width)
+    bar = "#" * filled + "-" * (width - filled)
+    return f"{label}: [{bar}] {current}/{total}"
+
+
+def _plot_scenario(rows: List[Dict[str, float]], scenario: str, phy: str, plots_dir: Path) -> None:
+    data: Dict[int, List[float]] = {}
+    for row in rows:
+        payload = row.get("payload_bytes")
+        throughput = row.get("throughput_kbps")
+        if not isinstance(payload, int):
+            continue
+        if not isinstance(throughput, (int, float)):
+            continue
+        data.setdefault(payload, []).append(float(throughput))
+    if not data:
+        return
+    payloads = sorted(data.keys())
+    averages = [sum(data[p]) / len(data[p]) for p in payloads]
+    plt.figure()
+    plt.plot(payloads, averages, marker="o")
+    plt.title(f"{scenario} | PHY {phy} Throughput")
+    plt.xlabel("Payload (bytes)")
+    plt.ylabel("Throughput (kbps)")
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    safe_name = f"{scenario}_{phy}_throughput".replace(" ", "_")
+    path = plots_dir / f"{safe_name}.png"
+    plt.savefig(path, bbox_inches="tight")
+    plt.close()
+
+
+def _plot_latency(latency_rows: List[Dict[str, float]], scenario: str, phy: str, plots_dir: Path) -> None:
+    samples = [row for row in latency_rows if row.get("scenario") == scenario and row.get("phy") == phy]
+    if not samples:
+        return
+    values = [row.get("avg_latency_s") for row in samples if isinstance(row.get("avg_latency_s"), (int, float))]
+    if not values:
+        return
+    plt.figure()
+    plt.bar(range(len(values)), values)
+    plt.title(f"{scenario} | PHY {phy} Latency (avg per run)")
+    plt.ylabel("Latency (s)")
+    plt.xlabel("Run index")
+    plt.grid(axis="y", linestyle="--", alpha=0.4)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    safe_name = f"{scenario}_{phy}_latency".replace(" ", "_")
+    plt.tight_layout()
+    plt.savefig(plots_dir / f"{safe_name}.png")
+    plt.close()
+
+
+def _plot_rssi(rssi_rows: List[Dict[str, float]], scenario: str, phy: str, plots_dir: Path) -> None:
+    samples = [row for row in rssi_rows if row.get("scenario") == scenario and row.get("phy") == phy]
+    if not samples:
+        return
+    available = [1 if row.get("rssi_available") else 0 for row in samples]
+    if not available:
+        return
+    plt.figure()
+    plt.bar(range(len(available)), available)
+    plt.title(f"{scenario} | PHY {phy} RSSI availability")
+    plt.ylabel("Has RSSI samples (1=yes, 0=no)")
+    plt.xlabel("Run index")
+    plt.ylim(0, 1.2)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    safe_name = f"{scenario}_{phy}_rssi".replace(" ", "_")
+    plt.tight_layout()
+    plt.savefig(plots_dir / f"{safe_name}.png")
+    plt.close()
+
+
+def _plot_comparison_throughput(summaries: Dict[Tuple[str, str], Dict[str, float]], plots_dir: Path) -> None:
+    entries = [
+        (f"{scenario}\n{phy}", summary["avg_throughput_kbps"])
+        for (scenario, phy), summary in summaries.items()
+        if summary.get("avg_throughput_kbps") is not None
+    ]
+    if not entries:
+        return
+    labels, values = zip(*entries)
+    plt.figure(figsize=(max(6, len(labels) * 0.8), 4))
+    plt.bar(range(len(labels)), values)
+    plt.xticks(range(len(labels)), labels, rotation=45, ha="right")
+    plt.ylabel("Avg Throughput (kbps)")
+    plt.title("Scenario Comparison")
+    plt.grid(axis="y", linestyle="--", alpha=0.4)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    path = plots_dir / "scenario_comparison.png"
+    plt.tight_layout()
+    plt.savefig(path)
+    plt.close()
+
+
+def _plot_comparison_latency(latency_rows: List[Dict[str, float]], plots_dir: Path) -> None:
+    entries = [
+        (f"{row['scenario']}\n{row['phy']}", row["avg_latency_s"])
+        for row in latency_rows
+        if isinstance(row.get("avg_latency_s"), (int, float))
+    ]
+    if not entries:
+        return
+    labels, values = zip(*entries)
+    plt.figure(figsize=(max(6, len(labels) * 0.8), 4))
+    plt.bar(range(len(labels)), values)
+    plt.xticks(range(len(labels)), labels, rotation=45, ha="right")
+    plt.ylabel("Latency (s)")
+    plt.title("Latency Comparison")
+    plt.grid(axis="y", linestyle="--", alpha=0.4)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(plots_dir / "scenario_comparison_latency.png")
+    plt.close()
+
+
+def _plot_comparison_rssi(rssi_rows: List[Dict[str, float]], plots_dir: Path) -> None:
+    entries = [
+        (f"{row['scenario']}\n{row['phy']}", 1 if row.get("rssi_available") else 0)
+        for row in rssi_rows
+    ]
+    if not entries:
+        return
+    labels, values = zip(*entries)
+    plt.figure(figsize=(max(6, len(labels) * 0.8), 4))
+    plt.bar(range(len(labels)), values)
+    plt.xticks(range(len(labels)), labels, rotation=45, ha="right")
+    plt.ylabel("RSSI samples available")
+    plt.title("RSSI Collection Status")
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(plots_dir / "scenario_comparison_rssi.png")
+    plt.close()
 
 
 def run_throughput_trial(
@@ -256,52 +398,97 @@ def main() -> None:
     args = parse_args()
     out_dir = Path(args.out).expanduser()
     out_dir.mkdir(parents=True, exist_ok=True)
+    results_dir = Path(args.results_dir).expanduser()
+    plots_dir = Path(args.plots_dir).expanduser()
     throughput_rows: List[Dict[str, float]] = []
     latency_rows: List[Dict[str, float]] = []
     rssi_rows: List[Dict[str, float]] = []
+    scenario_summaries: Dict[Tuple[str, str], Dict[str, float]] = {}
 
-    for scenario in args.scenarios:
-        print(f"\n=== Scenario: {scenario} ===")
-        if args.prompt:
-            input("Adjust DUT/phone placement for this scenario, then press Enter to continue...")
-        for phy in args.phys:
-            print(f"[runner] Scenario {scenario} | PHY {phy}")
-            if not args.skip_throughput:
-                for payload in args.payloads:
-                    for trial in range(1, args.repeats + 1):
-                        summary = run_throughput_trial(args, scenario, phy, payload, trial, out_dir)
-                        if summary:
-                            throughput_rows.append(summary)
-            if not args.skip_latency:
-                for trial in range(1, 2):
-                    summary = run_latency_trial(args, scenario, phy, trial, out_dir)
+    def summarize_throughput(rows: List[Dict[str, float]]) -> Dict[str, float]:
+        valid = [row for row in rows if isinstance(row.get("throughput_kbps"), (int, float))]
+        if not valid:
+            return {}
+        avg = sum(row["throughput_kbps"] for row in valid) / len(valid)
+        loss = sum(row.get("estimated_lost_packets", 0) for row in valid)
+        packets = sum(row.get("packets", 0) for row in valid)
+        return {
+            "avg_throughput_kbps": avg,
+            "total_packets": packets,
+            "total_loss": loss,
+        }
+
+    scenario_total = len(args.scenarios) * len(args.phys)
+    scenario_counter = 0
+
+    try:
+        for scenario in args.scenarios:
+            if args.prompt:
+                input(f"[runner] Position hardware for scenario '{scenario}', then press Enter to continue...")
+            for phy in args.phys:
+                scenario_counter += 1
+                print(f"\n=== {_progress('Scenario', scenario_counter, scenario_total)} {scenario} | PHY {phy} ===")
+
+                if not args.skip_throughput:
+                    combo_total = len(args.payloads) * args.repeats
+                    combo_counter = 0
+                    for payload in args.payloads:
+                        for trial in range(1, args.repeats + 1):
+                            combo_counter += 1
+                            print(
+                                _progress("  Throughput", combo_counter, combo_total)
+                                + f" payload={payload} trial={trial}",
+                                flush=True,
+                            )
+                            summary = run_throughput_trial(args, scenario, phy, payload, trial, out_dir)
+                            if summary:
+                                throughput_rows.append(summary)
+                if not args.skip_latency:
+                    print("  Latency: collecting samples", flush=True)
+                    summary = run_latency_trial(args, scenario, phy, 1, out_dir)
                     if summary:
                         latency_rows.append(summary)
-            if not args.skip_rssi:
-                for trial in range(1, 2):
-                    summary = run_rssi_trial(args, scenario, phy, trial, out_dir)
+                if not args.skip_rssi:
+                    print("  RSSI: collecting samples", flush=True)
+                    summary = run_rssi_trial(args, scenario, phy, 1, out_dir)
                     if summary:
                         rssi_rows.append(summary)
 
-    results_dir = Path(args.results_dir).expanduser()
-    write_csv(
-        throughput_rows,
-        [
-            "scenario",
-            "phy",
-            "payload_bytes",
-            "trial",
-            "packets",
-            "estimated_lost_packets",
-            "duration_s",
-            "throughput_kbps",
-            "notification_rate_per_s",
-            "log_json",
-            "log_csv",
-            "notes",
-        ],
-        results_dir / "full_matrix_throughput.csv",
-    )
+            scenario_rows = [
+                row for row in throughput_rows if row.get("scenario") == scenario and row.get("phy") == phy
+            ]
+            scenario_summary = summarize_throughput(scenario_rows)
+            scenario_summaries[(scenario, phy)] = scenario_summary
+            _plot_scenario(scenario_rows, scenario, phy, plots_dir)
+            _plot_latency(latency_rows, scenario, phy, plots_dir)
+            _plot_rssi(rssi_rows, scenario, phy, plots_dir)
+            if scenario_summary:
+                print(
+                    f"  Summary -> avg throughput: {scenario_summary['avg_throughput_kbps']:.2f} kbps, "
+                    f"packets: {scenario_summary['total_packets']}, "
+                    f"loss: {scenario_summary['total_loss']}",
+                    flush=True,
+                )
+            else:
+                print("  Summary -> no valid throughput data recorded.", flush=True)
+    except KeyboardInterrupt:
+        print("\n[runner] Interrupted by user; summarizing completed scenarios.")
+
+    throughput_table = [
+        "scenario",
+        "phy",
+        "payload_bytes",
+        "trial",
+        "packets",
+        "estimated_lost_packets",
+        "duration_s",
+        "throughput_kbps",
+        "notification_rate_per_s",
+        "log_json",
+        "log_csv",
+        "notes",
+    ]
+    write_csv(throughput_rows, throughput_table, results_dir / "full_matrix_throughput.csv")
     write_csv(
         latency_rows,
         [
@@ -334,6 +521,22 @@ def main() -> None:
         ],
         results_dir / "full_matrix_rssi.csv",
     )
+
+    if scenario_summaries:
+        print("\n=== Scenario Comparison ===")
+        for (scenario, phy), summary in scenario_summaries.items():
+            if summary:
+                print(
+                    f"{scenario} | PHY {phy}: "
+                    f"{summary['avg_throughput_kbps']:.2f} kbps avg, "
+                    f"packets {summary['total_packets']}, "
+                    f"loss {summary['total_loss']}"
+                )
+            else:
+                print(f"{scenario} | PHY {phy}: no throughput data")
+    _plot_comparison_throughput(scenario_summaries, plots_dir)
+    _plot_comparison_latency(latency_rows, plots_dir)
+    _plot_comparison_rssi(rssi_rows, plots_dir)
 
 
 if __name__ == "__main__":
