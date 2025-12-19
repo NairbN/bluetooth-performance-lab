@@ -525,8 +525,16 @@ def main():
         advertisement.get_path(), {}, reply_handler=register_ad_cb, error_handler=register_ad_error_cb
     )
 
+    controller = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), DBUS_PROP_IFACE)
+    adapter_props_dict = {
+        "Address": controller.Get("org.bluez.Adapter1", "Address"),
+        "Name": controller.Get("org.bluez.Adapter1", "Name"),
+    }
     logging.info(
-        "Mock ring advertising on adapter %s with service %s", adapter.rsplit("/", 1)[-1], args.service_uuid
+        "Mock ring advertising on %s (%s) with service %s. Share this MAC with the central host.",
+        adapter_props_dict["Name"],
+        adapter_props_dict["Address"],
+        args.service_uuid,
     )
 
     if args.timeout > 0:
