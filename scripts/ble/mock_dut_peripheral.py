@@ -469,6 +469,7 @@ def parse_args():
     parser.add_argument("--stop_cmd", type=lambda x: int(x, 0), default=0x02)
     parser.add_argument("--reset_cmd", type=lambda x: int(x, 0), default=0x03)
     parser.add_argument("--log", default=None, help="Optional log file path")
+    parser.add_argument("--quiet", action="store_true", help="Reduce stdout noise; only key events printed.")
     return parser.parse_args()
 
 
@@ -478,6 +479,9 @@ def main():
 
     handlers = [logging.StreamHandler()]
     log_target = "stdout"
+    if args.quiet:
+        handlers[0].setLevel(logging.WARNING)
+        log_target = "stdout (quiet)"
     if args.log:
         log_path = Path(args.log).expanduser()
         log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -530,12 +534,12 @@ def main():
         "Address": controller.Get("org.bluez.Adapter1", "Address"),
         "Name": controller.Get("org.bluez.Adapter1", "Name"),
     }
-    logging.info(
-        "Mock ring advertising on %s (%s) with service %s. Share this MAC with the central host.",
-        adapter_props_dict["Name"],
-        adapter_props_dict["Address"],
-        args.service_uuid,
+    mac_line = (
+        f"Mock ring advertising on {adapter_props_dict['Name']} "
+        f"({adapter_props_dict['Address']}) with service {args.service_uuid}. "
+        "Share this MAC with the central host."
     )
+    print(mac_line)
 
     if args.timeout > 0:
         def _stop_after_timeout():

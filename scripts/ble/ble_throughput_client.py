@@ -23,8 +23,12 @@ from typing import Any, Dict, List, Optional
 from bleak import BleakClient
 
 
+VERBOSE_LOG = False
+
+
 def log_step(message: str) -> None:
-    print(f"[ble_throughput] {message}")
+    if VERBOSE_LOG:
+        print(f"[ble_throughput] {message}")
 
 
 def _int_value(value: str) -> int:
@@ -327,22 +331,27 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--reset_cmd", type=_int_value, default=0x03, help="Reset command ID (default 0x03).")
     parser.add_argument("--mtu", type=int, default=247, help="Requested MTU size.")
     parser.add_argument("--phy", choices=["auto", "1m", "2m", "coded"], default="auto", help="Preferred PHY request (best-effort).")
+    parser.add_argument("--verbose", action="store_true", help="Print detailed progress logs.")
     return parser
 
 
 def main() -> None:
     parser = build_arg_parser()
     args = parser.parse_args()
+    global VERBOSE_LOG  # pylint: disable=global-statement
+    VERBOSE_LOG = args.verbose
     if not 20 <= args.payload_bytes <= 244:
         parser.error("payload_bytes must be between 20 and 244 to align with ATT MTU constraints.")
     try:
         summary = asyncio.run(run_throughput_test(args))
     except KeyboardInterrupt:
-        print("Interrupted by user; partial logs (if any) retained.")
+        if VERBOSE_LOG:
+            print("Interrupted by user; partial logs (if any) retained.")
         return
-    print("Test summary:")
-    for key, value in summary.items():
-        print(f"  {key}: {value}")
+    if VERBOSE_LOG:
+        print("Test summary:")
+        for key, value in summary.items():
+            print(f"  {key}: {value}")
 
 
 if __name__ == "__main__":

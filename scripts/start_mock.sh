@@ -22,6 +22,7 @@ DEFAULT_ARGS=(
   --advertise_name MockRingDemo
   --payload_bytes 160
   --notify_hz 40
+  --quiet
   --log logs/mock_dut.log
 )
 
