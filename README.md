@@ -73,6 +73,7 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `--latency_iterations 5` | `5` | Samples per latency run. |
 | `--rssi_samples 20` | `20` | RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Stored in CSV/JSON for traceability (phone model, environment). |
+| `--wait_for_connection --wait_timeout_s 20 --wait_retry_delay_s 5 --wait_attempts 3` | Disabled by default | Force the runner to block before each scenario until a connection to the DUT succeeds. Useful when BlueZ needs a moment to discover new advertisements. |
 
 Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
 

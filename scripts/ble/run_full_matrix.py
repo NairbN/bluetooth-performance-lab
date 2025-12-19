@@ -11,6 +11,8 @@ import argparse
 import json
 import subprocess
 import sys
+import asyncio
+import time
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -18,6 +20,11 @@ import matplotlib
 
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt
+
+try:
+    from bleak import BleakClient
+except ImportError:  # pragma: no cover
+    BleakClient = None
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run BLE throughput/latency/RSSI sweeps for multiple scenarios.")
@@ -59,6 +66,29 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--latency_script", default="scripts/ble/ble_latency_client.py")
     parser.add_argument("--rssi_script", default="scripts/ble/ble_rssi_logger.py")
     parser.add_argument("--mtu", type=int, default=247)
+    parser.add_argument(
+        "--wait_for_connection",
+        action="store_true",
+        help="Block before each scenario until a BLE connection succeeds.",
+    )
+    parser.add_argument(
+        "--wait_timeout_s",
+        type=float,
+        default=20.0,
+        help="Per-attempt timeout in seconds when waiting for a connection.",
+    )
+    parser.add_argument(
+        "--wait_retry_delay_s",
+        type=float,
+        default=5.0,
+        help="Seconds to sleep between connection attempts.",
+    )
+    parser.add_argument(
+        "--wait_attempts",
+        type=int,
+        default=3,
+        help="Number of connection attempts before failing when waiting is enabled.",
+    )
     return parser.parse_args()
 
 
@@ -76,6 +106,35 @@ def _new_log(out_dir: Path, before: Dict[str, Path], pattern: str) -> Optional[P
 
 def _run_cmd(cmd: Sequence[str]) -> None:
     subprocess.run(cmd, check=True)
+
+
+async def _probe_connection_once(address: str, timeout_s: float) -> None:
+    if BleakClient is None:
+        raise RuntimeError("bleak not installed; cannot wait for connection")
+    async with BleakClient(address, timeout=timeout_s):
+        return
+
+
+def _wait_for_connection_if_requested(args: argparse.Namespace, scenario: str, phy: str) -> None:
+    if not args.wait_for_connection:
+        return
+    attempts = max(1, args.wait_attempts)
+    for attempt in range(1, attempts + 1):
+        print(
+            f"[wait] Ensuring connection to {args.address} "
+            f"(scenario={scenario}, phy={phy}, attempt {attempt}/{attempts})...",
+            flush=True,
+        )
+        try:
+            asyncio.run(_probe_connection_once(args.address, args.wait_timeout_s))
+            print("[wait] Device reachable, proceeding with scenario.", flush=True)
+            return
+        except Exception as exc:  # pylint: disable=broad-except
+            if attempt == attempts:
+                raise RuntimeError(f"Unable to reach {args.address}: {exc}") from exc
+            delay = max(args.wait_retry_delay_s, 0.5)
+            print(f"[wait] Attempt failed ({exc}); retrying in {delay:.1f}s", flush=True)
+            time.sleep(delay)
 
 
 def _progress(label: str, current: int, total: int, width: int = 24) -> str:
@@ -426,6 +485,7 @@ def main() -> None:
             if args.prompt:
                 input(f"[runner] Position hardware for scenario '{scenario}', then press Enter to continue...")
             for phy in args.phys:
+                _wait_for_connection_if_requested(args, scenario, phy)
                 scenario_counter += 1
                 print(f"\n=== {_progress('Scenario', scenario_counter, scenario_total)} {scenario} | PHY {phy} ===")
 
@@ -454,23 +514,23 @@ def main() -> None:
                     if summary:
                         rssi_rows.append(summary)
 
-            scenario_rows = [
-                row for row in throughput_rows if row.get("scenario") == scenario and row.get("phy") == phy
-            ]
-            scenario_summary = summarize_throughput(scenario_rows)
-            scenario_summaries[(scenario, phy)] = scenario_summary
-            _plot_scenario(scenario_rows, scenario, phy, plots_dir)
-            _plot_latency(latency_rows, scenario, phy, plots_dir)
-            _plot_rssi(rssi_rows, scenario, phy, plots_dir)
-            if scenario_summary:
-                print(
-                    f"  Summary -> avg throughput: {scenario_summary['avg_throughput_kbps']:.2f} kbps, "
-                    f"packets: {scenario_summary['total_packets']}, "
-                    f"loss: {scenario_summary['total_loss']}",
-                    flush=True,
-                )
-            else:
-                print("  Summary -> no valid throughput data recorded.", flush=True)
+                scenario_rows = [
+                    row for row in throughput_rows if row.get("scenario") == scenario and row.get("phy") == phy
+                ]
+                scenario_summary = summarize_throughput(scenario_rows)
+                scenario_summaries[(scenario, phy)] = scenario_summary
+                _plot_scenario(scenario_rows, scenario, phy, plots_dir)
+                _plot_latency(latency_rows, scenario, phy, plots_dir)
+                _plot_rssi(rssi_rows, scenario, phy, plots_dir)
+                if scenario_summary:
+                    print(
+                        f"  Summary -> avg throughput: {scenario_summary['avg_throughput_kbps']:.2f} kbps, "
+                        f"packets: {scenario_summary['total_packets']}, "
+                        f"loss: {scenario_summary['total_loss']}",
+                        flush=True,
+                    )
+                else:
+                    print("  Summary -> no valid throughput data recorded.", flush=True)
     except KeyboardInterrupt:
         print("\n[runner] Interrupted by user; summarizing completed scenarios.")
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 import dbus
 import dbus.exceptions
@@ -35,6 +35,7 @@ class Advertisement(dbus.service.Object):
         self.ad_type = advertising_type
         self.service_uuids: List[str] | None = None
         self.local_name: str | None = None
+        self.includes: List[str] = []
         dbus.service.Object.__init__(self, bus, self.path)
 
     def add_service_uuid(self, uuid: str) -> None:
@@ -43,12 +44,18 @@ class Advertisement(dbus.service.Object):
     def add_local_name(self, name: str) -> None:
         self.local_name = name
 
+    def add_include(self, include: str) -> None:
+        if include not in self.includes:
+            self.includes.append(include)
+
     def get_properties(self):
         props = {"Type": self.ad_type}
         if self.service_uuids is not None:
             props["ServiceUUIDs"] = dbus.Array(self.service_uuids, signature="s")
         if self.local_name is not None:
             props["LocalName"] = dbus.String(self.local_name)
+        if self.includes:
+            props["Includes"] = dbus.Array(self.includes, signature="s")
         return {LE_ADVERTISEMENT_IFACE: props}
 
     def get_path(self):
@@ -116,9 +123,7 @@ class Service(dbus.service.Object):
             GATT_SERVICE_IFACE: {
                 "UUID": self.uuid,
                 "Primary": self.primary,
-                "Characteristics": dbus.Array(
-                    [chrc.get_path() for chrc in self.characteristics], signature="o"
-                ),
+                "Includes": dbus.Array([], signature="o"),
             }
         }
 
@@ -226,7 +231,31 @@ class MockRingRxCharacteristic(Characteristic):
 class MockRingService(Service):
     """Service container bundling TX/RX characteristics."""
 
-    def __init__(self, bus, index: int, state: MockRingState, service_uuid: str, tx_uuid: str, rx_uuid: str):
+    def __init__(
+        self,
+        bus,
+        index: int,
+        state: MockRingState,
+        service_uuid: str,
+        tx_uuid: str,
+        rx_uuid: str,
+        rssi_uuid: Optional[str] = None,
+    ):
         super().__init__(bus, index, service_uuid, True)
         self.add_characteristic(MockRingTxCharacteristic(bus, 0, self, state, tx_uuid))
         self.add_characteristic(MockRingRxCharacteristic(bus, 1, self, state, rx_uuid))
+        if rssi_uuid:
+            self.add_characteristic(MockRingRssiCharacteristic(bus, 2, self, state, rssi_uuid))
+
+
+class MockRingRssiCharacteristic(Characteristic):
+    """Optional mock RSSI characteristic for rehearsal runs."""
+
+    def __init__(self, bus, index: int, service: Service, state: MockRingState, uuid: str):
+        super().__init__(bus, index, uuid, ["read"], service)
+        self.state = state
+
+    @dbus.service.method(GATT_CHRC_IFACE, in_signature="a{sv}", out_signature="ay")
+    def ReadValue(self, options):
+        value = self.state.read_mock_rssi() & 0xFF
+        return [dbus.Byte(value)]

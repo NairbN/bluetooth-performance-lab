@@ -62,6 +62,8 @@ def run_mock(args) -> None:
     gatt_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), GATT_MANAGER_IFACE)
     ad_manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, adapter), LE_ADVERTISING_MANAGER_IFACE)
 
+    rssi_uuid = args.rssi_uuid or None
+
     state = MockRingState(
         payload_bytes=args.payload_bytes,
         notify_hz=args.notify_hz,
@@ -69,14 +71,28 @@ def run_mock(args) -> None:
         start_cmd=args.start_cmd,
         stop_cmd=args.stop_cmd,
         reset_cmd=args.reset_cmd,
+        mock_rssi_base_dbm=args.mock_rssi_base_dbm,
+        mock_rssi_variation=args.mock_rssi_variation,
     )
 
     app = Application(bus)
-    app.add_service(MockRingService(bus, 0, state, args.service_uuid, args.tx_uuid, args.rx_uuid))
+    app.add_service(
+        MockRingService(
+            bus,
+            0,
+            state,
+            args.service_uuid,
+            args.tx_uuid,
+            args.rx_uuid,
+            rssi_uuid,
+        )
+    )
 
     advertisement = Advertisement(bus, 0, "peripheral")
     advertisement.add_service_uuid(args.service_uuid)
     advertisement.add_local_name(args.advertise_name)
+    advertisement.add_include("tx-power")
+    advertisement.add_include("local-name")
 
     mainloop = GLib.MainLoop()
 

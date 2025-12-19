@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import random
 import struct
 import time
 from typing import Optional
@@ -21,6 +22,8 @@ class MockRingState:
         start_cmd: int,
         stop_cmd: int,
         reset_cmd: int,
+        mock_rssi_base_dbm: int,
+        mock_rssi_variation: int,
     ):
         self.default_payload = max(4, payload_bytes)
         if interval_ms is not None:
@@ -39,6 +42,8 @@ class MockRingState:
         self.packet_limit = 0
         self.sent_packets = 0
         self.active_payload = self.default_payload
+        self.mock_rssi_base = mock_rssi_base_dbm
+        self.mock_rssi_variation = max(0, mock_rssi_variation)
 
     def attach_tx(self, characteristic) -> None:
         self.tx_char = characteristic
@@ -122,3 +127,8 @@ class MockRingState:
         if filler_len:
             packet += bytes([0xAA] * filler_len)
         return packet
+
+    def read_mock_rssi(self) -> int:
+        jitter = random.randint(-self.mock_rssi_variation, self.mock_rssi_variation)
+        value = self.mock_rssi_base + jitter
+        return max(-127, min(-1, value))

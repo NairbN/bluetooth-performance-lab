@@ -19,6 +19,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--samples", type=int, default=20, help="Number of RSSI samples to attempt.")
     parser.add_argument("--interval_s", type=float, default=1.0, help="Delay between samples in seconds.")
     parser.add_argument("--out", default="logs/ble", help="Output directory for CSV/JSON logs.")
+    parser.add_argument(
+        "--mock_rssi_uuid",
+        default="12345678-1234-5678-1234-56789abcdef3",
+        help="Optional fallback characteristic for mock RSSI data.",
+    )
     parser.add_argument("--verbose", action="store_true", help="Print summary after logging.")
     return parser
 

@@ -29,6 +29,9 @@ class RssiClient:
             "interval_s": args.interval_s,
             "notes": [],
         }
+        self.mock_rssi_uuid: Optional[str] = getattr(args, "mock_rssi_uuid", None) or None
+        self._mock_rssi_supported: Optional[bool] = None
+        self._mock_rssi_noted = False
 
     async def run(self) -> Dict[str, Any]:
         output_dir = Path(self.args.out).expanduser()
@@ -44,6 +47,8 @@ class RssiClient:
             self.metadata["rssi_sampling"] = (
                 "Requested via bleak client APIs; entries with null RSSI indicate backend limitations."
             )
+            if self.mock_rssi_uuid:
+                self.metadata["mock_rssi_uuid"] = self.mock_rssi_uuid
 
             for idx in range(1, self.args.samples + 1):
                 rssi = await self._read_rssi(client)
@@ -90,7 +95,32 @@ class RssiClient:
                     return int(value)
                 except (TypeError, ValueError):
                     return None
-        return None
+        return await self._read_mock_rssi(client)
+
+    async def _read_mock_rssi(self, client: BleakClient) -> Optional[int]:
+        if not self.mock_rssi_uuid or self._mock_rssi_supported is False:
+            return None
+        try:
+            data = await client.read_gatt_char(self.mock_rssi_uuid)
+        except Exception:
+            self._mock_rssi_supported = False
+            return None
+        if not data:
+            self._mock_rssi_supported = False
+            return None
+        if isinstance(data, (bytes, bytearray)):
+            raw = data[0]
+        else:
+            raw = data[0] if data else None
+        if raw is None:
+            self._mock_rssi_supported = False
+            return None
+        value = int.from_bytes(bytes([raw & 0xFF]), byteorder="little", signed=True)
+        self._mock_rssi_supported = True
+        if not self._mock_rssi_noted:
+            self.metadata["notes"].append("Mock RSSI characteristic used")
+            self._mock_rssi_noted = True
+        return value
 
     def _write_outputs(self) -> None:
         fieldnames = ["index", "timestamp", "rssi_dbm"]

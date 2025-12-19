@@ -21,6 +21,9 @@ DEFAULT_ARGS=(
   --adapter hci0
   --advertise_name MockRingDemo
   --payload_bytes 160
+  --rssi_uuid 12345678-1234-5678-1234-56789abcdef3
+  --mock_rssi_base_dbm -55
+  --mock_rssi_variation 5
   --notify_hz 40
   --quiet
   --log logs/mock_dut.log
