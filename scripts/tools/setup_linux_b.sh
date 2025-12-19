@@ -2,7 +2,7 @@
 # Helper to prepare Linux B for running the BLE mock + central tooling.
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 if [[ ! -d ".venv" ]]; then
