@@ -24,7 +24,7 @@ Provide a vendor-neutral BLE throughput test harness for the Smart Ring DUT:
 
 1. **Mock (Linux B)**: `./scripts/setup_linux_b.sh` (once) → `./scripts/start_mock.sh` (prints MAC, advertises service).
 2. **Central (Linux A)**: `./scripts/setup_linux_a.sh` (once) → `source .venv/bin/activate` → optional `./scripts/cleanup_outputs.sh --yes`.
-3. **Run tests**: `./scripts/run_full_matrix.sh --address <MAC> --note "<phone/scenario>"` (prompts between baseline, hand-behind-body, pocket, backpack; sweeps payloads + PHYs; logs throughput/latency/RSSI).
+3. **Run tests**: `./scripts/run_full_matrix.sh --address <MAC> --note "<phone/scenario>"` (prompts between baseline, hand-behind-body, pocket, backpack; sweeps payloads + PHYs; logs throughput/latency/RSSI). See "Adjusting Test Parameters" to adjust the parameters
 4. **Results**: Raw logs in `logs/ble/`; aggregated CSVs under `results/tables/`; per-scenario and comparison plots (throughput, latency, RSSI availability) in `results/plots/`. Summaries printed live and after completion (even if interrupted).
 
 ### Adjusting Test Parameters
