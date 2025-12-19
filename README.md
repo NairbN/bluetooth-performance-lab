@@ -40,6 +40,11 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 - Raw logs: `logs/ble/`
 - Aggregated tables: `results/tables/`
 - Plots (per scenario + comparison charts for throughput, latency, RSSI availability): `results/plots/`
+- To stash the outputs for later reference, run:
+  ```bash
+  ./scripts/tools/archive_results.sh --tag "<notes>"
+  ```
+  This copies the current logs/results into `archives/<timestamp>_<notes>/` (add `--cleanup` to clear working folders afterwards).
 
 ---
 

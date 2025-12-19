@@ -30,17 +30,11 @@ done
 TARGETS=(logs/ble results/tables results/plots)
 EXISTING=()
 for path in "${TARGETS[@]}"; do
-  if [[ -d "$path" && "$(ls -A "$path" 2>/dev/null)" ]]; then
-    EXISTING+=("$path")
-  fi
+  mkdir -p "$path"
+  EXISTING+=("$path")
 done
 
-if [[ ${#EXISTING[@]} -eq 0 ]]; then
-  echo "[cleanup] No logs/ble or results/* contents to remove."
-  exit 0
-fi
-
-echo "[cleanup] The following directories will be cleared:"
+echo "[cleanup] The following directories will be cleared (empty directories are reset):"
 for path in "${EXISTING[@]}"; do
   echo "  - $path"
 done
