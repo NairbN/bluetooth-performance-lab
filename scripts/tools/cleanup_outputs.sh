@@ -2,7 +2,7 @@
 # Remove or archive BLE log/results so a new campaign starts clean.
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 ARCHIVE=0
@@ -56,12 +56,10 @@ if [[ $FORCE -eq 0 ]]; then
   esac
 fi
 
-shopt -s dotglob nullglob
 for path in "${EXISTING[@]}"; do
   echo "[cleanup] Removing contents of $path"
-  rm -rf "$path"/*
+  rm -rf "$path"
   mkdir -p "$path"
 done
-shopt -u dotglob nullglob
 
 echo "[cleanup] Done."
