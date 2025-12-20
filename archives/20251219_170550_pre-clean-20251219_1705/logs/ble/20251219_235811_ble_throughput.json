@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "created": "2025-12-19T23:58:11.882461+00:00",
+    "address": "1C:4D:70:1E:13:A0",
+    "service_uuid": "12345678-1234-5678-1234-56789abcdef0",
+    "tx_uuid": "12345678-1234-5678-1234-56789abcdef1",
+    "rx_uuid": "12345678-1234-5678-1234-56789abcdef2",
+    "payload_bytes_requested": 20,
+    "packet_count_requested": 0,
+    "duration_requested_s": 30.0,
+    "command_ids": {
+      "start": 1,
+      "stop": 2,
+      "reset": 3
+    },
+    "mtu_request": 247,
+    "phy_request": "auto",
+    "connection_interval_control": "Not supported from user space; logging only.",
+    "connection_retry": {
+      "timeout_s": 30.0,
+      "attempts": 5,
+      "retry_delay_s": 10.0,
+      "attempts_used": 1
+    },
+    "adapter": "unknown",
+    "connected_at": "2025-12-19T23:58:21.402668+00:00",
+    "mtu_result": {
+      "requested": 247,
+      "status": "unsupported_by_bleak"
+    },
+    "phy_result": {
+      "requested": "auto",
+      "status": "skipped"
+    },
+    "test_end": "2025-12-19T23:58:57.564367+00:00",
+    "command_log": [
+      {
+        "ts": "2025-12-19T23:58:27.257733+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-19T23:58:27.359438+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "140000",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-19T23:58:57.363750+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "error",
+        "error": "Service Discovery has not been performed yet"
+      }
+    ],
+    "summary": {
+      "packets": 0,
+      "estimated_lost_packets": 0,
+      "duration_s": 0.0,
+      "throughput_kbps": 0.0,
+      "notification_rate_per_s": 0.0,
+      "bytes_recorded": 0,
+      "connection_attempts_used": 1,
+      "command_errors": 1
+    },
+    "records_file": {
+      "csv": "logs/ble/20251219_235811_ble_throughput.csv",
+      "json": "logs/ble/20251219_235811_ble_throughput.json"
+    }
+  },
+  "packets": []
+}

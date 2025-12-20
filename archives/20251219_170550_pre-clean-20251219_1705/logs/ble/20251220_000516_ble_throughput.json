@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "created": "2025-12-20T00:05:16.431306+00:00",
+    "address": "1C:4D:70:1E:13:A0",
+    "service_uuid": "12345678-1234-5678-1234-56789abcdef0",
+    "tx_uuid": "12345678-1234-5678-1234-56789abcdef1",
+    "rx_uuid": "12345678-1234-5678-1234-56789abcdef2",
+    "payload_bytes_requested": 244,
+    "packet_count_requested": 0,
+    "duration_requested_s": 30.0,
+    "command_ids": {
+      "start": 1,
+      "stop": 2,
+      "reset": 3
+    },
+    "mtu_request": 247,
+    "phy_request": "auto",
+    "connection_interval_control": "Not supported from user space; logging only.",
+    "connection_retry": {
+      "timeout_s": 30.0,
+      "attempts": 5,
+      "retry_delay_s": 10.0,
+      "attempts_used": 1
+    },
+    "adapter": "unknown",
+    "connected_at": "2025-12-20T00:05:29.295570+00:00",
+    "mtu_result": {
+      "requested": 247,
+      "status": "unsupported_by_bleak"
+    },
+    "phy_result": {
+      "requested": "auto",
+      "status": "skipped"
+    },
+    "test_end": "2025-12-20T00:06:00.118378+00:00",
+    "command_log": [
+      {
+        "ts": "2025-12-20T00:05:29.808111+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:05:29.910293+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40000",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:05:59.917752+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "error",
+        "error": "Service Discovery has not been performed yet"
+      }
+    ],
+    "summary": {
+      "packets": 10,
+      "estimated_lost_packets": 0,
+      "duration_s": 0.49718308448791504,
+      "throughput_kbps": 28.96317362613333,
+      "notification_rate_per_s": 20.113315018148146,
+      "bytes_recorded": 1800,
+      "connection_attempts_used": 1,
+      "command_errors": 1
+    },
+    "records_file": {
+      "csv": "logs/ble/20251220_000516_ble_throughput.csv",
+      "json": "logs/ble/20251220_000516_ble_throughput.json"
+    }
+  },
+  "packets": [
+    {
+      "seq": 165,
+      "dut_ts": 24533,
+      "arrival_time": "2025-12-20T00:05:29.809881+00:00",
+      "arrival_epoch": 1766189129.809858,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 166,
+      "dut_ts": 24559,
+      "arrival_time": "2025-12-20T00:05:29.899947+00:00",
+      "arrival_epoch": 1766189129.8999207,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 167,
+      "dut_ts": 24585,
+      "arrival_time": "2025-12-20T00:05:30.167950+00:00",
+      "arrival_epoch": 1766189130.1679301,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 168,
+      "dut_ts": 24611,
+      "arrival_time": "2025-12-20T00:05:30.169980+00:00",
+      "arrival_epoch": 1766189130.169961,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 169,
+      "dut_ts": 24637,
+      "arrival_time": "2025-12-20T00:05:30.172004+00:00",
+      "arrival_epoch": 1766189130.1719818,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 170,
+      "dut_ts": 24663,
+      "arrival_time": "2025-12-20T00:05:30.173939+00:00",
+      "arrival_epoch": 1766189130.1739168,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 171,
+      "dut_ts": 24688,
+      "arrival_time": "2025-12-20T00:05:30.177068+00:00",
+      "arrival_epoch": 1766189130.1770482,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 172,
+      "dut_ts": 24714,
+      "arrival_time": "2025-12-20T00:05:30.302976+00:00",
+      "arrival_epoch": 1766189130.302954,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 173,
+      "dut_ts": 24740,
+      "arrival_time": "2025-12-20T00:05:30.305053+00:00",
+      "arrival_epoch": 1766189130.3050332,
+      "payload_len": 176,
+      "raw_len": 180
+    },
+    {
+      "seq": 174,
+      "dut_ts": 24766,
+      "arrival_time": "2025-12-20T00:05:30.307063+00:00",
+      "arrival_epoch": 1766189130.3070412,
+      "payload_len": 176,
+      "raw_len": 180
+    }
+  ]
+}

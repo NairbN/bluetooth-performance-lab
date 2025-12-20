@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "created": "2025-12-20T00:18:01.122263+00:00",
+    "address": "1C:4D:70:1E:13:A0",
+    "service_uuid": "12345678-1234-5678-1234-56789abcdef0",
+    "tx_uuid": "12345678-1234-5678-1234-56789abcdef1",
+    "rx_uuid": "12345678-1234-5678-1234-56789abcdef2",
+    "mode": "start",
+    "iterations": 5,
+    "timeout_s": 5.0,
+    "inter_iteration_delay_s": 1.0,
+    "payload_bytes": 244,
+    "latency_definition": "Start command to first notification",
+    "mtu_request": 247,
+    "phy_request": "auto",
+    "connection_retry": {
+      "timeout_s": 30.0,
+      "attempts": 5,
+      "retry_delay_s": 10.0,
+      "attempts_used": 1
+    },
+    "adapter": "unknown",
+    "connected_at": "2025-12-20T00:18:06.066776+00:00",
+    "mtu_result": {
+      "requested": 247,
+      "status": "unsupported_by_bleak"
+    },
+    "phy_result": {
+      "requested": "auto",
+      "status": "skipped"
+    },
+    "command_log": [
+      {
+        "ts": "2025-12-20T00:18:06.303340+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:06.404516+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40100",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:06.485272+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:07.487550+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:07.588821+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40100",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:07.655261+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:08.657399+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:08.758736+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40100",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:08.827106+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:09.829456+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:09.930931+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40100",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:09.995192+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:10.997488+00:00",
+        "name": "reset",
+        "command_id": 3,
+        "payload_hex": "",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:11.099088+00:00",
+        "name": "start",
+        "command_id": 1,
+        "payload_hex": "f40100",
+        "status": "sent"
+      },
+      {
+        "ts": "2025-12-20T00:18:11.165190+00:00",
+        "name": "stop",
+        "command_id": 2,
+        "payload_hex": "",
+        "status": "sent"
+      }
+    ],
+    "summary": {
+      "samples": 5,
+      "timeouts": 0,
+      "avg_latency_s": 0.06907238120002149,
+      "min_latency_s": 0.06415880199983803,
+      "max_latency_s": 0.08062632700057293
+    },
+    "records_file": {
+      "csv": "logs/ble/20251220_001801_ble_latency.csv",
+      "json": "logs/ble/20251220_001801_ble_latency.json"
+    }
+  },
+  "samples": [
+    {
+      "iteration": 1,
+      "mode": "start",
+      "start_time": "2025-12-20T00:18:06.404483+00:00",
+      "notification_time": "2025-12-20T00:18:06.485136+00:00",
+      "latency_s": 0.08062632700057293,
+      "seq": 0,
+      "dut_ts": 60399
+    },
+    {
+      "iteration": 2,
+      "mode": "start",
+      "start_time": "2025-12-20T00:18:07.588790+00:00",
+      "notification_time": "2025-12-20T00:18:07.655144+00:00",
+      "latency_s": 0.06632759700005408,
+      "seq": 0,
+      "dut_ts": 61568
+    },
+    {
+      "iteration": 3,
+      "mode": "start",
+      "start_time": "2025-12-20T00:18:08.758707+00:00",
+      "notification_time": "2025-12-20T00:18:08.826997+00:00",
+      "latency_s": 0.0682638609996502,
+      "seq": 0,
+      "dut_ts": 62738
+    },
+    {
+      "iteration": 4,
+      "mode": "start",
+      "start_time": "2025-12-20T00:18:09.930900+00:00",
+      "notification_time": "2025-12-20T00:18:09.995085+00:00",
+      "latency_s": 0.06415880199983803,
+      "seq": 0,
+      "dut_ts": 63909
+    },
+    {
+      "iteration": 5,
+      "mode": "start",
+      "start_time": "2025-12-20T00:18:11.099056+00:00",
+      "notification_time": "2025-12-20T00:18:11.165069+00:00",
+      "latency_s": 0.06598531899999216,
+      "seq": 0,
+      "dut_ts": 65079
+    }
+  ]
+}
