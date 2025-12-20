@@ -46,6 +46,47 @@ All commands below assume you cloned the repo to `~/Workspace/bluetooth-performa
 
 3. **Permissions** – add your user to the `bluetooth` group (log out/in) or run the tooling via `sudo`.
 
+### 2.1 Stability Checklist (use this before your first “clean” run)
+
+These are the exact precautions we used to get the first uninterrupted matrix run:
+
+1. **System updates & drivers**
+   ```bash
+   sudo apt update
+   sudo apt full-upgrade
+   sudo apt install --reinstall linux-firmware bluez
+   sudo reboot
+   ```
+   Keeps kernel/HCI firmware/BlueZ current on both Linux A and Linux B.
+
+2. **Disable Wi‑Fi radios** (prevents 2.4 GHz self-interference):
+   ```bash
+   nmcli radio wifi off
+   ```
+
+3. **Force LE-only mode after every reboot:**
+   ```bash
+   sudo btmgmt -i hci0 power off
+   sudo btmgmt -i hci0 le on
+   sudo btmgmt -i hci0 bredr off
+   sudo btmgmt -i hci0 power on
+   ```
+   Run on both hosts before launching the mock or clients.
+
+4. **Clear cached devices** so BlueZ doesn’t cling to old BR/EDR states:
+   ```bash
+   scripts/tools/clear_bt_cache.sh --adapter <HOST_ADAPTER> --device 1C:4D:70:1E:13:A0 --yes
+   ```
+   Mirror the command on the mock host (swap the device MAC for Linux A’s adapter).
+
+5. **Archive & wipe working outputs** (only on the central host) so new runs are clean:
+   ```bash
+   ./scripts/tools/archive_results.sh --tag "pre-clean-$(date +%Y%m%d_%H%M)"
+   ./scripts/tools/cleanup_outputs.sh --yes
+   ```
+
+After those steps, start the mock (`scripts/tools/start_mock.sh …`) and run the matrix. This sequence removes stale caches, keeps the adapters LE-only, and eliminates local Wi‑Fi noise—exactly what we did before the first stable sweep.
+
 ---
 
 ## 3. Starting the Mock Peripheral (Linux B)

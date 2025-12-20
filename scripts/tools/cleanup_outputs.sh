@@ -28,11 +28,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 TARGETS=(logs/ble results/tables results/plots)
+MOCK_LOG="logs/mock_dut.log"
 EXISTING=()
 for path in "${TARGETS[@]}"; do
   mkdir -p "$path"
   EXISTING+=("$path")
 done
+# Ensure mock log parent exists for optional cleanup
+mkdir -p "$(dirname "$MOCK_LOG")"
 
 echo "[cleanup] The following directories will be cleared (empty directories are reset):"
 for path in "${EXISTING[@]}"; do
@@ -45,7 +48,7 @@ if [[ $ARCHIVE -eq 1 ]]; then
   mkdir -p "$archive_dir"
   archive_path="$archive_dir/ble_cleanup_${ts}.tar.gz"
   echo "[cleanup] Archiving contents to $archive_path"
-  tar -czf "$archive_path" "${EXISTING[@]}"
+  tar -czf "$archive_path" "${EXISTING[@]}" "$MOCK_LOG"
 fi
 
 if [[ $FORCE -eq 0 ]]; then
@@ -61,5 +64,10 @@ for path in "${EXISTING[@]}"; do
   rm -rf "$path"
   mkdir -p "$path"
 done
+
+if [[ -f "$MOCK_LOG" ]]; then
+  echo "[cleanup] Removing $MOCK_LOG"
+  rm -f "$MOCK_LOG"
+fi
 
 echo "[cleanup] Done."
