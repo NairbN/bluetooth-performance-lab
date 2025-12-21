@@ -7,6 +7,7 @@ import csv
 import json
 import struct
 import time
+from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -325,7 +326,9 @@ class NotificationStream:
     """Queues notifications so latency measurements can await the next event."""
 
     def __init__(self) -> None:
-        self._queue: asyncio.Queue = asyncio.Queue()
+        self._queue: asyncio.Queue | None = None
+        self._queue_loop: asyncio.AbstractEventLoop | None = None
+        self._backlog = deque()
 
     def handler(self, _: int, data: bytearray) -> None:
         now = time.perf_counter()
@@ -335,14 +338,46 @@ class NotificationStream:
             "seq": int.from_bytes(data[0:2], "little") if len(data) >= 2 else -1,
             "dut_ts": int.from_bytes(data[2:4], "little") if len(data) >= 4 else -1,
         }
-        self._queue.put_nowait(record)
+        # Handlers may fire before the asyncio loop that waits is running; buffer safely.
+        self._backlog.append(record)
+        if self._queue and self._queue_loop:
+            try:
+                # Schedule put on the owning loop to avoid cross-loop futures.
+                if self._queue_loop.is_running():
+                    self._queue_loop.call_soon_threadsafe(self._queue.put_nowait, record)
+            except Exception:
+                # If scheduling fails, backlog will be drained later.
+                pass
 
     def clear(self) -> None:
-        while not self._queue.empty():
+        # Drain queue to discard pending notifications.
+        if self._queue:
             try:
-                self._queue.get_nowait()
+                while True:
+                    self._queue.get_nowait()
             except asyncio.QueueEmpty:
-                break
+                pass
+        self._backlog.clear()
+
+    def _ensure_queue(self) -> None:
+        loop = asyncio.get_running_loop()
+        if self._queue is None or self._queue_loop is not loop:
+            # Move any items from an existing queue back to backlog so we can rebind.
+            if self._queue:
+                try:
+                    while True:
+                        self._backlog.append(self._queue.get_nowait())
+                except asyncio.QueueEmpty:
+                    pass
+            self._queue = asyncio.Queue()
+            self._queue_loop = loop
+            # Drain buffered notifications into the new queue.
+            while self._backlog:
+                try:
+                    self._queue.put_nowait(self._backlog.popleft())
+                except Exception:
+                    break
 
     async def wait_for_notification(self, timeout: float) -> Dict[str, Any]:
+        self._ensure_queue()
         return await asyncio.wait_for(self._queue.get(), timeout=timeout)
