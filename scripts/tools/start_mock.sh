@@ -16,6 +16,8 @@ if [[ ! -d ".venv" ]]; then
 fi
 
 source .venv/bin/activate
+# Ensure repo modules are importable when running under sudo.
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
 
 if command -v bluetoothctl >/dev/null 2>&1; then
   if ! bluetoothctl show | grep -q "Powered: yes"; then
@@ -38,4 +40,4 @@ DEFAULT_ARGS=(
   --log logs/mock_dut.log
 )
 
-python scripts/ble/mock/cli.py "${DEFAULT_ARGS[@]}" "$@"
+python -m scripts.ble.mock.cli "${DEFAULT_ARGS[@]}" "$@"
