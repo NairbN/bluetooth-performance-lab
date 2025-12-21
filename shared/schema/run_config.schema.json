@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BLE Test Run Config",
+  "type": "object",
+  "properties": {
+    "address": { "type": "string", "description": "MAC or platform-specific identifier (e.g., CoreBluetooth UUID)" },
+    "note": { "type": "string" },
+    "scenarios": { "type": "array", "items": { "type": "string" } },
+    "phys": { "type": "array", "items": { "type": "string", "enum": ["auto", "1m", "2m", "coded"] } },
+    "payloads": { "type": "array", "items": { "type": "integer", "minimum": 20, "maximum": 244 } },
+    "repeats": { "type": "integer", "minimum": 1 },
+    "duration_s": { "type": "number", "minimum": 1 },
+    "latency_iterations": { "type": "integer", "minimum": 1 },
+    "latency_mode": { "type": "string", "enum": ["start", "trigger"] },
+    "rssi_samples": { "type": "integer", "minimum": 0 },
+    "rssi_interval_s": { "type": "number", "minimum": 0 },
+    "skip_throughput": { "type": "boolean" },
+    "skip_latency": { "type": "boolean" },
+    "skip_rssi": { "type": "boolean" },
+    "service_uuid": { "type": "string" },
+    "tx_uuid": { "type": "string" },
+    "rx_uuid": { "type": "string" },
+    "start_cmd": { "type": "integer" },
+    "stop_cmd": { "type": "integer" },
+    "reset_cmd": { "type": "integer" },
+    "mtu": { "type": "integer", "minimum": 20, "maximum": 517 },
+    "connect_timeout_s": { "type": "number", "minimum": 1 },
+    "connect_attempts": { "type": "integer", "minimum": 1 },
+    "connect_retry_delay_s": { "type": "number", "minimum": 0 }
+  },
+  "required": ["address", "payloads"],
+  "additionalProperties": true
+}

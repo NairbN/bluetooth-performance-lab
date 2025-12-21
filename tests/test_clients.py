@@ -75,6 +75,8 @@ from scripts.ble.clients.throughput import NotificationCollector  # noqa: E402
 from scripts.ble.clients.latency import LatencyClient, NotificationStream  # noqa: E402
 from scripts.ble.clients.rssi import RssiClient  # noqa: E402
 from scripts.ble.mock.state import MockRingState, apply_profile  # noqa: E402
+from scripts.ble.clients.run_full_matrix import _discover_address as full_discover  # noqa: E402
+from scripts.ble.clients.run_throughput_matrix import _discover_address as throughput_discover  # noqa: E402
 
 
 class DummyArgs(types.SimpleNamespace):
@@ -163,6 +165,30 @@ class ClientUnitTests(unittest.TestCase):
         value = asyncio.run(client._read_mock_rssi(dummy))  # pylint: disable=protected-access
         self.assertEqual(value, -55)  # default payload from DummyBleakClient.read_gatt_char
         self.assertIn("Mock RSSI characteristic used", client.metadata["notes"])
+
+    def test_discover_address_helpers(self):
+        class Dev:
+            def __init__(self, address, name):
+                self.address = address
+                self.name = name
+
+        def fake_bleak(devices):
+            class FakeBleakScanner:
+                @staticmethod
+                async def discover(timeout=None, service_uuids=None):
+                    return devices
+
+            return types.SimpleNamespace(BleakScanner=FakeBleakScanner)
+
+        devices = [Dev("AA:BB", "MockRingDemo"), Dev("CC:DD", "Other")]
+        devices2 = [Dev("11:22", "")]
+
+        with mock.patch.dict(sys.modules, {"bleak": fake_bleak(devices)}):
+            addr = asyncio.run(full_discover("MockRingDemo", "svc", 1.0))
+            self.assertEqual(addr, "AA:BB")
+        with mock.patch.dict(sys.modules, {"bleak": fake_bleak(devices2)}):
+            addr = asyncio.run(throughput_discover("", "svc", 1.0))
+            self.assertEqual(addr, "11:22")
 
     def test_mock_ring_state_handles_commands(self):
         state = MockRingState(

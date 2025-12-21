@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BLE Test Manifest",
+  "type": "object",
+  "properties": {
+    "run_id": { "type": "string" },
+    "type": { "type": "string", "enum": ["full_matrix", "throughput_matrix"] },
+    "address": { "type": "string" },
+    "scenarios": { "type": "array", "items": { "type": "string" } },
+    "phys": { "type": "array", "items": { "type": "string" } },
+    "payloads": { "type": "array", "items": { "type": "integer" } },
+    "repeats": { "type": "integer" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "ended_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "outputs": {
+      "type": "object",
+      "properties": {
+        "throughput_csv": { "type": "string" },
+        "latency_csv": { "type": "string" },
+        "rssi_csv": { "type": "string" },
+        "plots_dir": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "summary": { "type": "object" },
+    "args": {
+      "type": "object",
+      "properties": {
+        "note": { "type": "string" },
+        "mtu": { "type": "integer" },
+        "connect_timeout_s": { "type": "number" },
+        "connect_attempts": { "type": "integer" },
+        "connect_retry_delay_s": { "type": "number" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["run_id", "type", "address", "started_at", "status"],
+  "additionalProperties": true
+}

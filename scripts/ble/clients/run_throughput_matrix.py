@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
 import sys
 from pathlib import Path
 
@@ -16,7 +17,10 @@ else:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run a throughput sweep across payload sizes.")
-    parser.add_argument("--address", required=True, help="BLE address of the DUT / mock.")
+    parser.add_argument("--address", help="BLE address or platform identifier of the DUT / mock.")
+    parser.add_argument("--discover_name", default="MockRingDemo", help="If address not provided, scan for this device name.")
+    parser.add_argument("--discover_service", default="12345678-1234-5678-1234-56789abcdef0", help="If address not provided, filter scan by this service UUID.")
+    parser.add_argument("--discover_timeout", type=float, default=5.0, help="Scan timeout when discovering the mock/DUT.")
     parser.add_argument("--payloads", type=int, nargs="+", default=[20, 60, 120, 180, 244])
     parser.add_argument("--repeats", type=int, default=3, help="Number of trials per payload size.")
     parser.add_argument("--duration_s", type=float, default=30.0, help="Test duration per trial.")
@@ -55,8 +59,29 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+async def _discover_address(name: str, service: str, timeout: float) -> str:
+    try:
+        from bleak import BleakScanner
+    except ImportError as exc:  # pragma: no cover
+        raise RuntimeError("bleak is required for discovery; install bleak or provide --address") from exc
+    devices = await BleakScanner.discover(timeout=timeout, service_uuids=[service] if service else None)
+    for dev in devices:
+        if name and dev.name == name:
+            return dev.address
+        if not name:
+            return dev.address
+    raise RuntimeError(f"Device not found via scan (name={name}, service={service}, timeout={timeout}s).")
+
+
 def main() -> None:
     args = build_parser().parse_args()
+    if not args.address:
+        try:
+            addr = asyncio.run(_discover_address(args.discover_name, args.discover_service, args.discover_timeout))
+            print(f"[discover] Found device {addr} (name={args.discover_name}, service={args.discover_service})")
+            args.address = addr
+        except Exception as exc:  # pragma: no cover
+            raise SystemExit(f"[discover] Failed to find device: {exc}") from exc
     runner = ThroughputMatrixRunner(args)
     summaries = runner.run()
     runner.print_table(summaries)
