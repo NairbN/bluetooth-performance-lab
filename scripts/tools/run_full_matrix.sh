@@ -11,6 +11,9 @@ if [[ ! -d ".venv" ]]; then
 fi
 
 source .venv/bin/activate
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+# Ensure repo modules are importable (macOS lacks cwd on sys.path for -m style)
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
 
 if command -v bluetoothctl >/dev/null 2>&1; then
   if ! bluetoothctl show | grep -q "Powered: yes"; then
@@ -31,4 +34,4 @@ DEFAULT_ARGS=(
   --prompt
 )
 
-python scripts/ble/clients/run_full_matrix.py "${DEFAULT_ARGS[@]}" "$@"
+"$PYTHON_BIN" -m scripts.ble.clients.run_full_matrix "${DEFAULT_ARGS[@]}" "$@"

@@ -13,6 +13,8 @@ fi
 pyscript="scripts/ble/clients/run_throughput_matrix.py"
 
 source .venv/bin/activate
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
 
 if command -v bluetoothctl >/dev/null 2>&1; then
   if ! bluetoothctl show | grep -q "Powered: yes"; then
@@ -26,4 +28,4 @@ DEFAULT_ARGS=(
   --duration_s 30
 )
 
-python "$pyscript" "${DEFAULT_ARGS[@]}" "$@"
+"$PYTHON_BIN" -m scripts.ble.clients.run_throughput_matrix "${DEFAULT_ARGS[@]}" "$@"
