@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """CLI entry for the RSSI logger."""
 
 from __future__ import annotations
@@ -6,11 +7,11 @@ import argparse
 import sys
 from pathlib import Path
 
-if __package__ is None:
-    sys.path.append(str(Path(__file__).resolve().parents[2]))
+if __package__ is None:  # Allow running as `python scripts/ble/clients/ble_rssi_logger.py`
+    sys.path.append(str(Path(__file__).resolve().parents[3]))
     from scripts.ble.clients.rssi import RssiClient  # type: ignore
 else:
-    from .clients.rssi import RssiClient  # type: ignore
+    from .rssi import RssiClient  # type: ignore
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -24,9 +24,9 @@ These instructions cover how to prepare the BLE central-side tooling so we can e
 ## 2. Directory Structure
 
 ```
-scripts/ble/ble_throughput_client.py
-scripts/ble/ble_latency_client.py
-scripts/ble/ble_rssi_logger.py
+scripts/ble/clients/ble_throughput_client.py
+scripts/ble/clients/ble_latency_client.py
+scripts/ble/clients/ble_rssi_logger.py
 logs/ble/           # Created automatically per run
 ```
 
@@ -38,7 +38,7 @@ Name each run using the timestamped filenames the scripts emit (e.g., `20250214_
 2. Run:
 
 ```bash
-python scripts/ble/ble_throughput_client.py \
+python scripts/ble/clients/ble_throughput_client.py \
   --address AA:BB:CC:DD:EE:FF \
   --payload_bytes 180 \
   --duration_s 120 \
@@ -62,7 +62,7 @@ Two modes exist:
 Example (5 samples, trigger mode):
 
 ```bash
-python scripts/ble/ble_latency_client.py \
+python scripts/ble/clients/ble_latency_client.py \
   --address AA:BB:CC:DD:EE:FF \
   --mode trigger \
   --iterations 5 \
@@ -76,7 +76,7 @@ Outputs mirror the throughput script: per-iteration CSV/JSON logs plus a summary
 Basic usage:
 
 ```bash
-python scripts/ble/ble_rssi_logger.py \
+python scripts/ble/clients/ble_rssi_logger.py \
   --address AA:BB:CC:DD:EE:FF \
   --samples 30 \
   --interval_s 1.0

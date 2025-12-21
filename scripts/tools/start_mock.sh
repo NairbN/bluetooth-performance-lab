@@ -17,6 +17,15 @@ fi
 
 source .venv/bin/activate
 
+if command -v bluetoothctl >/dev/null 2>&1; then
+  if ! bluetoothctl show | grep -q "Powered: yes"; then
+    echo "[start_mock] WARNING: adapter not powered (bluetoothctl show). Enable it or advertisement may fail." >&2
+  fi
+  if ! bluetoothctl show | grep -qi "ExperimentalFeatures"; then
+    echo "[start_mock] NOTE: bluetoothd experimental flags not detected; GATT/advertising may require --experimental." >&2
+  fi
+fi
+
 DEFAULT_ARGS=(
   --adapter hci0
   --advertise_name MockRingDemo
@@ -29,4 +38,4 @@ DEFAULT_ARGS=(
   --log logs/mock_dut.log
 )
 
-python scripts/ble/mock_dut_peripheral.py "${DEFAULT_ARGS[@]}" "$@"
+python scripts/ble/mock/cli.py "${DEFAULT_ARGS[@]}" "$@"

@@ -165,13 +165,16 @@ class LatencyClient:
         return self.metadata["summary"]
 
     async def _resolve_services(self, client):
-        try:
-            return client.services
-        except Exception:
-            get_services = getattr(client, "get_services", None)
-            if callable(get_services):
+        services = getattr(client, "services", None)
+        if services and getattr(services, "get_service", None):
+            return services
+        get_services = getattr(client, "get_services", None)
+        if callable(get_services):
+            try:
                 return await get_services()
-            raise RuntimeError("Bleak client services not available yet.")
+            except Exception as exc:  # pylint: disable=broad-except
+                raise RuntimeError("Bleak client services not available yet.") from exc
+        raise RuntimeError("Bleak client services not available yet.")
 
     def _validate_characteristics(self, services):
         service = services.get_service(self.args.service_uuid)
@@ -205,12 +208,22 @@ class LatencyClient:
             return info
         request_fn = getattr(client, "set_preferred_phy", None)
         if callable(request_fn):
-            try:
-                await request_fn(tx_phys=self.args.phy, rx_phys=self.args.phy)
-                info["status"] = "success"
-            except Exception as exc:
-                info["status"] = "failed"
-                info["error"] = str(exc)
+            for attempt in range(1, 4):
+                try:
+                    await request_fn(tx_phys=self.args.phy, rx_phys=self.args.phy)
+                    info["status"] = "success"
+                    info["attempts_used"] = attempt
+                    break
+                except Exception as exc:  # pylint: disable=broad-except
+                    info["status"] = "failed"
+                    info["error"] = str(exc)
+                    info["attempts_used"] = attempt
+            if info.get("status") != "success" and self.args.phy != "auto":
+                try:
+                    await request_fn(tx_phys="auto", rx_phys="auto")
+                    info["fallback"] = "auto_requested"
+                except Exception:
+                    pass
         else:
             info["status"] = "unsupported_by_bleak"
         return info

@@ -10,9 +10,15 @@ if [[ ! -d ".venv" ]]; then
   exit 1
 fi
 
-pyscript="scripts/ble/run_throughput_matrix.py"
+pyscript="scripts/ble/clients/run_throughput_matrix.py"
 
 source .venv/bin/activate
+
+if command -v bluetoothctl >/dev/null 2>&1; then
+  if ! bluetoothctl show | grep -q "Powered: yes"; then
+    echo "[run_throughput_matrix] WARNING: adapter not powered (bluetoothctl show). Enable it or runs may fail." >&2
+  fi
+fi
 
 DEFAULT_ARGS=(
   --payloads 20 60 120 180 244

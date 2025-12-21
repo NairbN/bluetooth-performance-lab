@@ -1,6 +1,6 @@
 # Smart Ring BLE Test Coverage Plan (Current)
 
-This plan reflects the **BLE-only lab** implemented in this repository. It describes what the automation (`run_full_matrix.py`) captures today and how those results roll up into the final report once real hardware arrives.
+This plan reflects the **BLE-only lab** implemented in this repository. It describes what the automation (`scripts/ble/clients/run_full_matrix.py`) captures today and how those results roll up into the final report once real hardware arrives.
 
 ---
 

@@ -4,8 +4,8 @@ These steps describe how to bring up the mock Smart Ring peripheral and drive it
 
 ## 1. Roles and Machines
 
-- **Central (recommended Linux A):** Runs the bleak-based clients (`scripts/ble/ble_throughput_client.py`, etc.) to mimic the phone or lab host.
-- **Peripheral (recommended Linux B):** Runs `scripts/ble/mock_dut_peripheral.py` to expose the placeholder Smart Ring test service.
+- **Central (recommended Linux A):** Runs the bleak-based clients (`scripts/ble/clients/ble_throughput_client.py`, etc.) to mimic the phone or lab host.
+- **Peripheral (recommended Linux B):** Runs `scripts/ble/mock/cli.py` to expose the placeholder Smart Ring test service.
 - You can swap roles if necessary, but isolate the processes so one adapter handles the advertisement and the other acts as central.
 
 ## 2. Requirements
@@ -30,12 +30,13 @@ On Linux B:
 
 ```bash
 sudo bluetoothctl -- experimental features must be enabled --
-python scripts/ble/mock_dut_peripheral.py \
+python scripts/ble/mock/cli.py \
   --adapter hci0 \
   --advertise_name MockRingDemo \
   --payload_bytes 160 \
   --notify_hz 40 \
-  --out logs/mock_dut.log
+  --scenario_profile typical \
+  --log logs/mock_dut.log
 ```
 
 - The script registers the GATT service (UUID `12345678-1234-5678-1234-56789ABCDEF0`) and begins advertising as `MockRingDemo`.
@@ -62,7 +63,7 @@ after connecting once to confirm the service UUID appears in the GATT table.
 Example throughput run:
 
 ```bash
-python scripts/ble/ble_throughput_client.py \
+python scripts/ble/clients/ble_throughput_client.py \
   --address AA:BB:CC:DD:EE:FF \
   --payload_bytes 160 \
   --duration_s 60 \
@@ -72,7 +73,7 @@ python scripts/ble/ble_throughput_client.py \
 For latency validation:
 
 ```bash
-python scripts/ble/ble_latency_client.py \
+python scripts/ble/clients/ble_latency_client.py \
   --address AA:BB:CC:DD:EE:FF \
   --mode trigger \
   --iterations 5
@@ -81,9 +82,15 @@ python scripts/ble/ble_latency_client.py \
 RSSI logging (useful for range test rehearsals even though RF is idealized):
 
 ```bash
-python scripts/ble/ble_rssi_logger.py \
+python scripts/ble/clients/ble_rssi_logger.py \
   --address AA:BB:CC:DD:EE:FF \
   --samples 20
+
+### Mock Realism Flags
+
+- Use `--scenario_profile best|typical|body_block|pocket|worst` to set drop/jitter/RSSI waves.
+- Override specifics as needed: `--mock_drop_percent`, `--drop_burst_percent/len`, `--interval_jitter_ms`, `--latency_spike_ms/chance`, `--malformed_chance`, `--disconnect_chance`, `--rssi_wave_amplitude/period`, `--rssi_profile_file`, `--interval_profile_file`, `--drop_profile_file`, `--backlog_limit`.
+- The mock will read adapter RSSI if BlueZ exposes it; otherwise it uses synthetic RSSI shaped by the chosen profile.
 ```
 
 All logs are written under `logs/ble/` with timestamped names. Move them into scenario-specific folders once the run completes.

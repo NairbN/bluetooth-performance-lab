@@ -52,21 +52,25 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 
 | Path | Role |
 | --- | --- |
-| `scripts/tools/start_mock.sh` → `scripts/ble/mock_dut_peripheral.py` | BlueZ-based mock exposing the test GATT service (UUID `12345678-1234-5678-1234-56789ABCDEF0`). Prints adapter MAC, handles Start/Stop/Reset commands, streams `[SEQ][TS][DATA]` notifications. |
-| `scripts/ble/ble_throughput_client.py` | Central harness for throughput & packet-loss logging (CSV/JSON). Supports optional `--verbose` for detailed logs. |
-| `scripts/ble/ble_latency_client.py` | Measures start-triggered or write-to-notify latency with configurable iterations/timeouts. |
-| `scripts/ble/ble_rssi_logger.py` | Best-effort RSSI logger (records limitations when Linux can’t provide continuous values). |
-| `scripts/tools/run_full_matrix.sh` (`run_throughput_matrix.sh`) | Automation wrappers covering scenarios, PHYs, payload sweeps, latency, and RSSI. Prints progress bars, per-scenario summaries, and generates plots. |
+| `scripts/tools/start_mock.sh` → `scripts/ble/mock/cli.py` | BlueZ-based mock exposing the test GATT service (UUID `12345678-1234-5678-1234-56789ABCDEF0`). Prints adapter MAC, handles Start/Stop/Reset commands, streams `[SEQ][TS][DATA]` notifications. |
+| `scripts/ble/clients/ble_throughput_client.py` | Central harness for throughput & packet-loss logging (CSV/JSON). Supports optional `--verbose` for detailed logs. |
+| `scripts/ble/clients/ble_latency_client.py` | Measures start-triggered or write-to-notify latency with configurable iterations/timeouts. |
+| `scripts/ble/clients/ble_rssi_logger.py` | Best-effort RSSI logger (records limitations when Linux can’t provide continuous values). |
+| `scripts/tools/run_full_matrix.sh` (`run_throughput_matrix.sh`) | Automation wrappers covering scenarios, PHYs, payload sweeps, latency, and RSSI (Python entrypoints live under `scripts/ble/clients/`). Prints progress bars, per-scenario summaries, and generates plots. |
 | `scripts/tools/cleanup_outputs.sh` | Clears `logs/ble/` and `results/*` (optional before each run). |
 | `scripts/tools/clear_bt_cache.sh` | Stops bluetoothd and removes cached `/var/lib/bluetooth/<adapter>/<device>` entries when GATT changes cause stale data, then restarts the service. |
 | `scripts/analysis/ble_log_summarize.py`, `ble_plot.py` | Additional post-processing helpers (summaries/plots). |
+| `scripts/ble/clients/health_check.py` | Quick JSON health check for deps/adapter/experimental flags (useful for a backend/UI preflight). |
+| `docs/software_guide.md` | Full lab guide tying together mock, clients, automation, outputs, and spec references. |
+| `docs/command_cheatsheet.md` | Copy/paste-ready commands for setup, mock start, health checks, matrix/throughput runs, and cleanup. |
 | `docs/`, `experiments/`, `notes/` | Detailed context (test plan, topology, mock/device setup, troubleshooting). |
+| `tests/` | Lightweight unit tests for orchestration helpers (`python -m unittest discover tests`). |
 
 ---
 
 ## Adjusting Test Parameters
 
-`run_full_matrix.sh` forwards CLI flags to `scripts/ble/run_full_matrix.py`. Common overrides:
+`run_full_matrix.sh` forwards CLI flags to `scripts/ble/clients/run_full_matrix.py`. Common overrides:
 
 | Flag | Default | Purpose |
 | --- | --- | --- |
@@ -80,6 +84,9 @@ This walks through the default scenarios (baseline, hand-behind-body, phone in p
 | `--rssi_samples 20` | `20` | RSSI readings per scenario. |
 | `--note "<text>"` | `""` | Stored in CSV/JSON for traceability (phone model, environment). |
 | `--connect_timeout_s 30 --connect_attempts 5 --connect_retry_delay_s 10` | `30 / 5 / 10` | Control BLE connection retries (applies to throughput, latency, and RSSI clients). |
+| `--resume` | `False` | Skip throughput trials already recorded in existing CSVs (helps recover from interrupted runs). |
+
+Python entrypoints for the matrix live under `scripts/ble/clients/`. The throughput-only runner supports the same PHY/MTU/retry flags via `run_throughput_matrix.sh` (use `--phy` to request a specific PHY).
 
 Example: `./scripts/tools/run_full_matrix.sh --address <MAC> --scenarios baseline --duration_s 15 --repeats 1 --skip_latency`.
 
@@ -117,5 +124,6 @@ This matches the Smart Ring firmware spec so the BLE stack can implement the sam
 - `experiments/ble_gatt/ble_setup.md` – detailed BLE experiment instructions.
 - `docs/how_to_run_experiments.md` – step-by-step guide from mock setup to analysis.
 - `notes/troubleshooting.md` – BLE-specific fixes (permissions, caching, MTU issues).
+- For RF-sensitive runs, consider LE-only mode and reducing interference: `sudo btmgmt le on; sudo btmgmt bredr off` and optionally disable Wi‑Fi during measurements.
 
 For PAN/RFCOMM experiments, see `experiments/pan/` and `experiments/rfcomm/` (legacy testing still in progress).

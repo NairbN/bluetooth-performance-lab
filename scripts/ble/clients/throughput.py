@@ -7,6 +7,7 @@ import csv
 import json
 import time
 import struct
+import statistics
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -76,9 +77,20 @@ class NotificationCollector:
             duration = self.last_epoch - self.first_epoch
         throughput_kbps = 0.0
         notification_rate = 0.0
+        interarrival_ms: List[float] = []
+        for idx in range(1, len(self.records)):
+            delta = self.records[idx].arrival_epoch - self.records[idx - 1].arrival_epoch
+            if delta >= 0:
+                interarrival_ms.append(delta * 1000.0)
         if duration > 0:
             throughput_kbps = (self.total_bytes * 8 / 1000.0) / duration
             notification_rate = self.packet_count / duration
+        median_ia = statistics.median(interarrival_ms) if interarrival_ms else None
+        p95_ia = (
+            sorted(interarrival_ms)[int(len(interarrival_ms) * 0.95) - 1]
+            if interarrival_ms and len(interarrival_ms) > 1
+            else None
+        )
         return {
             "packets": self.packet_count,
             "estimated_lost_packets": self.lost_packets,
@@ -86,6 +98,8 @@ class NotificationCollector:
             "throughput_kbps": throughput_kbps,
             "notification_rate_per_s": notification_rate,
             "bytes_recorded": self.total_bytes,
+            "interarrival_ms_median": median_ia,
+            "interarrival_ms_p95": p95_ia,
         }
 
 
@@ -139,6 +153,7 @@ class ThroughputClient:
             tx_char, rx_char = self._validate_characteristics(services)
             self.metadata["mtu_result"] = await self._attempt_mtu_request(client)
             self.metadata["phy_result"] = await self._attempt_phy_request(client)
+            self._log_link_observations(client)
 
             def notification_handler(sender: int, data: bytearray):
                 self.collector.handle(sender, data)
@@ -208,6 +223,7 @@ class ThroughputClient:
             await self._safe_disconnect(client)
 
         self.metadata["command_log"] = self.command_log
+        self._log_link_observations(client)
         summary = self.collector.summary()
         summary["connection_attempts_used"] = self.metadata["connection_retry"].get("attempts_used", 1)
         summary["command_errors"] = self._command_error_count()
@@ -217,13 +233,16 @@ class ThroughputClient:
         return self.metadata["summary"]
 
     async def _resolve_services(self, client):
-        try:
-            return client.services
-        except Exception:
-            get_services = getattr(client, "get_services", None)
-            if callable(get_services):
+        services = getattr(client, "services", None)
+        if services and getattr(services, "get_service", None):
+            return services
+        get_services = getattr(client, "get_services", None)
+        if callable(get_services):
+            try:
                 return await get_services()
-            raise RuntimeError("Bleak client has not performed service discovery yet.")
+            except Exception as exc:  # pylint: disable=broad-except
+                raise RuntimeError("Bleak client service discovery failed.") from exc
+        raise RuntimeError("Bleak client has not performed service discovery yet.")
 
     def _validate_characteristics(self, services):
         service = services.get_service(self.args.service_uuid)
@@ -257,12 +276,23 @@ class ThroughputClient:
             return info
         request_fn = getattr(client, "set_preferred_phy", None)
         if callable(request_fn):
-            try:
-                await request_fn(tx_phys=self.args.phy, rx_phys=self.args.phy)
-                info["status"] = "success"
-            except Exception as exc:
-                info["status"] = "failed"
-                info["error"] = str(exc)
+            for attempt in range(1, 4):
+                try:
+                    await request_fn(tx_phys=self.args.phy, rx_phys=self.args.phy)
+                    info["status"] = "success"
+                    info["attempts_used"] = attempt
+                    break
+                except Exception as exc:  # pylint: disable=broad-except
+                    info["status"] = "failed"
+                    info["error"] = str(exc)
+                    info["attempts_used"] = attempt
+            if info.get("status") != "success" and self.args.phy != "auto":
+                # Fall back to auto if explicit PHY failed.
+                try:
+                    await request_fn(tx_phys="auto", rx_phys="auto")
+                    info["fallback"] = "auto_requested"
+                except Exception:
+                    pass
         else:
             info["status"] = "unsupported_by_bleak"
         return info
@@ -270,6 +300,29 @@ class ThroughputClient:
     async def _run_duration_guard(self, stop_event: asyncio.Event) -> None:
         await asyncio.sleep(self.args.duration_s)
         stop_event.set()
+
+    def _log_link_observations(self, client: BleakClient) -> None:
+        info: Dict[str, Any] = {}
+        for attr in ["mtu_size", "_mtu_size"]:
+            value = getattr(client, attr, None)
+            if isinstance(value, (int, float)):
+                info["mtu_size_reported"] = int(value)
+                break
+        for attr in ["preferred_phys", "active_phys", "phy"]:
+            value = getattr(client, attr, None)
+            if value:
+                info["phy_reported"] = str(value)
+                break
+        backend = getattr(client, "_backend", None)
+        if backend is not None:
+            backend_mtu = getattr(backend, "_mtu_size", None) or getattr(backend, "mtu_size", None)
+            if isinstance(backend_mtu, (int, float)):
+                info["backend_mtu"] = int(backend_mtu)
+            backend_phy = getattr(backend, "phy", None)
+            if backend_phy:
+                info["backend_phy"] = str(backend_phy)
+        if info:
+            self.metadata["link_observations"] = info
 
     def _write_outputs(self) -> None:
         fieldnames = ["seq", "dut_ts", "arrival_time", "payload_len", "raw_len", "arrival_epoch"]

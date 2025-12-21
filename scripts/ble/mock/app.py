@@ -11,7 +11,7 @@ import dbus.mainloop.glib
 from gi.repository import GLib  # type: ignore
 
 from .gatt import Advertisement, Application, MockRingService
-from .state import MockRingState
+from .state import MockRingState, apply_profile
 
 BLUEZ_SERVICE_NAME = "org.bluez"
 DBUS_PROP_IFACE = "org.freedesktop.DBus.Properties"
@@ -46,7 +46,7 @@ def setup_logging(log_path: str | None, quiet: bool) -> None:
 
 
 def run_mock(args) -> None:
-    """Entry point used by mock_dut_peripheral.py."""
+    """Entry point used by mock/cli.py."""
     setup_logging(args.log, args.quiet)
 
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -95,7 +95,29 @@ def run_mock(args) -> None:
         reset_cmd=args.reset_cmd,
         mock_rssi_base_dbm=args.mock_rssi_base_dbm,
         mock_rssi_variation=args.mock_rssi_variation,
+        bus=bus,
+        adapter_path=adapter,
+        drop_percent=args.mock_drop_percent,
+        interval_jitter_ms=args.interval_jitter_ms,
+        rssi_drift_dbm=args.rssi_drift_dbm,
+        phy_profile=args.phy_profile,
+        drop_burst_percent=args.drop_burst_percent,
+        drop_burst_len=args.drop_burst_len,
+        malformed_chance=args.malformed_chance,
+        latency_spike_ms=args.latency_spike_ms,
+        latency_spike_chance=args.latency_spike_chance,
+        rssi_wave_amplitude=args.rssi_wave_amplitude,
+        rssi_wave_period=args.rssi_wave_period,
+        disconnect_chance=args.disconnect_chance,
+        rssi_profile_file=args.rssi_profile_file,
+        interval_profile_file=args.interval_profile_file,
+        drop_profile_file=args.drop_profile_file,
+        command_ignore_chance=args.command_ignore_chance,
+        rssi_drop_threshold=args.rssi_drop_threshold,
+        rssi_drop_extra_percent=args.rssi_drop_extra_percent,
+        backlog_limit=args.backlog_limit,
     )
+    apply_profile(state, args.scenario_profile)
 
     app = Application(bus)
     app.add_service(

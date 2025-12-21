@@ -17,4 +17,8 @@ echo
 echo "[setup_linux_a] Environment ready. Remember to ensure:"
 echo "  * Your user is in the 'bluetooth' group (sudo usermod -aG bluetooth \$USER)"
 echo "  * Bluetooth adapter powered on: 'bluetoothctl power on'"
+echo "  * Force LE-only if needed (prevents BR/EDR conflicts): 'sudo btmgmt le on; sudo btmgmt bredr off'"
+echo "  * Optionally disable Wi‑Fi during RF sensitivity tests to cut interference."
 echo "  * Run './scripts/tools/run_full_matrix.sh --help' for usage"
+echo "  * If you expect RSSI in logs, verify after connecting: 'bluetoothctl info <MOCK_MAC> | grep RSSI'"
+echo "    (Some adapters/controllers don't report RSSI for LE; in that case logs will note RSSI unavailable.)"

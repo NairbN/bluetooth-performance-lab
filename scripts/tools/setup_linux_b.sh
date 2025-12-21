@@ -38,3 +38,12 @@ EOF
 
 sudo systemctl daemon-reload
 sudo systemctl restart bluetooth
+
+echo
+echo "[setup_linux_b] Bluetoothd restarted with --experimental."
+echo "  * Ensure adapter is powered: 'bluetoothctl power on'"
+echo "  * After the central connects, you can verify RSSI is exposed with:"
+echo "      bluetoothctl info <CENTRAL_MAC> | grep RSSI"
+echo "    If RSSI is absent, controller/driver may not report it; mock will fall back to synthetic RSSI."
+echo "  * Force LE-only if needed (prevents BR/EDR conflicts): 'btmgmt le on; btmgmt bredr off'"
+echo "  * If testing RF sensitivity, consider disabling Wi‑Fi temporarily to reduce interference."

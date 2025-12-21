@@ -8,7 +8,7 @@
 ## 1. Project Snapshot
 
 - This repository houses a **BLE-focused performance lab** for the Smart Ring test service. The goal is to gather throughput, latency, RSSI, and connection health metrics *before* real hardware ships.
-- Core automation lives in `scripts/ble/run_full_matrix.py`, invoked via `scripts/tools/run_full_matrix.sh`. It sweeps payloads, PHYs, and scenarios, and now writes connection retry metadata so flaky runs are obvious.
+- Core automation lives in `scripts/ble/clients/run_full_matrix.py`, invoked via `scripts/tools/run_full_matrix.sh`. It sweeps payloads, PHYs, and scenarios, and now writes connection retry metadata so flaky runs are obvious.
 - The mock peripheral (`scripts/tools/start_mock.sh`) emulates the Smart Ring GATT service. Force adapters into **LE-only mode** and clear caches via `scripts/tools/clear_bt_cache.sh` when switching firmware or after BR/EDR conflicts.
 - Every client (throughput, latency, RSSI) shares the same retry CLI flags: `--connect_timeout_s`, `--connect_attempts`, `--connect_retry_delay_s`. Console logs show `[throughput] Connected …`, `[latency] Connection attempt … failed`, etc.
 - Results: CSV/JSON logs in `logs/ble/`, aggregated tables under `results/tables/`, and plots under `results/plots/` with color-coded health markers.

@@ -79,7 +79,13 @@ These are the exact precautions we used to get the first uninterrupted matrix ru
    ```
    Mirror the command on the mock host (swap the device MAC for Linux A’s adapter).
 
-5. **Archive & wipe working outputs** (only on the central host) so new runs are clean:
+5. **Verify RSSI availability** (optional but useful before range tests):
+   ```bash
+   bluetoothctl info <MOCK_MAC> | grep RSSI
+   ```
+   If `RSSI` is absent, the controller/driver is not reporting it; logs will note RSSI as unavailable and fall back to synthetic values from the mock.
+
+6. **Archive & wipe working outputs** (only on the central host) so new runs are clean:
    ```bash
    ./scripts/tools/archive_results.sh --tag "pre-clean-$(date +%Y%m%d_%H%M)"
    ./scripts/tools/cleanup_outputs.sh --yes
@@ -119,12 +125,13 @@ source .venv/bin/activate
   --note "Pixel8+MockRing" \
   --connect_timeout_s 30 \
   --connect_attempts 5 \
-  --connect_retry_delay_s 10
+  --connect_retry_delay_s 10 \
+  --resume
 ```
 
 What happens:
 
-- The wrapper calls `scripts/ble/run_full_matrix.py` with defaults (scenarios, payloads, PHYs, repeats).
+- The wrapper calls `scripts/ble/clients/run_full_matrix.py` with defaults (scenarios, payloads, PHYs, repeats).
 - Each throughput, latency, and RSSI run now **inherits the same connection retry policy**, so temporary BlueZ hiccups are retried consistently. The CLI prints lines such as `[throughput] Connected … on attempt 2/5`.
 - Logs land under `logs/ble/`; each run writes both CSV and JSON plus metadata (connection attempts, command errors).
 - Aggregated CSVs go to `results/tables/` and plots to `results/plots/` automatically at the end of the run.
@@ -139,19 +146,19 @@ When reproducing a bug outside the matrix, run the clients directly:
 
 ```bash
 # Throughput sanity check
-python scripts/ble/ble_throughput_client.py \
+python scripts/ble/clients/ble_throughput_client.py \
   --address 1C:4D:70:1E:13:A0 \
   --duration_s 20 \
   --connect_attempts 5 --connect_timeout_s 30
 
 # Latency probe
-python scripts/ble/ble_latency_client.py \
+python scripts/ble/clients/ble_latency_client.py \
   --address 1C:4D:70:1E:13:A0 \
   --mode trigger --iterations 10 \
   --connect_attempts 5 --connect_timeout_s 30
 
 # RSSI logger
-python scripts/ble/ble_rssi_logger.py \
+python scripts/ble/clients/ble_rssi_logger.py \
   --address 1C:4D:70:1E:13:A0 \
   --samples 30 --interval_s 1.0 \
   --connect_attempts 5 --connect_timeout_s 30

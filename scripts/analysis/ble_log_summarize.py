@@ -2,7 +2,7 @@
 """Summarize BLE throughput logs into table-friendly metrics.
 
 This script ingests the CSV/JSON logs produced by
-`scripts/ble/ble_throughput_client.py` and emits a consolidated CSV table with
+`scripts/ble/clients/ble_throughput_client.py` and emits a consolidated CSV table with
 duration, packet counts, estimated loss, and jitter metrics.
 """
 
